@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.7
+- When a previous job is still waiting at MVSEP (one job per account), the app now explains it in plain Persian and asks you to wait a few minutes, instead of showing MVSEP's English message.
+
 ## 3.6.1
 - Fixed: processing stopped right after upload with «شناسۀ کار نامعتبر است». The relay now accepts the full job code that MVSEP returns (it contains hyphens and dots).
 

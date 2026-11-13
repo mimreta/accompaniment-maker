@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var APP_VERSION = '3.6';
+  var APP_VERSION = '3.7';
   var SR = 44100, MAX_CHUNK = 480, OVERLAP = 10, DIRECT_MAX_BYTES = 15e6, DIRECT_MAX_SEC = 590;
   var $ = function (id) { return document.getElementById(id); };
   var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
@@ -440,11 +440,16 @@
       if (yes && busy) { cancelled = true; setStatus('در حال لغو…'); }
     });
   };
+  // MVSEP allows one waiting job per account: say so in plain words instead of showing its English message.
+  function friendlyErr(m) {
+    if (/unprocessed file in queue/i.test(m)) return 'یک کار قبلی هنوز در صف MVSEP است (شاید از امتحان قبلی). چند دقیقه صبر کن تا تمام شود،';
+    return m;
+  }
   $('btnProcess').onclick = function () {
     var go = function () {
       run().catch(function (e) {
         if (e.message === 'لغو شد.') { setStatus('لغو شد'); showAlert('progAlert', 'note', 'توجه:', 'پردازش لغو شد. هر وقت خواستید دوباره شروع کنید.'); }
-        else { setStatus('متوقف شد'); showAlert('progAlert', 'error', 'خطا:', e.message + ' دوباره امتحان کنید.'); }
+        else { setStatus('متوقف شد'); showAlert('progAlert', 'error', 'خطا:', friendlyErr(e.message) + ' دوباره امتحان کنید.'); }
       }).then(function () { busy = false; unlockScreen(); updateProcessBtn(); $('btnCancel').hidden = true; });
     };
     if (result) {
