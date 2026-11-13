@@ -114,7 +114,7 @@ body.is-stage { overflow: hidden; }
 @media (max-width: 380px) { .app-segfull { display: none; } .app-segshort { display: inline; } }
 
 /* workspace: one pane at a time on phones */
-.app-ws { display: grid; gap: var(--space-5); min-width: 0; }
+.app-ws { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-5); min-width: 0; }
 .app-tools { min-width: 0; }
 .app-ws[data-tab="practice"] #cardTools, .app-ws[data-tab="practice"] #cardRec, .app-ws[data-tab="practice"] #cardScore,
 .app-ws[data-tab="score"] #panelPractice, .app-ws[data-tab="score"] #cardTools, .app-ws[data-tab="score"] #cardRec,

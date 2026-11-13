@@ -1,6 +1,6 @@
 # Deploy your own copy
 
-Accompaniment Maker is a Google Apps Script web app. Nothing is hosted for you: you run your own copy under your own Google account, and your own MVSEP key does the separation.
+Accompaniment Maker comes in two builds: a private Google Apps Script web app that runs under your own Google account (this page), and a static web build with a small relay (last section). Your own MVSEP key does the separation in both.
 
 ## What you need
 - A Google account.
@@ -28,7 +28,7 @@ Change the deployment access to "Anyone" (or "Anyone with a Google account"). Ot
 ## Troubleshooting
 - **"Library did not load" for MP3 or PDF:** the server fetches lamejs and PDF.js from jsDelivr. Check that the script has permission to call external services (the first run asks you to authorize it), then retry.
 - **The page is blank for about ten seconds on first open:** normal for Apps Script web apps.
-- **Microphone:** Apps Script blocks microphone access inside web apps, so recording is only available in the web version (the web version).
+- **Microphone:** Apps Script blocks microphone access inside web apps, so recording is only available in the web version.
 - **Your data:** markers, notes, tuning, practice log and settings are stored in the browser (localStorage) on each device. Clearing browser data removes them.
 
 ## Web version (no Apps Script for the app itself)

@@ -34,8 +34,8 @@ inst = [{'id': m.group(1), 'label': m.group(2), 'solo': m.group(3)}
 assert len(inst) == 16, len(inst)
 webhead = head.replace('<base target="_top">\n',
   '<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>همراهی‌ساز</title>\n'
-  '<link rel="icon" type="image/svg+xml" href="icon.svg">\n<link rel="icon" type="image/png" href="icon-192.png">\n'
-  '<link rel="apple-touch-icon" href="icon-180.png">\n<link rel="manifest" href="manifest.webmanifest">\n'
+  '<link rel="icon" type="image/svg+xml" href="assets/icon.svg">\n<link rel="icon" type="image/png" href="assets/icon-192.png">\n'
+  '<link rel="apple-touch-icon" href="assets/icon-180.png">\n<link rel="manifest" href="manifest.webmanifest">\n'
   '<meta name="theme-color" content="#14284B">\n')
 cfg = '<script src="config.js"></script>\n<script>window.SOLO_INSTRUMENTS=' + json.dumps(inst, ensure_ascii=False) + ';</script>\n'
 open(os.path.join(R, 'index.html'), 'w', encoding='utf-8').write(webhead + tail(cfg))

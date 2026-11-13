@@ -1,4 +1,4 @@
-<p align="center"><img src="icon.svg" width="96" alt="Accompaniment Maker icon"></p>
+<p align="center"><img src="assets/icon.svg" width="96" alt="Accompaniment Maker icon"></p>
 
 # Accompaniment Maker
 
@@ -9,24 +9,31 @@ Remove your own instrument from any recording (an orchestra, a band, an ensemble
 **Open the app:** https://mimreta.github.io/accompaniment-maker/
 
 <p align="center">
-  <img src="docs/task-light.png" width="190" alt="Choose a file and the instrument">
-  <img src="docs/player-light.png" width="190" alt="Practice player">
-  <img src="docs/player-dark.png" width="190" alt="Practice player, dark">
+  <img src="docs/screenshots/d-start.png" width="560" alt="Desktop: first screen with the side menu">
+  <img src="docs/screenshots/d-log.png" width="560" alt="Desktop: practice log with a daily goal">
 </p>
 <p align="center">
-  <img src="docs/tools-light.png" width="190" alt="Metronome and reference tone">
-  <img src="docs/score-light.png" width="190" alt="Your own PDF part with a pen note">
+  <img src="docs/screenshots/m-start.png" width="150" alt="Phone: choose a file and your instrument">
+  <img src="docs/screenshots/m-player.png" width="150" alt="Phone: practice player with waveform">
+  <img src="docs/screenshots/m-player-dark.png" width="150" alt="Phone: dark theme">
+  <img src="docs/screenshots/m-tools.png" width="150" alt="Phone: metronome and reference tone">
+  <img src="docs/screenshots/m-score.png" width="150" alt="Phone: your own PDF part">
+  <img src="docs/screenshots/m-log.png" width="150" alt="Phone: practice log">
 </p>
 
-The screenshots use a short synthetic demo tone, not a real recording.
+The screenshots use a short synthetic demo tone and a sample PDF, not a real recording.
+
+## Install
+
+There is nothing to install: open the app in any modern browser. To keep it on your phone or computer, use **Add to Home screen** (or the install icon in the address bar); after the first visit it opens without internet (making an accompaniment still needs internet). Release notes for every version are on the [Releases](https://github.com/mimreta/accompaniment-maker/releases) page and in [CHANGELOG.md](CHANGELOG.md).
 
 ## First time? Start here
 
 You need a free MVSEP account once (it does the separation). The hosted web version already includes a stateless relay (Cloudflare Worker, no Google quota used); to run your own copy you can deploy your own relay in about 3 minutes ([docs/DEPLOY.md](docs/DEPLOY.md)). Step by step: **[Getting started](docs/GETTING-STARTED.md)** · **[شروع سریع (فارسی)](docs/GETTING-STARTED.fa.md)**.
 
-## What it does
+## Usage
 
-Pick a recording and the instrument you play (16 choices, from cello and violin to flute and voice). The app removes that instrument and keeps the rest. Then practice with loops, named markers, gradual speed, tuning, a metronome, your own PDF part with pen notes, and recording yourself over the accompaniment. Download the result as MP3 or WAV.
+Pick a recording and the instrument you play (16 choices, from cello and violin to flute and voice). The app removes that instrument and keeps the rest. Then practice with loops, named markers, gradual speed, tuning, a metronome, your own PDF part with pen notes, and recording yourself over the accompaniment. Finished accompaniments and your takes are saved in a library on your device; the practice log counts your daily minutes against a goal. Download any result as MP3 or WAV.
 
 ## Privacy in one paragraph
 
@@ -38,13 +45,13 @@ No accounts, no analytics. Your recording goes to MVSEP through a stateless rela
 |---|---|
 | `src/` | The only place the app is edited: `app.js`, `app.css`, `body.html`, design tokens |
 | `scripts/build.py` | Builds the two single-file pages from `src/` |
-| `index.html`, `config.js`, `manifest.webmanifest`, icons | Web build, served by GitHub Pages |
+| `index.html`, `config.js`, `sw.js`, `manifest.webmanifest`, `assets/` (icons) | Web build, served by GitHub Pages (`sw.js` makes it work offline) |
 | `apps-script/` | Google Apps Script build (`Code.gs`, `Index.html`, `appsscript.json`) for running your own private copy |
 | `relay/` | The stateless relay the web build uses to reach MVSEP |
 | `scripts/check.sh` | Checks that built files match `src/` and that no secrets or emails are present (also runs in CI) |
-| `docs/` | Getting started, deploy guide, screenshots |
+| `docs/` | Getting started (English and Persian), deploy guide, `screenshots/` |
 
-## Run or build it yourself
+## Build from source
 
 - **Web build:** serve the repo root over HTTPS (needed for the microphone), with a relay (the default in `config.js` is the author's; to use your own, paste its address in Settings or set it in `config.js`). See [relay/README.md](relay/README.md).
 - **Apps Script build:** see [docs/DEPLOY.md](docs/DEPLOY.md).
@@ -52,7 +59,7 @@ No accounts, no analytics. Your recording goes to MVSEP through a stateless rela
 
 ## Contributing, security, conduct
 
-[CONTRIBUTING.md](CONTRIBUTING.md) · [SECURITY.md](SECURITY.md) · [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) · [CHANGELOG.md](CHANGELOG.md)
+[CONTRIBUTING](.github/CONTRIBUTING.md) · [SECURITY](.github/SECURITY.md) · [CODE OF CONDUCT](.github/CODE_OF_CONDUCT.md) · [CHANGELOG](CHANGELOG.md)
 
 ## License
 

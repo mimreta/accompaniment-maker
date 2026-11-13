@@ -28,7 +28,7 @@ var INSTRUMENTS = [
 
 // Browser identity (design system, "Browser identity"): the tab title is the app name exactly as shown in the app bar; the tab icon is the app icon.
 var APP_NAME = 'همراهی‌ساز';
-var APP_ICON = PropertiesService.getScriptProperties().getProperty('APP_ICON') || 'https://raw.githubusercontent.com/mimreta/mimreta/main/favicons/solo-remover.png';
+var APP_ICON = PropertiesService.getScriptProperties().getProperty('APP_ICON') || 'https://raw.githubusercontent.com/mimreta/accompaniment-maker/main/assets/icon-192.png';
 
 function doGet() {
   var page = HtmlService.createHtmlOutputFromFile('Index')

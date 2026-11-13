@@ -14,7 +14,7 @@ Keep the key private, like a password. Anyone with it can use your MVSEP quota.
 
 ## 2. Open the app and paste the key
 
-1. Open the app (the web version: https://mimreta.github.io/accompaniment-maker/). On a phone you can use **Add to Home screen**.
+1. Open the app (the web version: https://mimreta.github.io/accompaniment-maker/). On a phone or computer you can install it (**Add to Home screen** / the install icon in the address bar); after the first visit it opens without internet, but making an accompaniment needs internet.
 2. Go to the **Settings** tab, paste the key into the box and press **Save**. It stays in this browser only.
 3. Web version: nothing else to enter on the hosted site, it already has a relay. Only if you run your own copy, paste **your own relay address** in Settings (a Cloudflare Worker or Apps Script you deploy; follow [DEPLOY.md](DEPLOY.md), about 3 minutes, once). The Apps Script version of the app needs no relay.
 
@@ -27,7 +27,7 @@ Keep the key private, like a password. Anyone with it can use your MVSEP quota.
 
 ## 4. Practice tools (all optional)
 
-Loop a section (drag on the waveform), name markers, slow down gradually, change tuning, use the metronome, open your own PDF part, and record yourself (use headphones). Download the accompaniment as MP3 or WAV before you close the page: results live only in the open page.
+Loop a section (drag on the waveform), name markers, slow down gradually, change tuning, use the metronome, open your own PDF part, and record yourself (use headphones). Your finished accompaniments are saved in the **library** on the first screen (this device only, up to 12), and your recorded takes are kept next to them. The **Practice log** tab counts your daily minutes and lets you set a daily goal. You can still download any accompaniment as MP3 or WAV.
 
 ## If something goes wrong
 

@@ -1,8 +1,8 @@
 /* Copyright (c) 2026 MohammadReza Tayebi. MIT License.
    Offline shell for Accompaniment Maker. Caches only the app's own files and the pinned
    library/font files it loads from public CDNs. Recordings, keys and MVSEP traffic are never touched. */
-var CACHE = 'acc-shell-3.3';
-var SHELL = ['./', 'index.html', 'config.js', 'manifest.webmanifest', 'icon.svg', 'icon-180.png', 'icon-192.png', 'icon-512.png'];
+var CACHE = 'acc-shell-3.4';
+var SHELL = ['./', 'index.html', 'config.js', 'manifest.webmanifest', 'assets/icon.svg', 'assets/icon-180.png', 'assets/icon-192.png', 'assets/icon-512.png'];
 var CDN_HOSTS = ['cdn.jsdelivr.net', 'fastly.jsdelivr.net', 'unpkg.com'];
 var LIBS = [
   'https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css',
@@ -14,7 +14,7 @@ var LIBS = [
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) {
     return c.addAll(SHELL).then(function () {
-      return Promise.all(LIBS.map(function (u) { return c.add(new Request(u, { mode: 'no-cors' })).catch(function () {}); }));
+      return Promise.all(LIBS.map(function (u) { return c.add(u).catch(function () {}); }));
     });
   }).then(function () { return self.skipWaiting(); }));
 });

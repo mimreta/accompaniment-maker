@@ -7,7 +7,8 @@ I will read reports as soon as I can; this is a small personal project, so there
 
 ## What matters most here
 - **API keys:** the app must never store or log a user's MVSEP key anywhere except that user's own browser or Script Properties.
-- **The relay** (`proxy/Code.gs`) must stay stateless: no storage, no logging, no forwarding of anything except the two documented operations.
+- **The relay** (`relay/cloudflare-worker.js`, and the Apps Script alternative `relay/Code.gs`) must stay stateless: no storage, no logging, no forwarding of anything except the two documented operations, and only for the app's own origin.
+- **Downloaded libraries** (MP3 encoder, PDF viewer) are pinned to exact versions and checked against fixed checksums before use. Update the version and the checksum together.
 - **No secrets in the repository.** If you find a key, token or personal data in the code or history, report it.
 
 ## Supported versions

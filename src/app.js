@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var APP_VERSION = '3.3';
+  var APP_VERSION = '3.4';
   var SR = 44100, MAX_CHUNK = 480, OVERLAP = 10, DIRECT_MAX_BYTES = 15e6, DIRECT_MAX_SEC = 590;
   var $ = function (id) { return document.getElementById(id); };
   var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
@@ -21,12 +21,18 @@
     pdfLib: ['https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js', 'https://fastly.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js', 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js'],
     pdfWorker: ['https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js', 'https://fastly.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js', 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js']
   };
+  // Each downloaded library is checked against a fixed checksum, so a tampered copy is refused.
+  var SRI = {
+    lame: 'sha384-xuasJXVcyv3hZq0eYpelEkBC8l4yufatZXDsKuyCU2rqfhDCb+ftuE/mSfZAteiK',
+    pdfLib: 'sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e',
+    pdfWorker: 'sha384-SnzOobpRMLXZ52iJvZm/C0fYw0OQemTXzTjIsdsfMcrCtCEe9qgzxTd3RSklO5x2'
+  };
   var cdnCache = {};
   async function cdnText(key) {
     if (cdnCache[key]) return cdnCache[key];
     var list = CDN[key], err;
     for (var i = 0; i < list.length; i++) {
-      try { var r = await fetch(list[i]); if (r.ok) { var t = await r.text(); if (t.length > 1000) return (cdnCache[key] = t); } } catch (e) { err = e; }
+      try { var r = await fetch(list[i], { integrity: SRI[key] }); if (r.ok) { var t = await r.text(); if (t.length > 1000) return (cdnCache[key] = t); } } catch (e) { err = e; }
     }
     throw new Error('دریافت کتابخانه ممکن نشد. اینترنت را بررسی کن و دوباره امتحان کن.');
   }
