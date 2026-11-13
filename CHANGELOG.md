@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4
+- Security: the MP3 encoder and PDF viewer downloaded from public CDNs are now verified against fixed checksums before they run.
+- Fixed: on phones, opening a PDF part could make the page wider than the screen.
+- Repository tidy-up: icons moved to `assets/`, community files to `.github/`, fresh screenshots in `docs/screenshots/`, refreshed docs (library, offline use, practice log, saved takes).
+- The Apps Script tab icon now comes from this repository.
+
 ## 3.3
 - Your recorded takes are now saved on this device next to the accompaniment they belong to (up to 10 per accompaniment), and come back when you reopen it from the library. Deleting a library item or clearing the library removes its takes too.
 
