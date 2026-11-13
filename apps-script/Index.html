@@ -624,9 +624,9 @@ body.is-stage { overflow: hidden; }
             <p class="wk-field__hint" id="keyNote" hidden>کلید فقط در همین مرورگر ذخیره می‌شود و برای هر درخواست از طریق سرور واسطِ بدون‌ذخیره به MVSEP می‌رسد.</p>
           </div>
           <div class="wk-field" id="relayField" hidden>
-            <label class="wk-field__label" for="relayInput">آدرس ریلی خودت (فقط نسخه‌ی وب)</label>
+            <label class="wk-field__label" for="relayInput">آدرس سرور واسط (فقط اگر نسخه‌ی خودت را میزبانی می‌کنی)</label>
             <input class="wk-field__input" type="text" id="relayInput" dir="ltr" autocomplete="off" spellcheck="false" placeholder="https://script.google.com/macros/s/…/exec">
-            <p class="wk-field__hint" id="relayHint">ریلی یک واسطه‌ی کوچک است (Cloudflare Worker یا Apps Script خودت؛ راهنما: docs/DEPLOY.md). اگر سایت از قبل با ریلی تنظیم شده باشد، لازم نیست چیزی وارد کنی.</p>
+            <p class="wk-field__hint" id="relayHint">این فیلد برای سایت اصلی لازم نیست. فقط اگر این اپ را روی سایت خودت اجرا کرده‌ای، آدرس سرور واسط خودت (Cloudflare Worker یا Apps Script؛ راهنما: docs/DEPLOY.md) را اینجا بگذار.</p>
           </div>
           <button class="wk-btn wk-btn--primary wk-btn--block" id="btnSaveKey">ذخیره</button>
         </div>
@@ -1086,7 +1086,7 @@ var AccCore = (function () {
     if (cfg.canSetKey) {
       $('cardKey').hidden = false;
       $('keyHint').textContent = cfg.hasKey ? 'یک کلید ذخیره شده است. برای تغییر، کلید تازه را وارد کنید.' : 'هنوز کلیدی ذخیره نشده است.';
-      if (WEB) { $('keyNote').hidden = false; $('relayField').hidden = false; if (relayUrl()) $('relayHint').textContent = 'یک آدرس ریلی ذخیره شده است. برای تغییر، آدرس تازه را وارد کن.'; }
+      if (WEB) { $('keyNote').hidden = false; $('relayField').hidden = !!(window.SOLO_RELAY || '').trim(); if (relayUrl()) $('relayHint').textContent = 'یک آدرس ریلی ذخیره شده است. برای تغییر، آدرس تازه را وارد کن.'; }
     }
     keyNotice(); updateProcessBtn();
   }).catch(function (e) { showAlert('inputAlert', 'error', 'خطا:', 'اپ بارگذاری نشد (' + e.message + '). صفحه را دوباره باز کنید.'); });
