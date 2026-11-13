@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.6
+- The signature shows the Telegram badge again (GitHub, Instagram, LinkedIn, X, Telegram).
+
 ## 3.5
 - The app's signature now shows GitHub, Instagram, LinkedIn and X (the Telegram badge was removed from the app; it stays in the README).
 - The About screen now says correctly that your recorded takes stay on this device next to their accompaniment.
