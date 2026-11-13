@@ -1,0 +1,36 @@
+# Secrets and credentials - never commit these
+.env
+.env.*
+!.env.example
+*.keystore
+*.jks
+*.pem
+*.key
+local.properties
+google-services.json
+.clasprc.json
+.clasp.json
+
+# Personal data and media (use git add -f only for a deliberate sample)
+*.wav
+*.mp3
+*.m4a
+*.flac
+*.ogg
+recordings/
+private/
+
+# Build output
+.gradle/
+build/
+dist/
+*.apk
+*.aab
+node_modules/
+__pycache__/
+
+# Editors and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
