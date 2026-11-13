@@ -357,12 +357,75 @@ body.is-stage { overflow: hidden; }
 .app-takebtns { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
 .app-takebtns .wk-btn { padding: 0 var(--space-2); }
 
+/* ---- responsive shell: bottom tabs on phones, side rail on wide screens */
+.wk-tabbar .wk-tabbar__in { grid-template-columns: repeat(4, 1fr); }
+.wk-tab { font-size: 12px; }
+.wk-screen__lead { margin: calc(-1 * var(--space-3)) 0 var(--space-5); color: var(--ink-muted); font-size: 15px; line-height: 26px; }
+.app-logbars i { height: calc(var(--r, 0) * 64px); }
+.app-seg { margin-bottom: var(--space-4); }
+.app-segshort { display: none; }
+@media (max-width: 380px) { .app-segfull { display: none; } .app-segshort { display: inline; } }
+
+/* workspace: one pane at a time on phones */
+.app-ws { display: grid; gap: var(--space-5); min-width: 0; }
+.app-tools { min-width: 0; }
+.app-ws[data-tab="practice"] #cardTools, .app-ws[data-tab="practice"] #cardRec, .app-ws[data-tab="practice"] #cardScore,
+.app-ws[data-tab="score"] #panelPractice, .app-ws[data-tab="score"] #cardTools, .app-ws[data-tab="score"] #cardRec,
+.app-ws[data-tab="tempo"] #panelPractice, .app-ws[data-tab="tempo"] #cardRec, .app-ws[data-tab="tempo"] #cardScore,
+.app-ws[data-tab="rec"] #panelPractice, .app-ws[data-tab="rec"] #cardTools, .app-ws[data-tab="rec"] #cardScore { display: none; }
+/* the segmented control sits above the score card too */
+.app-ws[data-tab="score"] { grid-template-rows: auto auto auto; }
+.app-ws[data-tab="score"] #wsTools { order: 2; }
+.app-ws[data-tab="score"] #cardScore { order: 3; margin-top: calc(-1 * var(--space-2)); }
+
+.app-start .app-startsteps { margin: var(--space-3) 0 var(--space-4); }
+.app-start .wk-card__text { margin-bottom: var(--space-2); }
+
+@media (min-width: 1024px) {
+  body { padding-inline-start: 232px; }
+  .wk-appbar { margin-inline-start: -232px; }
+  .wk-appbar__in { max-width: none; padding: 0 var(--space-6); }
+  .wk-screen { max-width: 1160px; padding: var(--space-6) var(--space-6) var(--space-8); }
+  .wk-tabbar { inset-block: 56px 0; inset-inline: auto; inset-inline-start: 0; width: 232px; border-top: 0; border-inline-end: 1px solid var(--line); background: var(--surface); padding: var(--space-4) var(--space-3); }
+  .wk-tabbar .wk-tabbar__in { display: grid; grid-template-columns: 1fr; gap: var(--space-1); max-width: none; align-content: start; }
+  .wk-tab { flex-direction: row; justify-content: flex-start; gap: var(--space-3); min-height: 48px; padding: 0 var(--space-3); border-radius: var(--radius-md); font-size: 15px; font-weight: 600; }
+  .wk-tab:hover { background: var(--surface-sunken); }
+  .wk-tab[aria-current="page"] { background: var(--accent-soft); color: var(--ink); }
+  .wk-tab[aria-current="page"] .wk-tab__icon { background: transparent; }
+  .wk-card { scroll-margin-top: 80px; }
+
+  #view-task > .wk-stack > :not(.app-ws) { max-width: 720px; }
+  .app-wave { height: 160px; }
+  .app-ws { grid-template-columns: minmax(0, 1.35fr) minmax(400px, 1fr); grid-template-areas: "pl pl" "sc tl"; align-items: start; }
+  .app-ws > #cardPlayer { grid-area: pl; }
+  .app-ws > #cardScore { grid-area: sc; display: block; order: 0; margin-top: 0; }
+  .app-ws > #wsTools { grid-area: tl; position: sticky; top: 80px; order: 0; margin-bottom: 0; }
+  .app-ws[data-tab] > #cardScore { display: block; order: 0; margin-top: 0; }
+  .app-ws[data-tab] > #wsTools { order: 0; }
+  .app-ws[data-tab="score"] #panelPractice { display: block; }
+  .app-ws[data-tab="practice"] #cardTools, .app-ws[data-tab="practice"] #cardRec { display: none; }
+  .app-seg [data-v="score"] { display: none; }
+  .app-ws:not([data-tab="tempo"]):not([data-tab="rec"]) #panelPractice { display: block; }
+  .app-ws .app-score { max-height: min(78vh, 900px); }
+  .app-ws #wsTools .wk-card { box-shadow: none; }
+  .app-ws #wsTools .app-ctrls { grid-template-columns: 1fr; }
+
+  #view-settings .wk-stack, .app-logwrap, .wk-aboutscreen__cards { display: block; columns: 2; column-gap: var(--space-5); }
+  #view-settings .wk-stack > *, .app-logwrap > *, .wk-aboutscreen__cards > * { break-inside: avoid; margin-bottom: var(--space-5); }
+  .wk-aboutscreen { align-items: center; }
+}
+@media (min-width: 1440px) {
+  .app-ws { grid-template-columns: minmax(0, 1.6fr) minmax(440px, 1fr); }
+}
+@media (min-width: 1024px) { #view-task:has(#ws[hidden]) { max-width: 760px; margin-inline: auto; } }
+.app-logempty { display: block !important; color: var(--ink-muted); font-size: 14px; }
+
 </style>
 </head>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
   <symbol id="i-wave" viewBox="0 0 24 24"><path d="M4 10v4M8 6v12M12 3v18M16 7v10M20 10v4"/></symbol>
-  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
+  <symbol id="i-log" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M8 17h11"/></symbol><symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
   <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
   <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5h.01"/></symbol>
@@ -390,8 +453,18 @@ body.is-stage { overflow: hidden; }
     <h1 class="wk-screen__title" id="h-task">ساخت همراهی</h1>
     <p class="wk-screen__lead">اکامپانیمان بساز: ساز خودت را از ضبط حذف کن و جایش بنواز.</p>
     <div class="wk-stack">
+      <div class="wk-card app-start" id="cardStart" hidden>
+        <h2 class="wk-card__heading"><span class="wk-steps__n">۱</span>قدم اول: کلید MVSEP</h2>
+        <p class="wk-card__text">جداسازی روی سایت MVSEP انجام می‌شود. یک حساب رایگان و کلید API آن را فقط یک بار لازم داری.</p>
+        <ol class="wk-notes app-startsteps"><li>در <span dir="ltr">mvsep.com</span> وارد شو یا حساب بساز.</li><li>از منوی بالای سایت «API» را باز کن و کلید را کپی کن.</li><li>کلید را همین‌جا بچسبان.</li></ol>
+        <div id="startAlert"></div>
+        <div class="wk-field"><label class="wk-field__label" for="startKey">کلید API</label><input class="wk-field__input" type="password" id="startKey" dir="ltr" autocomplete="off" spellcheck="false" placeholder="paste your key"></div>
+        <div class="wk-actions"><button class="wk-btn wk-btn--primary wk-btn--block" id="btnStartKey">ذخیره و ادامه</button></div>
+        <p class="wk-note">کلید فقط در همین مرورگر می‌ماند و از طریق ریلی بدون ذخیره به MVSEP می‌رسد.</p>
+      </div>
+
       <div class="wk-card" id="cardInput">
-        <h2 class="wk-card__heading"><span class="wk-steps__n">۱</span>فایل و ساز تو</h2>
+        <h2 class="wk-card__heading"><span class="wk-steps__n">۲</span>فایل و ساز تو</h2>
         <div class="wk-block">
           <div id="inputAlert"></div>
           <div class="wk-drop" id="drop" tabindex="0" role="button" aria-describedby="dropInfo">
@@ -420,8 +493,9 @@ body.is-stage { overflow: hidden; }
         <div class="wk-actions"><button class="wk-btn wk-btn--secondary" id="btnCancel">لغو پردازش</button></div>
       </div>
 
-      <div class="wk-card" id="cardPlayer" hidden>
-        <h2 class="wk-card__heading"><span class="wk-steps__n">۳</span>تمرین</h2>
+      <div class="app-ws" id="ws" data-tab="practice" hidden>
+      <div class="wk-card app-pl" id="cardPlayer" hidden>
+        <h2 class="wk-card__heading">تمرین</h2>
         <p class="app-sub" id="playerSub"></p>
         <canvas class="app-wave" id="wave" tabindex="0" aria-label="موج صدا؛ با کلیدهای چپ و راست جلو و عقب بروید"></canvas>
         <div class="app-times"><span id="tCur">0:00</span><span id="tDur">0:00</span></div>
@@ -431,7 +505,16 @@ body.is-stage { overflow: hidden; }
           <button class="wk-btn wk-btn--secondary" id="btnFwd" aria-label="۵ ثانیه جلو">۵<span class="app-sec"> ثانیه</span><svg class="wk-icon " aria-hidden="true"><use href="#i-fwd"/></svg></button>
         </div>
         <div class="app-beat" id="beat" aria-live="polite"></div>
+      </div>
 
+      <div class="app-tools" id="wsTools">
+      <div class="wk-seg app-seg" id="wsSeg" role="radiogroup" aria-label="ابزارهای تمرین">
+        <button class="wk-seg__opt" role="radio" aria-checked="true" data-v="practice" tabindex="0">تمرین</button>
+        <button class="wk-seg__opt" role="radio" aria-checked="false" data-v="score" tabindex="-1">نت</button>
+        <button class="wk-seg__opt" role="radio" aria-checked="false" data-v="tempo" tabindex="-1"><span class="app-segfull">ضرب و کوک</span><span class="app-segshort">ضرب</span></button>
+        <button class="wk-seg__opt" role="radio" aria-checked="false" data-v="rec" tabindex="-1">ضبط</button>
+      </div>
+      <div class="wk-card app-pane app-pane--practice" id="panelPractice">
         <div class="app-ctrls">
           <div>
             <div class="wk-slider__top"><label for="speed">سرعت پخش</label><b id="speedVal">۱۰۰٪</b></div>
@@ -485,6 +568,7 @@ body.is-stage { overflow: hidden; }
           </div>
         </div>
 
+
         <div class="wk-divider">
           <p class="wk-label">دانلود <span class="wk-note">(با صدای راهنمای فعلی و کوک اصلی)</span></p>
           <div class="app-dl">
@@ -498,8 +582,8 @@ body.is-stage { overflow: hidden; }
         </div>
       </div>
 
-      <div class="wk-card" id="cardTools" hidden>
-        <h2 class="wk-card__heading"><span class="wk-steps__n">۴</span>ضرب و کوک</h2>
+      <div class="wk-card app-pane app-pane--tempo" id="cardTools" hidden>
+        <h2 class="wk-card__heading">ضرب و کوک</h2>
         <div class="app-ctrls">
           <div class="app-full">
             <div class="wk-slider__top"><span>مترونوم</span><span class="wk-chip" id="mtInfo">خاموش</span></div>
@@ -530,8 +614,8 @@ body.is-stage { overflow: hidden; }
         </div>
       </div>
 
-      <div class="wk-card" id="cardRec" hidden>
-        <h2 class="wk-card__heading"><span class="wk-steps__n">۵</span>ضبط خودت</h2>
+      <div class="wk-card app-pane app-pane--rec" id="cardRec" hidden>
+        <h2 class="wk-card__heading">ضبط خودت</h2>
         <p class="wk-note" style="margin-top:calc(-1 * var(--space-2))">با اکامپانیمان بنواز و خودت را ضبط کن، بعد ضبط را هم‌زمان با همان اکامپانیمان گوش بده. با هدفون بنواز تا صدای پخش وارد میکروفون نشود. ضبط‌ها فقط تا بستن این صفحه در حافظه می‌مانند و جایی فرستاده نمی‌شوند.</p>
         <div id="recAlert" style="margin-top:var(--space-2)"></div>
         <div class="app-meter" id="recMeter" hidden aria-hidden="true"><i></i></div>
@@ -544,9 +628,10 @@ body.is-stage { overflow: hidden; }
           <p class="wk-note" style="margin-top:var(--space-2)">اگر هنگام گوش‌دادن، ضبط عقب‌تر یا جلوتر از اکامپانیمان بود، این را زیاد یا کم کن.</p>
         </div>
       </div>
+      </div>
 
-      <div class="wk-card" id="cardScore" hidden>
-        <h2 class="wk-card__heading app-hide-stage"><span class="wk-steps__n">۶</span>نت پارت تو</h2>
+      <div class="wk-card app-pane app-pane--score" id="cardScore" hidden>
+        <h2 class="wk-card__heading app-hide-stage">نت پارت تو</h2>
         <p class="wk-note app-hide-stage" style="margin-top:calc(-1 * var(--space-2))">فایل PDF پارت خودت را باز کن تا هم‌زمان با تمرین ببینی. فایل فقط در همین صفحه باز می‌شود و جایی فرستاده یا ذخیره نمی‌شود.</p>
         <input type="file" id="pdfInput" accept="application/pdf,.pdf" hidden>
         <div class="wk-actions app-hide-stage"><button class="wk-btn wk-btn--secondary" id="btnPdf"><svg class="wk-icon " aria-hidden="true"><use href="#i-upload"/></svg><span id="btnPdfTxt">انتخاب PDF پارت</span></button></div>
@@ -591,6 +676,27 @@ body.is-stage { overflow: hidden; }
           </div>
         </div>
       </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="view-log" data-view="log" aria-labelledby="h-log" hidden>
+    <h1 class="wk-screen__title" id="h-log">دفتر تمرین</h1>
+    <p class="wk-screen__lead">زمانی که ضبط در حال پخش است حساب می‌شود. فقط روی همین دستگاه می‌ماند.</p>
+    <div class="wk-stack app-logwrap">
+      <div class="wk-card" id="cardLog">
+        <div class="app-logsum"><div><b id="logToday">۰</b><span>دقیقۀ امروز</span></div><div><b id="logWeek">۰</b><span>دقیقه در هفته</span></div><div><b id="logStreak">۰</b><span>روز پشت‌سرهم</span></div></div>
+        <h2 class="wk-card__title" style="margin-top:var(--space-5)">هفتۀ اخیر</h2>
+        <div class="app-logbars" id="logBars" role="img" aria-label="تمرین هفت روز اخیر"></div>
+      </div>
+      <div class="wk-card">
+        <h2 class="wk-card__title">قطعه‌های پرتمرین</h2>
+        <ul class="app-loglist" id="logList"></ul>
+        <div class="app-loopbtns app-loopbtns--2" style="margin-top:var(--space-3)">
+          <button class="wk-btn wk-btn--secondary" id="logCsv">خروجی CSV</button>
+          <button class="wk-btn wk-btn--secondary" id="logClear">پاک‌کردن دفتر</button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -632,18 +738,6 @@ body.is-stage { overflow: hidden; }
         </div>
       </div>
 
-      <div class="wk-card" id="cardLog">
-        <h2 class="wk-card__title">دفتر تمرین</h2>
-        <p class="wk-card__text" style="margin-bottom:var(--space-3)">زمانی که ضبط در حال پخش است حساب می‌شود. فقط روی همین دستگاه می‌ماند.</p>
-        <div class="app-logsum"><div><b id="logToday">۰</b><span>دقیقۀ امروز</span></div><div><b id="logWeek">۰</b><span>دقیقه در هفته</span></div><div><b id="logStreak">۰</b><span>روز پشت‌سرهم</span></div></div>
-        <div class="app-logbars" id="logBars" role="img" aria-label="تمرین هفت روز اخیر"></div>
-        <ul class="app-loglist" id="logList"></ul>
-        <div class="app-loopbtns app-loopbtns--2" style="margin-top:var(--space-3)">
-          <button class="wk-btn wk-btn--secondary" id="logCsv">خروجی CSV</button>
-          <button class="wk-btn wk-btn--secondary" id="logClear">پاک‌کردن دفتر</button>
-        </div>
-      </div>
-
       <div class="wk-card">
         <h2 class="wk-card__title">داده‌های این دستگاه</h2>
         <p class="wk-card__text" style="margin-bottom:var(--space-4)">ساز انتخاب‌شده، سرعت، صدای راهنما، شمارش و ظاهر روی همین دستگاه یادت می‌ماند.</p>
@@ -657,15 +751,15 @@ body.is-stage { overflow: hidden; }
     <div class="wk-aboutscreen">
       <svg class="wk-about__mark" viewBox="0 0 96 96" aria-hidden="true"><use href="#app-icon"/></svg>
       <p class="wk-about__name">همراهی‌ساز</p>
-      <p class="wk-about__version" dir="ltr">Accompaniment Maker · v2.4</p>
+      <p class="wk-about__version" dir="ltr">Accompaniment Maker · v2.5</p>
       <p class="wk-about__purpose">اکامپانیمان بساز: ساز خودت را از ضبط حذف کن و جایش بنواز.</p>
       <div class="wk-aboutscreen__cards">
         <div class="wk-card"><h2 class="wk-card__title">اکامپانیمان یعنی چه؟</h2><p class="wk-card__text">«اکامپانیمان» (accompaniment؛ در فارسی همراهی) یعنی بقیۀ موسیقی، بدون سازی که خودت می‌نوازی. ارکستر باشد یا گروه، پیانو یا هر ترکیب دیگر: همۀ سازها را می‌شنوی جز یکی، مثلاً همۀ ارکستر جز ویولنسل، و ویولنسل را خودت می‌نوازی. این روش از سال ۱۹۵۰ با نام Music Minus One (موسیقی منهای یک) برای تمرین به کار می‌رود.</p></div>
         <div class="wk-card"><h2 class="wk-card__title">چه دردی را حل می‌کند؟</h2><ul class="wk-notes"><li><strong>اکامپانیمان همیشه در دسترس نیست:</strong> ارکستر، گروه یا پیانیست همراه وقت و هزینه می‌خواهد و تنها وقتی کنار آن‌ها می‌نوازی که جلسه‌ای هماهنگ شده باشد. بقیۀ روزها تنها تمرین می‌کنی، بی‌آنکه بقیۀ اثر را بشنوی.</li><li><strong>آلبوم‌های آماده محدودند:</strong> اکامپانیمان‌های آماده («منهای یک») فقط چند قطعه با یک اجرای مشخص و برای چند ساز دارند. قطعه، اجرا یا سازی که تو می‌خواهی معمولاً بینشان نیست.</li><li><strong>راهِ این اپ:</strong> هر ضبطی که داری، از کنسرتو و سمفونی تا کوارتت و ضبط یک گروه، به اکامپانیمان ساز تو تبدیل می‌شود، یعنی اثر منهای ساز تو. می‌توانی آهسته‌ترش کنی و یک بخش را تکرار کنی.</li></ul></div>
         <div class="wk-card"><h2 class="wk-card__title">برای چه کسانی است؟</h2><ul class="wk-notes"><li><strong>هنرجوی ساز:</strong> ویولن، ویولنسل، فلوت، کلارینت، ترومپت و مانند آن، که قطعه‌ای از ارکستر یا گروه را کار می‌کند و می‌خواهد با بقیۀ اثر هم‌نوا شود.</li><li><strong>نوازندۀ ارکستر:</strong> که پارت خودش را پیش از تمرین جمعی با بقیۀ گروه می‌سازد.</li><li><strong>نوازندۀ آماتور و حرفه‌ای:</strong> که برای اجرا یا آزمون آماده می‌شود.</li><li><strong>معلم:</strong> که می‌خواهد هنرجو در خانه هم با بقیۀ اثر تمرین کند.</li><li><strong>هر کس که همراه‌نوازی در دسترس ندارد.</strong></li></ul></div>
-        <div class="wk-card"><h2 class="wk-card__title">چطور کار می‌کند</h2><ol class="wk-steps"><li><span class="wk-steps__n">۱</span><div><strong>فایل و ساز را انتخاب کن</strong><span>ضبط را بده و بگو کدام ساز حذف شود؛ همان که خودت می‌نوازی.</span></div></li><li><span class="wk-steps__n">۲</span><div><strong>اپ اکامپانیمان را می‌سازد</strong><span>ضبط به سرویس MVSEP فرستاده می‌شود و آن ساز از بقیۀ اثر جدا می‌شود. زمانش به شلوغی صف سرویس بستگی دارد.</span></div></li><li><span class="wk-steps__n">۳</span><div><strong>با اکامپانیمان تمرین کن</strong><span>آهسته، با تکرار بخش دلخواه و شمارش قبل از شروع، ساز خودت را در جای خالی می‌نوازی؛ هر وقت خواستی دانلودش می‌کنی.</span></div></li></ol></div>
+        <div class="wk-card"><h2 class="wk-card__title">چطور کار می‌کند</h2><ol class="wk-steps"><li><span class="wk-steps__n">۱</span><div><strong>فایل و ساز را انتخاب کن</strong><span>ضبط را بده و بگو کدام ساز حذف شود؛ همان که خودت می‌نوازی.</span></div></li><li><span class="wk-steps__n">۲</span><div><strong>اپ اکامپانیمان را می‌سازد</strong><span>ضبط به سرویس MVSEP فرستاده می‌شود و آن ساز از بقیۀ اثر جدا می‌شود. زمانش به شلوغی صف سرویس بستگی دارد.</span></div></li><li><div><strong>با اکامپانیمان تمرین کن</strong><span>آهسته، با تکرار بخش دلخواه و شمارش قبل از شروع، ساز خودت را در جای خالی می‌نوازی؛ هر وقت خواستی دانلودش می‌کنی.</span></div></li></ol></div>
         <div class="wk-about__features"><h3>امکانات</h3><ul><li><strong>حذف ساز تو</strong><span>یکی از ۱۶ گزینه، از ویولنسل و ویولن تا فلوت و آواز؛ بقیۀ سازهای اثر می‌مانند.</span></li><li><strong>فایل بلند</strong><span>ضبط طولانی تکه‌تکه پردازش می‌شود و تکه‌ها با هم‌پوشانی به هم وصل می‌شوند تا درز شنیده نشود.</span></li><li><strong>سرعت دلخواه</strong><span>از ۵۰٪ تا ۱۲۵٪؛ سرعت عوض می‌شود، کوک عوض نمی‌شود.</span></li><li><strong>تکرار یک بخش</strong><span>روی موج بکش یا با «شروع» و «پایان» بخش را علامت بزن تا مدام تکرار شود.</span></li><li><strong>صدای راهنما</strong><span>ساز خودت را آرام زیر بقیۀ اثر می‌شنوی تا جایت را گم نکنی.</span></li><li><strong>نشانه‌های نام‌دار</strong><span>جاهای مهم قطعه را با حرف‌های تمرین (A، B، …) علامت بزن و با یک ضربه به آن‌جا برو.</span></li><li><strong>افزایش تدریجی سرعت</strong><span>بخش تکرارشونده را آهسته شروع کن و هر چند دور خودکار تندتر شود تا به سرعت اصلی برسد.</span></li><li><strong>کوک و گام</strong><span>ضبط ۴۴۲ هرتز و سازت ۴۴۰؟ کوک پخش را با سازت هماهنگ کن یا گام را نیم‌پرده جابه‌جا کن.</span></li><li><strong>مترونوم و نت مرجع</strong><span>ضرب با تمپوی دلخواه (با «تمپو با ضربه» هم می‌شود تعیینش کرد) و نتی که بر پایۀ کوک سازت ساخته می‌شود تا سازت را کوک کنی.</span></li><li><strong>ضبط خودت</strong><span>با اکامپانیمان بنواز و خودت را ضبط کن، بعد ضبط را هم‌زمان با اکامپانیمان گوش بده؛ تأخیر را هم می‌شود جبران کرد. فقط در نسخۀ وب اپ.</span></li>
-<li><strong>نت پارت تو</strong><span>PDF پارت خودت را کنار تمرین باز کن؛ با رسیدن پخش به هر نشانه، صفحۀ مربوط خودکار ورق می‌خورد؛ حالت تمام‌صفحه، ورق‌زدن با پدال بلوتوثی و یادداشت‌نویسی روی نت هم دارد.</span></li><li><strong>دفتر تمرین</strong><span>در تنظیمات می‌بینی هر روز و در هفتۀ اخیر چقدر تمرین کرده‌ای و چند روز پشت‌سرهم بوده است.</span></li><li><strong>شمارش قبل از شروع</strong><span>چند ضرب با تمپوی دلخواه می‌شمارد و بعد پخش می‌شود.</span></li><li><strong>دانلود</strong><span>اکامپانیمان (اثر بدون ساز تو) به MP3 یا WAV (با صدای راهنمای فعلی) و ساز جداشده به MP3.</span></li><li><strong>ظاهر روشن و تیره</strong><span>خودکار مطابق گوشی، یا هر کدام را خودت انتخاب کن.</span></li><li><strong>موبایل و کامپیوتر</strong><span>روی گوشی با لمس و کشیدن، روی کامپیوتر با کلیدهای میان‌بر.</span></li></ul></div>
+<li><strong>نت پارت تو</strong><span>PDF پارت خودت را کنار تمرین باز کن؛ با رسیدن پخش به هر نشانه، صفحۀ مربوط خودکار ورق می‌خورد؛ حالت تمام‌صفحه، ورق‌زدن با پدال بلوتوثی و یادداشت‌نویسی روی نت هم دارد.</span></li><li><strong>دفتر تمرین</strong><span>در بخش «دفتر تمرین» می‌بینی هر روز و در هفتۀ اخیر چقدر تمرین کرده‌ای و چند روز پشت‌سرهم بوده است.</span></li><li><strong>شمارش قبل از شروع</strong><span>چند ضرب با تمپوی دلخواه می‌شمارد و بعد پخش می‌شود.</span></li><li><strong>دانلود</strong><span>اکامپانیمان (اثر بدون ساز تو) به MP3 یا WAV (با صدای راهنمای فعلی) و ساز جداشده به MP3.</span></li><li><strong>ظاهر روشن و تیره</strong><span>خودکار مطابق گوشی، یا هر کدام را خودت انتخاب کن.</span></li><li><strong>موبایل و کامپیوتر</strong><span>روی گوشی با لمس و کشیدن، روی کامپیوتر با کلیدهای میان‌بر.</span></li></ul></div>
         <div class="wk-card"><h2 class="wk-card__title">کلیدهای میان‌بر</h2><ul class="wk-keys"><li><span>پخش / توقف</span><span class="wk-keys__k"><kbd class="wk-kbd">Space</kbd></span></li><li><span>۵ ثانیه عقب / جلو</span><span class="wk-keys__k"><kbd class="wk-kbd">←</kbd><kbd class="wk-kbd">→</kbd></span></li><li><span>شروع / پایان تکرار</span><span class="wk-keys__k"><kbd class="wk-kbd">[</kbd><kbd class="wk-kbd">]</kbd></span></li><li><span>افزودن نشانه</span><span class="wk-keys__k"><kbd class="wk-kbd">M</kbd></span></li><li><span>صفحۀ قبل / بعد</span><span class="wk-keys__k"><kbd class="wk-kbd">PgUp</kbd><kbd class="wk-kbd">PgDn</kbd></span></li><li><span>خروج از تمام‌صفحه</span><span class="wk-keys__k"><kbd class="wk-kbd">Esc</kbd></span></li></ul></div>
         <div class="wk-card"><h2 class="wk-card__title">نکته‌ها</h2><ul class="wk-notes"><li><strong>جای نوازندگان واقعی را نمی‌گیرد:</strong> اکامپانیمان همان اجرای ضبط است و با ریتم و بیان همان نوازندگان می‌رود، نه با تو. برای تمرین عالی است؛ برای اجرای زندۀ جدی با گروه یا همراه‌نواز واقعی هماهنگ شو.</li><li><strong>کیفیت جداسازی:</strong> بسته به ضبط، ممکن است ردی از ساز تو در اکامپانیمان بماند؛ هرچه سازهای هم‌صدا بیشترند (مثلاً چند ویولن در یک گروه)، جداکردن سخت‌تر است.</li><li><strong>حریم خصوصی:</strong> فایل تو از طریق یک سرور واسط که چیزی نگه نمی‌دارد به سرویس MVSEP فرستاده می‌شود (در نسخۀ وب، کلید API تو فقط در مرورگر خودت می‌ماند و همراه همین درخواست می‌رود). اپ جایی ذخیره‌اش نمی‌کند و نتیجه فقط در حافظۀ همین صفحه می‌ماند؛ با بستن صفحه از بین می‌رود. نگه‌داری فایل در MVSEP تابع قوانین خود آن سرویس است.</li><li><strong>ضبط با میکروفون:</strong> ضبط‌های تو فقط در حافظۀ همین صفحه می‌مانند و به هیچ سرویسی فرستاده نمی‌شوند؛ با بستن صفحه از بین می‌روند (اگر خواستی، دانلودشان کن).</li>
 <li><strong>PDF پارت و یادداشت‌ها:</strong> PDF فقط در مرورگر خودت باز می‌شود و به هیچ سرویسی فرستاده نمی‌شود. یادداشت‌های روی نت و دفتر تمرین فقط روی همین دستگاه می‌مانند و با پاک‌شدن داده‌های مرورگر از بین می‌روند.</li><li><strong>حق استفاده:</strong> فقط ضبط‌هایی را بده که حق استفاده‌شان را داری.</li><li><strong>محدودیت:</strong> سرویس رایگان MVSEP سقف خودش را دارد و وقتی صف شلوغ است باید صبر کنی.</li><li><strong>ساخته‌شده با:</strong> MVSEP برای جداسازی، lamejs برای MP3، PDF.js (Mozilla) برای نمایش PDF و فونت وزیرمتن.</li></ul></div>
@@ -680,6 +774,7 @@ body.is-stage { overflow: hidden; }
 
 <nav class="wk-tabbar" aria-label="بخش‌های اپ"><div class="wk-tabbar__in">
   <button class="wk-tab" data-tab="task" aria-current="page"><span class="wk-tab__icon"><svg class="wk-icon " aria-hidden="true"><use href="#i-wave"/></svg></span>همراهی</button>
+  <button class="wk-tab" data-tab="log"><span class="wk-tab__icon"><svg class="wk-icon " aria-hidden="true"><use href="#i-log"/></svg></span>دفتر تمرین</button>
   <button class="wk-tab" data-tab="settings"><span class="wk-tab__icon"><svg class="wk-icon " aria-hidden="true"><use href="#i-sliders"/></svg></span>تنظیمات</button>
   <button class="wk-tab" data-tab="about"><span class="wk-tab__icon"><svg class="wk-icon " aria-hidden="true"><use href="#i-info"/></svg></span>درباره</button>
 </div></nav>
@@ -877,7 +972,7 @@ var AccCore = (function () {
 <script>
 (function () {
   'use strict';
-  var APP_VERSION = '2.4';
+  var APP_VERSION = '2.5';
   var SR = 44100, MAX_CHUNK = 480, OVERLAP = 10, DIRECT_MAX_BYTES = 15e6, DIRECT_MAX_SEC = 590;
   var $ = function (id) { return document.getElementById(id); };
   var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
@@ -1023,10 +1118,11 @@ var AccCore = (function () {
   }
   var themeMode = getPref('theme', 'auto');
   var setThemeSeg = initSeg($('themeSeg'), themeMode, function (v) { themeMode = v; setPref('theme', v); applyTheme(v); });
+  initSeg($('wsSeg'), 'practice', function (v) { $('ws').setAttribute('data-tab', v); $('ws').setAttribute('data-pane', v); if (v === 'score' || v === 'practice') { try { sizeCanvas(); draw(); } catch (e) {} } });
   try { window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () { cssCache = {}; if (result) draw(); }); } catch (e) {}
 
   // ---------- tabs ----------
-  var views = ['task', 'settings', 'about'];
+  var views = ['task', 'log', 'settings', 'about'];
   function showView(name, noFocus) {
     views.forEach(function (v) { $('view-' + v).hidden = v !== name; });
     [].forEach.call(document.querySelectorAll('.wk-tab'), function (t) {
@@ -1035,7 +1131,7 @@ var AccCore = (function () {
     window.scrollTo(0, 0);
     if (!noFocus) $('screen').focus({ preventScroll: true });
     if (name === 'task' && result) { sizeCanvas(); draw(); }
-    if (name === 'settings') renderLog();
+    if (name === 'log') renderLog();
   }
   [].forEach.call(document.querySelectorAll('.wk-tab'), function (t) { t.onclick = function () { showView(t.getAttribute('data-tab')); }; });
 
@@ -1093,8 +1189,9 @@ var AccCore = (function () {
 
   function keyNotice() {
     if (WEB && !relayUrl()) { showAlert('inputAlert', 'note', 'توجه:', 'آدرس ریلی ثبت نشده است. از «تنظیمات» ثبتش کن (راهنما در README).'); return; }
-    if (!CFG || CFG.hasKey) { return; }
-    showAlert('inputAlert', 'note', 'توجه:', CFG.canSetKey ? 'کلید API هنوز ثبت نشده است. از «تنظیمات» ثبتش کنید.' : 'صاحب اپ هنوز کلید API را ثبت نکرده است.');
+    $('cardStart').hidden = !(CFG && CFG.canSetKey && !CFG.hasKey);
+    if (!CFG || CFG.hasKey || CFG.canSetKey) { return; }
+    showAlert('inputAlert', 'note', 'توجه:', 'صاحب اپ هنوز کلید API را ثبت نکرده است.');
   }
   $('btnSaveKey').onclick = function () {
     clearAlert('keyAlert');
@@ -1106,10 +1203,18 @@ var AccCore = (function () {
       if (!$('keyInput').value.trim()) { keyNotice(); updateProcessBtn(); return; }
     }
     gs('setApiKey', $('keyInput').value).then(function () {
-      CFG.hasKey = true; $('keyInput').value = '';
+      CFG.hasKey = true; $('keyInput').value = ''; $('cardStart').hidden = true;
       $('keyHint').textContent = 'یک کلید ذخیره شده است. برای تغییر، کلید تازه را وارد کنید.';
       clearAlert('inputAlert'); toast('کلید ذخیره شد'); updateProcessBtn();
     }).catch(function (e) { showAlert('keyAlert', 'error', 'خطا:', e.message); });
+  };
+  $('btnStartKey').onclick = function () {
+    clearAlert('startAlert');
+    gs('setApiKey', $('startKey').value).then(function () {
+      CFG.hasKey = true; $('startKey').value = ''; $('cardStart').hidden = true;
+      $('keyHint').textContent = 'یک کلید ذخیره شده است. برای تغییر، کلید تازه را وارد کنید.';
+      clearAlert('inputAlert'); toast('کلید ذخیره شد'); updateProcessBtn();
+    }).catch(function (e) { showAlert('startAlert', 'error', 'خطا:', e.message); });
   };
   $('instSelect').onchange = function () { setPref('acc_inst', this.value); };
 
@@ -1148,7 +1253,7 @@ var AccCore = (function () {
   function updateProcessBtn() {
     var reason = '';
     if (!CFG) reason = 'در حال بارگذاری…';
-    else if (!CFG.hasKey) reason = CFG.canSetKey ? 'اول کلید API را در «تنظیمات» ثبت کنید.' : 'اپ هنوز آماده نیست.';
+    else if (!CFG.hasKey) reason = CFG.canSetKey ? 'اول کلید را در کارت «قدم اول» ثبت کن.' : 'اپ هنوز آماده نیست.';
     else if (!file) reason = 'اول یک فایل انتخاب کنید.';
     $('btnProcess').disabled = !!reason || busy;
     $('processHint').textContent = busy ? '' : reason;
@@ -1252,7 +1357,7 @@ var AccCore = (function () {
 
   async function run() {
     busy = true; cancelled = false; lockScreen(); updateProcessBtn();
-    audio.pause(); result = null; $('cardPlayer').hidden = true; $('cardTools').hidden = true; $('cardRec').hidden = true; $('cardScore').hidden = true; closePdf(); stopTools(); if (recS) stopRec(); clearTakes(); peaks = peaksSolo = null;
+    audio.pause(); result = null; $('ws').hidden = true; $('cardPlayer').hidden = true; $('cardTools').hidden = true; $('cardRec').hidden = true; $('cardScore').hidden = true; closePdf(); stopTools(); if (recS) stopRec(); clearTakes(); peaks = peaksSolo = null;
     var instId = $('instSelect').value, inst = CFG.instruments.filter(function (i) { return i.id === instId; })[0];
     $('cardProgress').hidden = false; $('btnCancel').hidden = false; $('log').innerHTML = ''; clearAlert('progAlert');
     $('cardProgress').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1346,7 +1451,7 @@ var AccCore = (function () {
   function sizeCanvas() {
     var r = canvas.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
     if (!r.width) return;
-    canvas.width = Math.max(300, Math.round(r.width * dpr)); canvas.height = Math.round(120 * dpr);
+    canvas.width = Math.max(300, Math.round(r.width * dpr)); canvas.height = Math.round((r.height || 120) * dpr);
     if (result) { var bins = Math.floor(canvas.width / (2 * dpr)); peaks = computePeaks(result.acc, bins); peaksSolo = computePeaks(result.solo, bins); }
   }
   function draw() {
@@ -1383,7 +1488,7 @@ var AccCore = (function () {
     audio.addEventListener('loadedmetadata', function once() { audio.removeEventListener('loadedmetadata', once); audio.currentTime = t / K; audio.playbackRate = rate(); if (playing) audio.play(); });
   }
   function setupPlayer() {
-    $('cardPlayer').hidden = false; $('cardTools').hidden = false; $('cardRec').hidden = false; $('cardScore').hidden = false; clearTakes();
+    $('ws').hidden = false; $('cardPlayer').hidden = false; $('cardTools').hidden = false; $('cardRec').hidden = false; $('cardScore').hidden = false; clearTakes();
     $('playerSub').textContent = '«' + result.name + '» · بدون ' + result.instLabel;
     loopA = loopB = null; trCount = 0; $('tuneSemi').value = 0; $('tuneRec').value = 440; updateTune(); loadMarks(); renderMarks(); updateLoopInfo(); clearAlert('dlAlert'); $('dlMsg').textContent = '';
     sizeCanvas(); buildAudio(true); draw();
@@ -1926,7 +2031,7 @@ var AccCore = (function () {
   audio.addEventListener('play', function () { playStart = Date.now(); });
   audio.addEventListener('pause', function () { logFlush(); playStart = 0; });
   audio.addEventListener('ended', function () { logFlush(); playStart = 0; });
-  setInterval(function () { if (playStart) { logFlush(); if (!$('view-settings').hidden) renderLog(); } }, 10000);
+  setInterval(function () { if (playStart) { logFlush(); if (!$('view-log').hidden) renderLog(); } }, 10000);
   window.addEventListener('pagehide', function () { logFlush(); playStart = 0; });
   function fmtDur(sec) {
     sec = Math.round(sec); if (sec <= 0) return '۰'; if (sec < 60) return 'کمتر از ۱ دقیقه';
@@ -1944,12 +2049,13 @@ var AccCore = (function () {
     $('logBars').innerHTML = ''; $('logBars').setAttribute('aria-label', 'تمرین هفت روز اخیر: ' + fmtDur(week));
     days.forEach(function (x) {
       var c = document.createElement('div'), b = document.createElement('i'), l = document.createElement('span');
-      b.style.height = Math.max(3, Math.round(x.t / max * 64)) + 'px'; if (!x.t) b.style.opacity = '.25';
+      b.style.setProperty('--r', (x.t / max).toFixed(3)); if (!x.t) b.style.opacity = '.25';
       l.textContent = x.d.toLocaleDateString('fa-IR', { weekday: 'short' }); c.title = fmtDur(x.t); c.appendChild(b); c.appendChild(l); $('logBars').appendChild(c);
     });
     var agg = {}; Object.keys(L).sort().slice(-30).forEach(function (kk) { var p = L[kk].p || {}; Object.keys(p).forEach(function (n) { agg[n] = (agg[n] || 0) + p[n]; }); });
     var top = Object.keys(agg).sort(function (a, b) { return agg[b] - agg[a]; }).slice(0, 5);
     $('logList').innerHTML = '';
+    if (!Object.keys(agg).length) { var em = document.createElement('li'); em.className = 'app-logempty'; em.textContent = 'هنوز تمرینی ثبت نشده. ضبطی را پخش کن تا زمانش اینجا بیاید.'; $('logList').appendChild(em); }
     top.forEach(function (n) { var li = document.createElement('li'), a = document.createElement('span'), t = document.createElement('span'); a.textContent = n; t.textContent = fmtDur(agg[n]); li.appendChild(a); li.appendChild(t); $('logList').appendChild(li); });
     $('logCsv').disabled = $('logClear').disabled = !Object.keys(L).length;
   }

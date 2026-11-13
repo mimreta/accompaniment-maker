@@ -103,3 +103,66 @@ body.is-stage { overflow: hidden; }
 .app-takes li > span:first-child { font-size: 14px; line-height: 24px; color: var(--ink); }
 .app-takebtns { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
 .app-takebtns .wk-btn { padding: 0 var(--space-2); }
+
+/* ---- responsive shell: bottom tabs on phones, side rail on wide screens */
+.wk-tabbar .wk-tabbar__in { grid-template-columns: repeat(4, 1fr); }
+.wk-tab { font-size: 12px; }
+.wk-screen__lead { margin: calc(-1 * var(--space-3)) 0 var(--space-5); color: var(--ink-muted); font-size: 15px; line-height: 26px; }
+.app-logbars i { height: calc(var(--r, 0) * 64px); }
+.app-seg { margin-bottom: var(--space-4); }
+.app-segshort { display: none; }
+@media (max-width: 380px) { .app-segfull { display: none; } .app-segshort { display: inline; } }
+
+/* workspace: one pane at a time on phones */
+.app-ws { display: grid; gap: var(--space-5); min-width: 0; }
+.app-tools { min-width: 0; }
+.app-ws[data-tab="practice"] #cardTools, .app-ws[data-tab="practice"] #cardRec, .app-ws[data-tab="practice"] #cardScore,
+.app-ws[data-tab="score"] #panelPractice, .app-ws[data-tab="score"] #cardTools, .app-ws[data-tab="score"] #cardRec,
+.app-ws[data-tab="tempo"] #panelPractice, .app-ws[data-tab="tempo"] #cardRec, .app-ws[data-tab="tempo"] #cardScore,
+.app-ws[data-tab="rec"] #panelPractice, .app-ws[data-tab="rec"] #cardTools, .app-ws[data-tab="rec"] #cardScore { display: none; }
+/* the segmented control sits above the score card too */
+.app-ws[data-tab="score"] { grid-template-rows: auto auto auto; }
+.app-ws[data-tab="score"] #wsTools { order: 2; }
+.app-ws[data-tab="score"] #cardScore { order: 3; margin-top: calc(-1 * var(--space-2)); }
+
+.app-start .app-startsteps { margin: var(--space-3) 0 var(--space-4); }
+.app-start .wk-card__text { margin-bottom: var(--space-2); }
+
+@media (min-width: 1024px) {
+  body { padding-inline-start: 232px; }
+  .wk-appbar { margin-inline-start: -232px; }
+  .wk-appbar__in { max-width: none; padding: 0 var(--space-6); }
+  .wk-screen { max-width: 1160px; padding: var(--space-6) var(--space-6) var(--space-8); }
+  .wk-tabbar { inset-block: 56px 0; inset-inline: auto; inset-inline-start: 0; width: 232px; border-top: 0; border-inline-end: 1px solid var(--line); background: var(--surface); padding: var(--space-4) var(--space-3); }
+  .wk-tabbar .wk-tabbar__in { display: grid; grid-template-columns: 1fr; gap: var(--space-1); max-width: none; align-content: start; }
+  .wk-tab { flex-direction: row; justify-content: flex-start; gap: var(--space-3); min-height: 48px; padding: 0 var(--space-3); border-radius: var(--radius-md); font-size: 15px; font-weight: 600; }
+  .wk-tab:hover { background: var(--surface-sunken); }
+  .wk-tab[aria-current="page"] { background: var(--accent-soft); color: var(--ink); }
+  .wk-tab[aria-current="page"] .wk-tab__icon { background: transparent; }
+  .wk-card { scroll-margin-top: 80px; }
+
+  #view-task > .wk-stack > :not(.app-ws) { max-width: 720px; }
+  .app-wave { height: 160px; }
+  .app-ws { grid-template-columns: minmax(0, 1.35fr) minmax(400px, 1fr); grid-template-areas: "pl pl" "sc tl"; align-items: start; }
+  .app-ws > #cardPlayer { grid-area: pl; }
+  .app-ws > #cardScore { grid-area: sc; display: block; order: 0; margin-top: 0; }
+  .app-ws > #wsTools { grid-area: tl; position: sticky; top: 80px; order: 0; margin-bottom: 0; }
+  .app-ws[data-tab] > #cardScore { display: block; order: 0; margin-top: 0; }
+  .app-ws[data-tab] > #wsTools { order: 0; }
+  .app-ws[data-tab="score"] #panelPractice { display: block; }
+  .app-ws[data-tab="practice"] #cardTools, .app-ws[data-tab="practice"] #cardRec { display: none; }
+  .app-seg [data-v="score"] { display: none; }
+  .app-ws:not([data-tab="tempo"]):not([data-tab="rec"]) #panelPractice { display: block; }
+  .app-ws .app-score { max-height: min(78vh, 900px); }
+  .app-ws #wsTools .wk-card { box-shadow: none; }
+  .app-ws #wsTools .app-ctrls { grid-template-columns: 1fr; }
+
+  #view-settings .wk-stack, .app-logwrap, .wk-aboutscreen__cards { display: block; columns: 2; column-gap: var(--space-5); }
+  #view-settings .wk-stack > *, .app-logwrap > *, .wk-aboutscreen__cards > * { break-inside: avoid; margin-bottom: var(--space-5); }
+  .wk-aboutscreen { align-items: center; }
+}
+@media (min-width: 1440px) {
+  .app-ws { grid-template-columns: minmax(0, 1.6fr) minmax(440px, 1fr); }
+}
+@media (min-width: 1024px) { #view-task:has(#ws[hidden]) { max-width: 760px; margin-inline: auto; } }
+.app-logempty { display: block !important; color: var(--ink-muted); font-size: 14px; }

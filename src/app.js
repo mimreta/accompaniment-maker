@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var APP_VERSION = '2.4';
+  var APP_VERSION = '2.5';
   var SR = 44100, MAX_CHUNK = 480, OVERLAP = 10, DIRECT_MAX_BYTES = 15e6, DIRECT_MAX_SEC = 590;
   var $ = function (id) { return document.getElementById(id); };
   var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
@@ -146,10 +146,11 @@
   }
   var themeMode = getPref('theme', 'auto');
   var setThemeSeg = initSeg($('themeSeg'), themeMode, function (v) { themeMode = v; setPref('theme', v); applyTheme(v); });
+  initSeg($('wsSeg'), 'practice', function (v) { $('ws').setAttribute('data-tab', v); $('ws').setAttribute('data-pane', v); if (v === 'score' || v === 'practice') { try { sizeCanvas(); draw(); } catch (e) {} } });
   try { window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () { cssCache = {}; if (result) draw(); }); } catch (e) {}
 
   // ---------- tabs ----------
-  var views = ['task', 'settings', 'about'];
+  var views = ['task', 'log', 'settings', 'about'];
   function showView(name, noFocus) {
     views.forEach(function (v) { $('view-' + v).hidden = v !== name; });
     [].forEach.call(document.querySelectorAll('.wk-tab'), function (t) {
@@ -158,7 +159,7 @@
     window.scrollTo(0, 0);
     if (!noFocus) $('screen').focus({ preventScroll: true });
     if (name === 'task' && result) { sizeCanvas(); draw(); }
-    if (name === 'settings') renderLog();
+    if (name === 'log') renderLog();
   }
   [].forEach.call(document.querySelectorAll('.wk-tab'), function (t) { t.onclick = function () { showView(t.getAttribute('data-tab')); }; });
 
@@ -216,8 +217,9 @@
 
   function keyNotice() {
     if (WEB && !relayUrl()) { showAlert('inputAlert', 'note', 'توجه:', 'آدرس ریلی ثبت نشده است. از «تنظیمات» ثبتش کن (راهنما در README).'); return; }
-    if (!CFG || CFG.hasKey) { return; }
-    showAlert('inputAlert', 'note', 'توجه:', CFG.canSetKey ? 'کلید API هنوز ثبت نشده است. از «تنظیمات» ثبتش کنید.' : 'صاحب اپ هنوز کلید API را ثبت نکرده است.');
+    $('cardStart').hidden = !(CFG && CFG.canSetKey && !CFG.hasKey);
+    if (!CFG || CFG.hasKey || CFG.canSetKey) { return; }
+    showAlert('inputAlert', 'note', 'توجه:', 'صاحب اپ هنوز کلید API را ثبت نکرده است.');
   }
   $('btnSaveKey').onclick = function () {
     clearAlert('keyAlert');
@@ -229,10 +231,18 @@
       if (!$('keyInput').value.trim()) { keyNotice(); updateProcessBtn(); return; }
     }
     gs('setApiKey', $('keyInput').value).then(function () {
-      CFG.hasKey = true; $('keyInput').value = '';
+      CFG.hasKey = true; $('keyInput').value = ''; $('cardStart').hidden = true;
       $('keyHint').textContent = 'یک کلید ذخیره شده است. برای تغییر، کلید تازه را وارد کنید.';
       clearAlert('inputAlert'); toast('کلید ذخیره شد'); updateProcessBtn();
     }).catch(function (e) { showAlert('keyAlert', 'error', 'خطا:', e.message); });
+  };
+  $('btnStartKey').onclick = function () {
+    clearAlert('startAlert');
+    gs('setApiKey', $('startKey').value).then(function () {
+      CFG.hasKey = true; $('startKey').value = ''; $('cardStart').hidden = true;
+      $('keyHint').textContent = 'یک کلید ذخیره شده است. برای تغییر، کلید تازه را وارد کنید.';
+      clearAlert('inputAlert'); toast('کلید ذخیره شد'); updateProcessBtn();
+    }).catch(function (e) { showAlert('startAlert', 'error', 'خطا:', e.message); });
   };
   $('instSelect').onchange = function () { setPref('acc_inst', this.value); };
 
@@ -271,7 +281,7 @@
   function updateProcessBtn() {
     var reason = '';
     if (!CFG) reason = 'در حال بارگذاری…';
-    else if (!CFG.hasKey) reason = CFG.canSetKey ? 'اول کلید API را در «تنظیمات» ثبت کنید.' : 'اپ هنوز آماده نیست.';
+    else if (!CFG.hasKey) reason = CFG.canSetKey ? 'اول کلید را در کارت «قدم اول» ثبت کن.' : 'اپ هنوز آماده نیست.';
     else if (!file) reason = 'اول یک فایل انتخاب کنید.';
     $('btnProcess').disabled = !!reason || busy;
     $('processHint').textContent = busy ? '' : reason;
@@ -375,7 +385,7 @@
 
   async function run() {
     busy = true; cancelled = false; lockScreen(); updateProcessBtn();
-    audio.pause(); result = null; $('cardPlayer').hidden = true; $('cardTools').hidden = true; $('cardRec').hidden = true; $('cardScore').hidden = true; closePdf(); stopTools(); if (recS) stopRec(); clearTakes(); peaks = peaksSolo = null;
+    audio.pause(); result = null; $('ws').hidden = true; $('cardPlayer').hidden = true; $('cardTools').hidden = true; $('cardRec').hidden = true; $('cardScore').hidden = true; closePdf(); stopTools(); if (recS) stopRec(); clearTakes(); peaks = peaksSolo = null;
     var instId = $('instSelect').value, inst = CFG.instruments.filter(function (i) { return i.id === instId; })[0];
     $('cardProgress').hidden = false; $('btnCancel').hidden = false; $('log').innerHTML = ''; clearAlert('progAlert');
     $('cardProgress').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -469,7 +479,7 @@
   function sizeCanvas() {
     var r = canvas.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
     if (!r.width) return;
-    canvas.width = Math.max(300, Math.round(r.width * dpr)); canvas.height = Math.round(120 * dpr);
+    canvas.width = Math.max(300, Math.round(r.width * dpr)); canvas.height = Math.round((r.height || 120) * dpr);
     if (result) { var bins = Math.floor(canvas.width / (2 * dpr)); peaks = computePeaks(result.acc, bins); peaksSolo = computePeaks(result.solo, bins); }
   }
   function draw() {
@@ -506,7 +516,7 @@
     audio.addEventListener('loadedmetadata', function once() { audio.removeEventListener('loadedmetadata', once); audio.currentTime = t / K; audio.playbackRate = rate(); if (playing) audio.play(); });
   }
   function setupPlayer() {
-    $('cardPlayer').hidden = false; $('cardTools').hidden = false; $('cardRec').hidden = false; $('cardScore').hidden = false; clearTakes();
+    $('ws').hidden = false; $('cardPlayer').hidden = false; $('cardTools').hidden = false; $('cardRec').hidden = false; $('cardScore').hidden = false; clearTakes();
     $('playerSub').textContent = '«' + result.name + '» · بدون ' + result.instLabel;
     loopA = loopB = null; trCount = 0; $('tuneSemi').value = 0; $('tuneRec').value = 440; updateTune(); loadMarks(); renderMarks(); updateLoopInfo(); clearAlert('dlAlert'); $('dlMsg').textContent = '';
     sizeCanvas(); buildAudio(true); draw();
@@ -1049,7 +1059,7 @@
   audio.addEventListener('play', function () { playStart = Date.now(); });
   audio.addEventListener('pause', function () { logFlush(); playStart = 0; });
   audio.addEventListener('ended', function () { logFlush(); playStart = 0; });
-  setInterval(function () { if (playStart) { logFlush(); if (!$('view-settings').hidden) renderLog(); } }, 10000);
+  setInterval(function () { if (playStart) { logFlush(); if (!$('view-log').hidden) renderLog(); } }, 10000);
   window.addEventListener('pagehide', function () { logFlush(); playStart = 0; });
   function fmtDur(sec) {
     sec = Math.round(sec); if (sec <= 0) return '۰'; if (sec < 60) return 'کمتر از ۱ دقیقه';
@@ -1067,12 +1077,13 @@
     $('logBars').innerHTML = ''; $('logBars').setAttribute('aria-label', 'تمرین هفت روز اخیر: ' + fmtDur(week));
     days.forEach(function (x) {
       var c = document.createElement('div'), b = document.createElement('i'), l = document.createElement('span');
-      b.style.height = Math.max(3, Math.round(x.t / max * 64)) + 'px'; if (!x.t) b.style.opacity = '.25';
+      b.style.setProperty('--r', (x.t / max).toFixed(3)); if (!x.t) b.style.opacity = '.25';
       l.textContent = x.d.toLocaleDateString('fa-IR', { weekday: 'short' }); c.title = fmtDur(x.t); c.appendChild(b); c.appendChild(l); $('logBars').appendChild(c);
     });
     var agg = {}; Object.keys(L).sort().slice(-30).forEach(function (kk) { var p = L[kk].p || {}; Object.keys(p).forEach(function (n) { agg[n] = (agg[n] || 0) + p[n]; }); });
     var top = Object.keys(agg).sort(function (a, b) { return agg[b] - agg[a]; }).slice(0, 5);
     $('logList').innerHTML = '';
+    if (!Object.keys(agg).length) { var em = document.createElement('li'); em.className = 'app-logempty'; em.textContent = 'هنوز تمرینی ثبت نشده. ضبطی را پخش کن تا زمانش اینجا بیاید.'; $('logList').appendChild(em); }
     top.forEach(function (n) { var li = document.createElement('li'), a = document.createElement('span'), t = document.createElement('span'); a.textContent = n; t.textContent = fmtDur(agg[n]); li.appendChild(a); li.appendChild(t); $('logList').appendChild(li); });
     $('logCsv').disabled = $('logClear').disabled = !Object.keys(L).length;
   }

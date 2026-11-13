@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.5
+- Responsive layout: side navigation and a two-column workspace on wide screens (waveform on top, score beside the tools), bottom tabs on phones.
+- The practice log is now its own section instead of living in Settings.
+- One "Step 1: MVSEP key" card on first run instead of repeated notices.
+- Settings and About use two columns on wide screens.
+
 ## 2.4
 - Web version (repo root, served by GitHub Pages): runs as a plain static page, no Apps Script needed. Installable as a PWA.
 - Microphone recording over the accompaniment, up to five takes per session, in-sync listen-back with latency compensation, download of a take. Web version only.
