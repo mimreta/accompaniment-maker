@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.2
+- Works offline after the first visit: the app shell and its pinned libraries are cached by a small service worker (sw.js). Making an accompaniment still needs internet.
+
 ## 3.1
 - Practice log: daily goal (10-60 min) with a progress bar, dimmed bars for days below the goal, and a toast when the goal is reached.
 

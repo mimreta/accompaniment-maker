@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var APP_VERSION = '3.1';
+  var APP_VERSION = '3.2';
   var SR = 44100, MAX_CHUNK = 480, OVERLAP = 10, DIRECT_MAX_BYTES = 15e6, DIRECT_MAX_SEC = 590;
   var $ = function (id) { return document.getElementById(id); };
   var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
@@ -197,6 +197,12 @@
   $('tuneRec').value = 440; $('tuneMine').value = 440;
   for (var sm = -6; sm <= 6; sm++) addOpt($('tuneSemi'), sm, sm === 0 ? 'بدون انتقال' : fa(Math.abs(sm)) + ' نیم‌پرده ' + (sm > 0 ? 'بالاتر' : 'پایین‌تر'));
   $('tuneSemi').value = 0;
+  if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol) && !/googleusercontent|script\.google/.test(location.hostname)) {
+    var hadSw = !!navigator.serviceWorker.controller;
+    navigator.serviceWorker.register('sw.js').then(function () {
+      if (!hadSw && !getPref('acc_offline_told', '')) navigator.serviceWorker.ready.then(function () { setPref('acc_offline_told', '1'); toast('حالا برنامه بدون اینترنت هم باز می‌شود'); });
+    }).catch(function () {});
+  }
   addOpt($('goalSel'), 0, 'بدون هدف'); [10, 15, 20, 30, 45, 60].forEach(function (m) { addOpt($('goalSel'), m, fa(m) + ' دقیقه'); });
   addOpt($('trStep'), 5, '۵٪'); addOpt($('trStep'), 10, '۱۰٪'); $('trStep').value = 5;
   loadPrefs(); syncCtrls();
