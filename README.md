@@ -20,7 +20,7 @@ The screenshots use a short synthetic demo tone, not a real recording.
 
 ## Install
 
-Open the GitHub Pages link in the repository description. On a phone, use "Add to Home screen" to install it like an app. Nothing else to install.
+Open https://mimreta.github.io/solo-remover-web/ in your browser. On a phone, use "Add to Home screen" to install it like an app. Nothing else to install.
 
 ## Usage
 
