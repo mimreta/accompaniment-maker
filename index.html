@@ -460,7 +460,7 @@ body.is-stage { overflow: hidden; }
             <button class="wk-switch" id="trOn" role="switch" aria-checked="false"><span>افزایش تدریجی سرعت</span><span class="wk-switch__track"><span class="wk-switch__thumb"></span></span></button>
             <div class="app-grid2">
               <div class="wk-field"><label class="wk-field__label" for="trEvery">هر چند دور</label><input class="wk-field__input app-number" type="number" id="trEvery" min="1" max="10" value="3" inputmode="numeric" disabled></div>
-              <div class="wk-field"><label class="wk-field__label" for="trStep">پله‌ی سرعت</label><div class="wk-select-wrap"><select class="wk-field__input wk-select" id="trStep"></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div></div>
+              <div class="wk-field"><label class="wk-field__label" for="trStep">پلۀ سرعت</label><div class="wk-select-wrap"><select class="wk-field__input wk-select" id="trStep"></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div></div>
             </div>
             <p class="wk-note" id="trInfo" role="status" aria-live="polite"></p>
           </div>
@@ -527,7 +527,7 @@ body.is-stage { overflow: hidden; }
               <div class="wk-field"><label class="wk-field__label" for="toneOct">اکتاو</label><div class="wk-select-wrap"><select class="wk-field__input wk-select" id="toneOct"></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div></div>
             </div>
             <div class="wk-actions"><button class="wk-btn wk-btn--secondary" id="btnTone">پخش نت مرجع</button></div>
-            <p class="wk-note" style="margin-top:var(--space-2)">نت بر پایه‌ی «کوک ساز تو» ساخته می‌شود و تا دوباره نزنی ادامه دارد. برای کوک کردن سازت از آن استفاده کن.</p>
+            <p class="wk-note" style="margin-top:var(--space-2)">نت بر پایۀ «کوک ساز تو» ساخته می‌شود و تا دوباره نزنی ادامه دارد. برای کوک کردن سازت از آن استفاده کن.</p>
           </div>
           <div class="app-full">
             <div class="wk-slider__top"><label for="toolVol">بلندی مترونوم و نت</label><b id="toolVolVal">۶۰٪</b></div>
@@ -564,12 +564,12 @@ body.is-stage { overflow: hidden; }
             <span class="app-pageinfo" id="pgInfo" dir="rtl" aria-live="polite"></span>
             <button class="wk-btn wk-btn--secondary" id="pgNext">بعدی<svg class="wk-icon " aria-hidden="true"><use href="#i-right"/></svg></button>
           </div>
-          <div class="app-score" id="scoreWrap" tabindex="0" aria-label="صفحه‌ی نت"><div class="app-score__in" id="scoreIn"><canvas id="score"></canvas><canvas id="ink" aria-hidden="true"></canvas></div></div>
+          <div class="app-score" id="scoreWrap" tabindex="0" aria-label="صفحۀ نت"><div class="app-score__in" id="scoreIn"><canvas id="score"></canvas><canvas id="ink" aria-hidden="true"></canvas></div></div>
           <div class="app-scorectl" dir="ltr">
             <button class="app-play app-play--sm" id="btnPlay2" aria-label="پخش" title="پخش / توقف"><svg class="wk-icon " aria-hidden="true"><use href="#i-play"/></svg></button>
             <span class="app-scoretime" id="tCur2">0:00</span>
             <button class="wk-btn wk-btn--secondary app-stagebtn" id="btnStage" dir="rtl"><span id="btnStageTxt">تمام‌صفحه</span></button>
-            <div class="wk-select-wrap app-zoom" dir="rtl"><select class="wk-field__input wk-select" id="scoreZoom" aria-label="اندازه‌ی صفحه"><option value="page">کل صفحه</option><option value="100">عرض صفحه</option><option value="150">۱۵۰٪</option><option value="200">۲۰۰٪</option></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div>
+            <div class="wk-select-wrap app-zoom" dir="rtl"><select class="wk-field__input wk-select" id="scoreZoom" aria-label="اندازۀ صفحه"><option value="page">کل صفحه</option><option value="100">عرض صفحه</option><option value="150">۱۵۰٪</option><option value="200">۲۰۰٪</option></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div>
           </div>
           <div class="app-ink" id="inkBar">
             <button class="wk-switch" id="inkOn" role="switch" aria-checked="false"><span>یادداشت روی نت</span><span class="wk-switch__track"><span class="wk-switch__thumb"></span></span></button>
@@ -588,12 +588,12 @@ body.is-stage { overflow: hidden; }
           </div>
           <div class="wk-stack-sm app-hide-stage" style="margin-top:var(--space-3)">
             <button class="wk-switch" id="pgAuto" role="switch" aria-checked="true"><span>ورق‌زدن خودکار</span><span class="wk-switch__track"><span class="wk-switch__thumb"></span></span></button>
-            <p class="wk-note">با رسیدن پخش به هر نشانه، صفحه‌ی وصل‌شده به آن باز می‌شود.</p>
+            <p class="wk-note">با رسیدن پخش به هر نشانه، صفحۀ وصل‌شده به آن باز می‌شود.</p>
             <div class="app-loopbtns app-loopbtns--2">
               <button class="wk-btn wk-btn--secondary" id="btnLinkPage">وصل صفحه به نشانه</button>
               <button class="wk-btn wk-btn--quiet" id="btnPdfClose">بستن PDF</button>
             </div>
-            <p class="wk-note">نشانه‌ای که هنگام باز بودن PDF بسازی، خودکار به همان صفحه وصل می‌شود. «وصل صفحه به نشانه» صفحه‌ی فعلی را به آخرین نشانه‌ای که پخش از آن گذشته می‌بندد. PDF را هر بار که اپ را باز می‌کنی دوباره انتخاب کن؛ پیوند نشانه‌ها می‌ماند.</p>
+            <p class="wk-note">نشانه‌ای که هنگام باز بودن PDF بسازی، خودکار به همان صفحه وصل می‌شود. «وصل صفحه به نشانه» صفحۀ فعلی را به آخرین نشانه‌ای که پخش از آن گذشته می‌بندد. PDF را هر بار که اپ را باز می‌کنی دوباره انتخاب کن؛ پیوند نشانه‌ها می‌ماند.</p>
           </div>
         </div>
       </div>
@@ -630,7 +630,7 @@ body.is-stage { overflow: hidden; }
             <p class="wk-field__hint" id="keyNote" hidden>کلید فقط در همین مرورگر ذخیره می‌شود و برای هر درخواست از طریق سرور واسطِ بدون‌ذخیره به MVSEP می‌رسد.</p>
           </div>
           <div class="wk-field" id="relayField" hidden>
-            <label class="wk-field__label" for="relayInput">آدرس سرور واسط (فقط اگر نسخه‌ی خودت را میزبانی می‌کنی)</label>
+            <label class="wk-field__label" for="relayInput">آدرس سرور واسط (فقط اگر نسخۀ خودت را میزبانی می‌کنی)</label>
             <input class="wk-field__input" type="text" id="relayInput" dir="ltr" autocomplete="off" spellcheck="false" placeholder="https://script.google.com/macros/s/…/exec">
             <p class="wk-field__hint" id="relayHint">این فیلد برای سایت اصلی لازم نیست. فقط اگر این اپ را روی سایت خودت اجرا کرده‌ای، آدرس سرور واسط خودت (Cloudflare Worker یا Apps Script؛ راهنما: docs/DEPLOY.md) را اینجا بگذار.</p>
           </div>
@@ -641,7 +641,7 @@ body.is-stage { overflow: hidden; }
       <div class="wk-card" id="cardLog">
         <h2 class="wk-card__title">دفتر تمرین</h2>
         <p class="wk-card__text" style="margin-bottom:var(--space-3)">زمانی که ضبط در حال پخش است حساب می‌شود. فقط روی همین دستگاه می‌ماند.</p>
-        <div class="app-logsum"><div><b id="logToday">۰</b><span>دقیقه‌ی امروز</span></div><div><b id="logWeek">۰</b><span>دقیقه در هفته</span></div><div><b id="logStreak">۰</b><span>روز پشت‌سرهم</span></div></div>
+        <div class="app-logsum"><div><b id="logToday">۰</b><span>دقیقۀ امروز</span></div><div><b id="logWeek">۰</b><span>دقیقه در هفته</span></div><div><b id="logStreak">۰</b><span>روز پشت‌سرهم</span></div></div>
         <div class="app-logbars" id="logBars" role="img" aria-label="تمرین هفت روز اخیر"></div>
         <ul class="app-loglist" id="logList"></ul>
         <div class="app-loopbtns app-loopbtns--2" style="margin-top:var(--space-3)">
@@ -666,14 +666,14 @@ body.is-stage { overflow: hidden; }
       <p class="wk-about__version" dir="ltr">Accompaniment Maker · v2.4</p>
       <p class="wk-about__purpose">اکامپانیمان بساز: ساز خودت را از ضبط حذف کن و جایش بنواز.</p>
       <div class="wk-aboutscreen__cards">
-        <div class="wk-card"><h2 class="wk-card__title">اکامپانیمان یعنی چه؟</h2><p class="wk-card__text">«اکامپانیمان» (accompaniment؛ در فارسی همراهی) یعنی بقیه‌ی موسیقی، بدون سازی که خودت می‌نوازی. ارکستر باشد یا گروه، پیانو یا هر ترکیب دیگر: همه‌ی سازها را می‌شنوی جز یکی، مثلاً همه‌ی ارکستر جز ویولنسل، و ویولنسل را خودت می‌نوازی. این روش از سال ۱۹۵۰ با نام Music Minus One (موسیقی منهای یک) برای تمرین به کار می‌رود.</p></div>
-        <div class="wk-card"><h2 class="wk-card__title">چه دردی را حل می‌کند؟</h2><ul class="wk-notes"><li><strong>اکامپانیمان همیشه در دسترس نیست:</strong> ارکستر، گروه یا پیانیست همراه وقت و هزینه می‌خواهد و تنها وقتی کنار آن‌ها می‌نوازی که جلسه‌ای هماهنگ شده باشد. بقیه‌ی روزها تنها تمرین می‌کنی، بی‌آنکه بقیه‌ی اثر را بشنوی.</li><li><strong>آلبوم‌های آماده محدودند:</strong> اکامپانیمان‌های آماده («منهای یک») فقط چند قطعه با یک اجرای مشخص و برای چند ساز دارند. قطعه، اجرا یا سازی که تو می‌خواهی معمولاً بینشان نیست.</li><li><strong>راهِ این اپ:</strong> هر ضبطی که داری، از کنسرتو و سمفونی تا کوارتت و ضبط یک گروه، به اکامپانیمان ساز تو تبدیل می‌شود، یعنی اثر منهای ساز تو. می‌توانی آهسته‌ترش کنی و یک بخش را تکرار کنی.</li></ul></div>
-        <div class="wk-card"><h2 class="wk-card__title">برای چه کسانی است؟</h2><ul class="wk-notes"><li><strong>هنرجوی ساز:</strong> ویولن، ویولنسل، فلوت، کلارینت، ترومپت و مانند آن، که قطعه‌ای از ارکستر یا گروه را کار می‌کند و می‌خواهد با بقیه‌ی اثر هم‌نوا شود.</li><li><strong>نوازنده‌ی ارکستر:</strong> که پارت خودش را پیش از تمرین جمعی با بقیه‌ی گروه می‌سازد.</li><li><strong>نوازنده‌ی آماتور و حرفه‌ای:</strong> که برای اجرا یا آزمون آماده می‌شود.</li><li><strong>معلم:</strong> که می‌خواهد هنرجو در خانه هم با بقیه‌ی اثر تمرین کند.</li><li><strong>هر کس که همراه‌نوازی در دسترس ندارد.</strong></li></ul></div>
-        <div class="wk-card"><h2 class="wk-card__title">چطور کار می‌کند</h2><ol class="wk-steps"><li><span class="wk-steps__n">۱</span><div><strong>فایل و ساز را انتخاب کن</strong><span>ضبط را بده و بگو کدام ساز حذف شود؛ همان که خودت می‌نوازی.</span></div></li><li><span class="wk-steps__n">۲</span><div><strong>اپ اکامپانیمان را می‌سازد</strong><span>ضبط به سرویس MVSEP فرستاده می‌شود و آن ساز از بقیه‌ی اثر جدا می‌شود. زمانش به شلوغی صف سرویس بستگی دارد.</span></div></li><li><span class="wk-steps__n">۳</span><div><strong>با اکامپانیمان تمرین کن</strong><span>آهسته، با تکرار بخش دلخواه و شمارش قبل از شروع، ساز خودت را در جای خالی می‌نوازی؛ هر وقت خواستی دانلودش می‌کنی.</span></div></li></ol></div>
-        <div class="wk-about__features"><h3>امکانات</h3><ul><li><strong>حذف ساز تو</strong><span>یکی از ۱۶ گزینه، از ویولنسل و ویولن تا فلوت و آواز؛ بقیه‌ی سازهای اثر می‌مانند.</span></li><li><strong>فایل بلند</strong><span>ضبط طولانی تکه‌تکه پردازش می‌شود و تکه‌ها با هم‌پوشانی به هم وصل می‌شوند تا درز شنیده نشود.</span></li><li><strong>سرعت دلخواه</strong><span>از ۵۰٪ تا ۱۲۵٪؛ سرعت عوض می‌شود، کوک عوض نمی‌شود.</span></li><li><strong>تکرار یک بخش</strong><span>روی موج بکش یا با «شروع» و «پایان» بخش را علامت بزن تا مدام تکرار شود.</span></li><li><strong>صدای راهنما</strong><span>ساز خودت را آرام زیر بقیه‌ی اثر می‌شنوی تا جایت را گم نکنی.</span></li><li><strong>نشانه‌های نام‌دار</strong><span>جاهای مهم قطعه را با حرف‌های تمرین (A، B، …) علامت بزن و با یک ضربه به آن‌جا برو.</span></li><li><strong>افزایش تدریجی سرعت</strong><span>بخش تکرارشونده را آهسته شروع کن و هر چند دور خودکار تندتر شود تا به سرعت اصلی برسد.</span></li><li><strong>کوک و گام</strong><span>ضبط ۴۴۲ هرتز و سازت ۴۴۰؟ کوک پخش را با سازت هماهنگ کن یا گام را نیم‌پرده جابه‌جا کن.</span></li><li><strong>مترونوم و نت مرجع</strong><span>ضرب با تمپوی دلخواه (با «تمپو با ضربه» هم می‌شود تعیینش کرد) و نتی که بر پایه‌ی کوک سازت ساخته می‌شود تا سازت را کوک کنی.</span></li><li><strong>ضبط خودت</strong><span>با اکامپانیمان بنواز و خودت را ضبط کن، بعد ضبط را هم‌زمان با اکامپانیمان گوش بده؛ تأخیر را هم می‌شود جبران کرد. فقط در نسخه‌ی وب اپ.</span></li>
-<li><strong>نت پارت تو</strong><span>PDF پارت خودت را کنار تمرین باز کن؛ با رسیدن پخش به هر نشانه، صفحه‌ی مربوط خودکار ورق می‌خورد؛ حالت تمام‌صفحه، ورق‌زدن با پدال بلوتوثی و یادداشت‌نویسی روی نت هم دارد.</span></li><li><strong>دفتر تمرین</strong><span>در تنظیمات می‌بینی هر روز و در هفته‌ی اخیر چقدر تمرین کرده‌ای و چند روز پشت‌سرهم بوده است.</span></li><li><strong>شمارش قبل از شروع</strong><span>چند ضرب با تمپوی دلخواه می‌شمارد و بعد پخش می‌شود.</span></li><li><strong>دانلود</strong><span>اکامپانیمان (اثر بدون ساز تو) به MP3 یا WAV (با صدای راهنمای فعلی) و ساز جداشده به MP3.</span></li><li><strong>ظاهر روشن و تیره</strong><span>خودکار مطابق گوشی، یا هر کدام را خودت انتخاب کن.</span></li><li><strong>موبایل و کامپیوتر</strong><span>روی گوشی با لمس و کشیدن، روی کامپیوتر با کلیدهای میان‌بر.</span></li></ul></div>
-        <div class="wk-card"><h2 class="wk-card__title">کلیدهای میان‌بر</h2><ul class="wk-keys"><li><span>پخش / توقف</span><span class="wk-keys__k"><kbd class="wk-kbd">Space</kbd></span></li><li><span>۵ ثانیه عقب / جلو</span><span class="wk-keys__k"><kbd class="wk-kbd">←</kbd><kbd class="wk-kbd">→</kbd></span></li><li><span>شروع / پایان تکرار</span><span class="wk-keys__k"><kbd class="wk-kbd">[</kbd><kbd class="wk-kbd">]</kbd></span></li><li><span>افزودن نشانه</span><span class="wk-keys__k"><kbd class="wk-kbd">M</kbd></span></li><li><span>صفحه‌ی قبل / بعد</span><span class="wk-keys__k"><kbd class="wk-kbd">PgUp</kbd><kbd class="wk-kbd">PgDn</kbd></span></li><li><span>خروج از تمام‌صفحه</span><span class="wk-keys__k"><kbd class="wk-kbd">Esc</kbd></span></li></ul></div>
-        <div class="wk-card"><h2 class="wk-card__title">نکته‌ها</h2><ul class="wk-notes"><li><strong>جای نوازندگان واقعی را نمی‌گیرد:</strong> اکامپانیمان همان اجرای ضبط است و با ریتم و بیان همان نوازندگان می‌رود، نه با تو. برای تمرین عالی است؛ برای اجرای زنده‌ی جدی با گروه یا همراه‌نواز واقعی هماهنگ شو.</li><li><strong>کیفیت جداسازی:</strong> بسته به ضبط، ممکن است ردی از ساز تو در اکامپانیمان بماند؛ هرچه سازهای هم‌صدا بیشترند (مثلاً چند ویولن در یک گروه)، جداکردن سخت‌تر است.</li><li><strong>حریم خصوصی:</strong> فایل تو از طریق یک سرور واسط که چیزی نگه نمی‌دارد به سرویس MVSEP فرستاده می‌شود (در نسخه‌ی وب، کلید API تو فقط در مرورگر خودت می‌ماند و همراه همین درخواست می‌رود). اپ جایی ذخیره‌اش نمی‌کند و نتیجه فقط در حافظه‌ی همین صفحه می‌ماند؛ با بستن صفحه از بین می‌رود. نگه‌داری فایل در MVSEP تابع قوانین خود آن سرویس است.</li><li><strong>ضبط با میکروفون:</strong> ضبط‌های تو فقط در حافظه‌ی همین صفحه می‌مانند و به هیچ سرویسی فرستاده نمی‌شوند؛ با بستن صفحه از بین می‌روند (اگر خواستی، دانلودشان کن).</li>
+        <div class="wk-card"><h2 class="wk-card__title">اکامپانیمان یعنی چه؟</h2><p class="wk-card__text">«اکامپانیمان» (accompaniment؛ در فارسی همراهی) یعنی بقیۀ موسیقی، بدون سازی که خودت می‌نوازی. ارکستر باشد یا گروه، پیانو یا هر ترکیب دیگر: همۀ سازها را می‌شنوی جز یکی، مثلاً همۀ ارکستر جز ویولنسل، و ویولنسل را خودت می‌نوازی. این روش از سال ۱۹۵۰ با نام Music Minus One (موسیقی منهای یک) برای تمرین به کار می‌رود.</p></div>
+        <div class="wk-card"><h2 class="wk-card__title">چه دردی را حل می‌کند؟</h2><ul class="wk-notes"><li><strong>اکامپانیمان همیشه در دسترس نیست:</strong> ارکستر، گروه یا پیانیست همراه وقت و هزینه می‌خواهد و تنها وقتی کنار آن‌ها می‌نوازی که جلسه‌ای هماهنگ شده باشد. بقیۀ روزها تنها تمرین می‌کنی، بی‌آنکه بقیۀ اثر را بشنوی.</li><li><strong>آلبوم‌های آماده محدودند:</strong> اکامپانیمان‌های آماده («منهای یک») فقط چند قطعه با یک اجرای مشخص و برای چند ساز دارند. قطعه، اجرا یا سازی که تو می‌خواهی معمولاً بینشان نیست.</li><li><strong>راهِ این اپ:</strong> هر ضبطی که داری، از کنسرتو و سمفونی تا کوارتت و ضبط یک گروه، به اکامپانیمان ساز تو تبدیل می‌شود، یعنی اثر منهای ساز تو. می‌توانی آهسته‌ترش کنی و یک بخش را تکرار کنی.</li></ul></div>
+        <div class="wk-card"><h2 class="wk-card__title">برای چه کسانی است؟</h2><ul class="wk-notes"><li><strong>هنرجوی ساز:</strong> ویولن، ویولنسل، فلوت، کلارینت، ترومپت و مانند آن، که قطعه‌ای از ارکستر یا گروه را کار می‌کند و می‌خواهد با بقیۀ اثر هم‌نوا شود.</li><li><strong>نوازندۀ ارکستر:</strong> که پارت خودش را پیش از تمرین جمعی با بقیۀ گروه می‌سازد.</li><li><strong>نوازندۀ آماتور و حرفه‌ای:</strong> که برای اجرا یا آزمون آماده می‌شود.</li><li><strong>معلم:</strong> که می‌خواهد هنرجو در خانه هم با بقیۀ اثر تمرین کند.</li><li><strong>هر کس که همراه‌نوازی در دسترس ندارد.</strong></li></ul></div>
+        <div class="wk-card"><h2 class="wk-card__title">چطور کار می‌کند</h2><ol class="wk-steps"><li><span class="wk-steps__n">۱</span><div><strong>فایل و ساز را انتخاب کن</strong><span>ضبط را بده و بگو کدام ساز حذف شود؛ همان که خودت می‌نوازی.</span></div></li><li><span class="wk-steps__n">۲</span><div><strong>اپ اکامپانیمان را می‌سازد</strong><span>ضبط به سرویس MVSEP فرستاده می‌شود و آن ساز از بقیۀ اثر جدا می‌شود. زمانش به شلوغی صف سرویس بستگی دارد.</span></div></li><li><span class="wk-steps__n">۳</span><div><strong>با اکامپانیمان تمرین کن</strong><span>آهسته، با تکرار بخش دلخواه و شمارش قبل از شروع، ساز خودت را در جای خالی می‌نوازی؛ هر وقت خواستی دانلودش می‌کنی.</span></div></li></ol></div>
+        <div class="wk-about__features"><h3>امکانات</h3><ul><li><strong>حذف ساز تو</strong><span>یکی از ۱۶ گزینه، از ویولنسل و ویولن تا فلوت و آواز؛ بقیۀ سازهای اثر می‌مانند.</span></li><li><strong>فایل بلند</strong><span>ضبط طولانی تکه‌تکه پردازش می‌شود و تکه‌ها با هم‌پوشانی به هم وصل می‌شوند تا درز شنیده نشود.</span></li><li><strong>سرعت دلخواه</strong><span>از ۵۰٪ تا ۱۲۵٪؛ سرعت عوض می‌شود، کوک عوض نمی‌شود.</span></li><li><strong>تکرار یک بخش</strong><span>روی موج بکش یا با «شروع» و «پایان» بخش را علامت بزن تا مدام تکرار شود.</span></li><li><strong>صدای راهنما</strong><span>ساز خودت را آرام زیر بقیۀ اثر می‌شنوی تا جایت را گم نکنی.</span></li><li><strong>نشانه‌های نام‌دار</strong><span>جاهای مهم قطعه را با حرف‌های تمرین (A، B، …) علامت بزن و با یک ضربه به آن‌جا برو.</span></li><li><strong>افزایش تدریجی سرعت</strong><span>بخش تکرارشونده را آهسته شروع کن و هر چند دور خودکار تندتر شود تا به سرعت اصلی برسد.</span></li><li><strong>کوک و گام</strong><span>ضبط ۴۴۲ هرتز و سازت ۴۴۰؟ کوک پخش را با سازت هماهنگ کن یا گام را نیم‌پرده جابه‌جا کن.</span></li><li><strong>مترونوم و نت مرجع</strong><span>ضرب با تمپوی دلخواه (با «تمپو با ضربه» هم می‌شود تعیینش کرد) و نتی که بر پایۀ کوک سازت ساخته می‌شود تا سازت را کوک کنی.</span></li><li><strong>ضبط خودت</strong><span>با اکامپانیمان بنواز و خودت را ضبط کن، بعد ضبط را هم‌زمان با اکامپانیمان گوش بده؛ تأخیر را هم می‌شود جبران کرد. فقط در نسخۀ وب اپ.</span></li>
+<li><strong>نت پارت تو</strong><span>PDF پارت خودت را کنار تمرین باز کن؛ با رسیدن پخش به هر نشانه، صفحۀ مربوط خودکار ورق می‌خورد؛ حالت تمام‌صفحه، ورق‌زدن با پدال بلوتوثی و یادداشت‌نویسی روی نت هم دارد.</span></li><li><strong>دفتر تمرین</strong><span>در تنظیمات می‌بینی هر روز و در هفتۀ اخیر چقدر تمرین کرده‌ای و چند روز پشت‌سرهم بوده است.</span></li><li><strong>شمارش قبل از شروع</strong><span>چند ضرب با تمپوی دلخواه می‌شمارد و بعد پخش می‌شود.</span></li><li><strong>دانلود</strong><span>اکامپانیمان (اثر بدون ساز تو) به MP3 یا WAV (با صدای راهنمای فعلی) و ساز جداشده به MP3.</span></li><li><strong>ظاهر روشن و تیره</strong><span>خودکار مطابق گوشی، یا هر کدام را خودت انتخاب کن.</span></li><li><strong>موبایل و کامپیوتر</strong><span>روی گوشی با لمس و کشیدن، روی کامپیوتر با کلیدهای میان‌بر.</span></li></ul></div>
+        <div class="wk-card"><h2 class="wk-card__title">کلیدهای میان‌بر</h2><ul class="wk-keys"><li><span>پخش / توقف</span><span class="wk-keys__k"><kbd class="wk-kbd">Space</kbd></span></li><li><span>۵ ثانیه عقب / جلو</span><span class="wk-keys__k"><kbd class="wk-kbd">←</kbd><kbd class="wk-kbd">→</kbd></span></li><li><span>شروع / پایان تکرار</span><span class="wk-keys__k"><kbd class="wk-kbd">[</kbd><kbd class="wk-kbd">]</kbd></span></li><li><span>افزودن نشانه</span><span class="wk-keys__k"><kbd class="wk-kbd">M</kbd></span></li><li><span>صفحۀ قبل / بعد</span><span class="wk-keys__k"><kbd class="wk-kbd">PgUp</kbd><kbd class="wk-kbd">PgDn</kbd></span></li><li><span>خروج از تمام‌صفحه</span><span class="wk-keys__k"><kbd class="wk-kbd">Esc</kbd></span></li></ul></div>
+        <div class="wk-card"><h2 class="wk-card__title">نکته‌ها</h2><ul class="wk-notes"><li><strong>جای نوازندگان واقعی را نمی‌گیرد:</strong> اکامپانیمان همان اجرای ضبط است و با ریتم و بیان همان نوازندگان می‌رود، نه با تو. برای تمرین عالی است؛ برای اجرای زندۀ جدی با گروه یا همراه‌نواز واقعی هماهنگ شو.</li><li><strong>کیفیت جداسازی:</strong> بسته به ضبط، ممکن است ردی از ساز تو در اکامپانیمان بماند؛ هرچه سازهای هم‌صدا بیشترند (مثلاً چند ویولن در یک گروه)، جداکردن سخت‌تر است.</li><li><strong>حریم خصوصی:</strong> فایل تو از طریق یک سرور واسط که چیزی نگه نمی‌دارد به سرویس MVSEP فرستاده می‌شود (در نسخۀ وب، کلید API تو فقط در مرورگر خودت می‌ماند و همراه همین درخواست می‌رود). اپ جایی ذخیره‌اش نمی‌کند و نتیجه فقط در حافظۀ همین صفحه می‌ماند؛ با بستن صفحه از بین می‌رود. نگه‌داری فایل در MVSEP تابع قوانین خود آن سرویس است.</li><li><strong>ضبط با میکروفون:</strong> ضبط‌های تو فقط در حافظۀ همین صفحه می‌مانند و به هیچ سرویسی فرستاده نمی‌شوند؛ با بستن صفحه از بین می‌روند (اگر خواستی، دانلودشان کن).</li>
 <li><strong>PDF پارت و یادداشت‌ها:</strong> PDF فقط در مرورگر خودت باز می‌شود و به هیچ سرویسی فرستاده نمی‌شود. یادداشت‌های روی نت و دفتر تمرین فقط روی همین دستگاه می‌مانند و با پاک‌شدن داده‌های مرورگر از بین می‌روند.</li><li><strong>حق استفاده:</strong> فقط ضبط‌هایی را بده که حق استفاده‌شان را داری.</li><li><strong>محدودیت:</strong> سرویس رایگان MVSEP سقف خودش را دارد و وقتی صف شلوغ است باید صبر کنی.</li><li><strong>ساخته‌شده با:</strong> MVSEP برای جداسازی، lamejs برای MP3، PDF.js (Mozilla) برای نمایش PDF و فونت وزیرمتن.</li></ul></div>
       </div>
       <footer class="wk-signature">
@@ -1205,7 +1205,7 @@ var AccCore = (function () {
         w = new Worker(workerUrl);
       } catch (e) { w = null; }
       var fallback = function () {
-        if (!window.lamejs) return reject(new Error('کتابخانه‌ی MP3 بارگذاری نشد.'));
+        if (!window.lamejs) return reject(new Error('کتابخانۀ MP3 بارگذاری نشد.'));
         AccCore.encodeMp3(window.lamejs, [L, R], SR, kbps, onP).then(function (parts) { resolve(new Blob(parts, { type: 'audio/mpeg' })); }, reject);
       };
       if (!w) return fallback();
@@ -1254,7 +1254,7 @@ var AccCore = (function () {
       }).then(function () { busy = false; unlockScreen(); updateProcessBtn(); $('btnCancel').hidden = true; });
     };
     if (result) {
-      confirmDialog({ title: 'نتیجه‌ی فعلی عوض شود؟', text: 'همراهی‌ای که الان داری با نتیجه‌ی تازه جایگزین می‌شود. اگر لازمش داری، اول دانلودش کن.', confirm: 'جایگزین کن', cancel: 'برگرد', danger: true }).then(function (yes) { if (yes) go(); });
+      confirmDialog({ title: 'نتیجۀ فعلی عوض شود؟', text: 'همراهی‌ای که الان داری با نتیجۀ تازه جایگزین می‌شود. اگر لازمش داری، اول دانلودش کن.', confirm: 'جایگزین کن', cancel: 'برگرد', danger: true }).then(function (yes) { if (yes) go(); });
     } else go();
   };
 
@@ -1304,7 +1304,7 @@ var AccCore = (function () {
         if (st.status === 'done') break;
         if (st.status === 'failed' || st.status === 'error') throw new Error('MVSEP: ' + (st.message || 'پردازش ناموفق بود.'));
         if (st.status === 'waiting') setStatus(partLbl(i) + 'در صف MVSEP' + (st.eta ? ' — حدود ' + fa(Math.ceil(st.eta / 60)) + ' دقیقه' : ''), share(i, 0.25));
-        else setStatus(partLbl(i) + 'جداسازی ساز تو از بقیه‌ی اثر…', share(i, 0.45));
+        else setStatus(partLbl(i) + 'جداسازی ساز تو از بقیۀ اثر…', share(i, 0.45));
       }
       var solo = null, acc = null;
       st.files.forEach(function (f) { var t = norm(f.type); if (t === inst.solo || t.indexOf(inst.solo) >= 0) solo = f; });
@@ -1504,7 +1504,7 @@ var AccCore = (function () {
     marks.forEach(function (t, i) {
       var b = document.createElement('button'); b.type = 'button'; b.className = 'wk-btn wk-btn--secondary app-mark';
       var pg = markPages[mk(t)];
-      b.setAttribute('aria-label', 'نشانه ' + markLabel(i) + '، ' + fmt(t) + (pg ? '، صفحه‌ی ' + fa(pg) : '') + '. برای حذف نگه دارید.');
+      b.setAttribute('aria-label', 'نشانه ' + markLabel(i) + '، ' + fmt(t) + (pg ? '، صفحۀ ' + fa(pg) : '') + '. برای حذف نگه دارید.');
       b.innerHTML = '<b>' + markLabel(i) + '</b><span>' + fmt(t) + '</span>' + (pg ? '<em>ص ' + fa(pg) + '</em>' : '');
       var timer = null, held = false;
       b.addEventListener('pointerdown', function () { held = false; timer = setTimeout(function () { held = true; removeMark(i); }, 650); });
@@ -1528,7 +1528,7 @@ var AccCore = (function () {
   $('btnMark').onclick = addMark;
   $('btnMarksClear').onclick = function () {
     if (!marks.length) return;
-    confirmDialog({ title: 'همه‌ی نشانه‌ها حذف شود؟', text: 'نشانه‌های این ضبط پاک می‌شوند.', confirm: 'حذف همه', cancel: 'نگه دار', danger: true }).then(function (yes) { if (!yes) return; marks = []; saveMarks(); renderMarks(); toast('نشانه‌ها حذف شد'); });
+    confirmDialog({ title: 'همۀ نشانه‌ها حذف شود؟', text: 'نشانه‌های این ضبط پاک می‌شوند.', confirm: 'حذف همه', cancel: 'نگه دار', danger: true }).then(function (yes) { if (!yes) return; marks = []; saveMarks(); renderMarks(); toast('نشانه‌ها حذف شد'); });
   };
   updateTune();
 
@@ -1536,9 +1536,9 @@ var AccCore = (function () {
   // ---------- record yourself (needs the microphone; works in the web build) ----------
   var recS = null, takes = [], takeAudio = null, recTimer = 0, recRaf = 0, recCtx = null;
   function micMsg(e) {
-    if (!WEB) return 'ضبط با میکروفون فقط در نسخه‌ی وب اپ کار می‌کند؛ گوگل میکروفون را در اپ‌اسکریپت می‌بندد.';
+    if (!WEB) return 'ضبط با میکروفون فقط در نسخۀ وب اپ کار می‌کند؛ گوگل میکروفون را در اپ‌اسکریپت می‌بندد.';
     var n = e && e.name;
-    if (n === 'NotAllowedError' || n === 'SecurityError') return 'اجازه‌ی میکروفون داده نشد. در تنظیمات مرورگر برای این سایت میکروفون را مجاز کن.';
+    if (n === 'NotAllowedError' || n === 'SecurityError') return 'اجازۀ میکروفون داده نشد. در تنظیمات مرورگر برای این سایت میکروفون را مجاز کن.';
     if (n === 'NotFoundError' || n === 'OverconstrainedError') return 'میکروفونی پیدا نشد. یکی را وصل کن و دوباره امتحان کن.';
     return 'میکروفون باز نشد. دوباره امتحان کن.';
   }
@@ -1649,7 +1649,7 @@ var AccCore = (function () {
     PDF_LIB = Promise.all([gs('getPdfLib'), gs('getPdfWorker')]).then(function (r) {
       var el = document.createElement('script'); el.textContent = r[0]; document.head.appendChild(el);
       var lib = window['pdfjs-dist/build/pdf'];
-      if (!lib) throw new Error('کتابخانه‌ی نمایش PDF بارگذاری نشد.');
+      if (!lib) throw new Error('کتابخانۀ نمایش PDF بارگذاری نشد.');
       lib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(new Blob([r[1]], { type: 'text/javascript' }));
       return lib;
     });
@@ -1672,7 +1672,7 @@ var AccCore = (function () {
       pdfBusy(false); $('scoreBox').hidden = false; $('btnPdfTxt').textContent = 'انتخاب PDF دیگر';
       showPage(1); toast('PDF باز شد');
     }).catch(function (e) {
-      if (e && e.name === 'PasswordException') pdfFail('این PDF رمز دارد. نسخه‌ی بدون رمز را باز کن.');
+      if (e && e.name === 'PasswordException') pdfFail('این PDF رمز دارد. نسخۀ بدون رمز را باز کن.');
       else if (e && e.name === 'InvalidPDFException') pdfFail('این فایل PDF سالم نیست.');
       else pdfFail((e && e.message ? e.message : 'PDF باز نشد.') + ' دوباره امتحان کن.');
     });
@@ -1687,7 +1687,7 @@ var AccCore = (function () {
   function showPage(n) {
     if (!pdfDoc) return;
     n = Math.max(1, Math.min(pdfDoc.numPages, n | 0));
-    pageNum = n; $('pgInfo').textContent = 'صفحه‌ی ' + fa(n) + ' از ' + fa(pdfDoc.numPages);
+    pageNum = n; $('pgInfo').textContent = 'صفحۀ ' + fa(n) + ' از ' + fa(pdfDoc.numPages);
     $('pgPrev').disabled = n <= 1; $('pgNext').disabled = n >= pdfDoc.numPages;
     renderPage();
   }
@@ -1707,7 +1707,7 @@ var AccCore = (function () {
       await renderTask.promise; renderTask = null;
     } catch (e) {
       if (e && e.name === 'RenderingCancelledException') return;
-      showAlert('pdfAlert', 'error', 'خطا:', 'این صفحه نمایش داده نشد. صفحه‌ی دیگری را امتحان کن.');
+      showAlert('pdfAlert', 'error', 'خطا:', 'این صفحه نمایش داده نشد. صفحۀ دیگری را امتحان کن.');
     }
   }
   $('pgPrev').onclick = function () { showPage(pageNum - 1); };
@@ -1735,7 +1735,7 @@ var AccCore = (function () {
     var i = currentMarkIdx(false);
     if (i < 0) { toast('اول یک نشانه بساز'); return; }
     markPages[mk(marks[i])] = pageNum; saveMarks(); renderMarks(); lastAutoIdx = -2;
-    toast('نشانه ' + markLabel(i) + ' به صفحه‌ی ' + fa(pageNum) + ' وصل شد');
+    toast('نشانه ' + markLabel(i) + ' به صفحۀ ' + fa(pageNum) + ' وصل شد');
   };
 
   // ---------- metronome + reference tone ----------
@@ -1858,7 +1858,7 @@ var AccCore = (function () {
     clearTimeout(inkSaveT);
     inkSaveT = setTimeout(function () {
       var s = JSON.stringify(ink);
-      if (s.length > 900000) { toast('جای ذخیره‌ی یادداشت پر شد'); return; }
+      if (s.length > 900000) { toast('جای ذخیرۀ یادداشت پر شد'); return; }
       if (s === '{}' || !Object.keys(ink).some(function (k) { return ink[k].length; })) delPref('acc_ink_' + pdfKey); else setPref('acc_ink_' + pdfKey, s);
     }, 400);
   }
@@ -1915,7 +1915,7 @@ var AccCore = (function () {
   $('inkUndo').onclick = function () { var l = ink[pageNum] || []; if (!l.length) { toast('چیزی برای واپس‌گرد نیست'); return; } l.pop(); drawInk(); saveInk(); };
   $('inkClear').onclick = function () {
     if (!(ink[pageNum] || []).length) { toast('این صفحه یادداشتی ندارد'); return; }
-    confirmDialog({ title: 'یادداشت‌های این صفحه پاک شود؟', text: 'همه‌ی نوشته‌ها و علامت‌های همین صفحه پاک می‌شوند.', confirm: 'پاک کن', cancel: 'نگه دار', danger: true }).then(function (yes) { if (!yes) return; ink[pageNum] = []; drawInk(); saveInk(); toast('یادداشت‌های صفحه پاک شد'); });
+    confirmDialog({ title: 'یادداشت‌های این صفحه پاک شود؟', text: 'همۀ نوشته‌ها و علامت‌های همین صفحه پاک می‌شوند.', confirm: 'پاک کن', cancel: 'نگه دار', danger: true }).then(function (yes) { if (!yes) return; ink[pageNum] = []; drawInk(); saveInk(); toast('یادداشت‌های صفحه پاک شد'); });
   };
 
   // ---------- practice log (this device only) ----------
@@ -1967,7 +1967,7 @@ var AccCore = (function () {
     save(new Blob(['﻿' + rows.join('\n') + '\n'], { type: 'text/csv;charset=utf-8' }), 'practice-log.csv');
   };
   $('logClear').onclick = function () {
-    confirmDialog({ title: 'دفتر تمرین پاک شود؟', text: 'زمان‌های ثبت‌شده‌ی این دستگاه پاک می‌شوند و برنمی‌گردند.', confirm: 'پاک کن', cancel: 'نگه دار', danger: true }).then(function (yes) { if (!yes) return; delPref(LOGK); renderLog(); toast('دفتر تمرین پاک شد'); });
+    confirmDialog({ title: 'دفتر تمرین پاک شود؟', text: 'زمان‌های ثبت‌شدۀ این دستگاه پاک می‌شوند و برنمی‌گردند.', confirm: 'پاک کن', cancel: 'نگه دار', danger: true }).then(function (yes) { if (!yes) return; delPref(LOGK); renderLog(); toast('دفتر تمرین پاک شد'); });
   };
   renderLog();
 

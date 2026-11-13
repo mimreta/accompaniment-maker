@@ -1,12 +1,12 @@
 // Copyright (c) 2026 MohammadReza Tayebi. MIT License.
 /**
- * همراهی‌ساز — حذف ساز خودت از هر ضبط (ارکستر، گروه، پیانو…) و ماندن بقیه‌ی اثر، با MVSEP
+ * همراهی‌ساز — حذف ساز خودت از هر ضبط (ارکستر، گروه، پیانو…) و ماندن بقیۀ اثر، با MVSEP
  * سرور: نگه‌داری کلید API، ارسال فایل به MVSEP و پیگیری وضعیت.
  */
 
 var MVSEP = 'https://mvsep.com/api';
 
-// سازی که می‌نوازی → شناسه‌ی مدل MVSEP و نام بخش آن ساز در خروجی
+// سازی که می‌نوازی → شناسۀ مدل MVSEP و نام بخش آن ساز در خروجی
 var INSTRUMENTS = [
   { id: 'cello',     label: 'ویولنسل',            sep: 70,  solo: 'cello' },
   { id: 'violin',    label: 'ویولن',              sep: 65,  solo: 'violin' },
@@ -129,7 +129,7 @@ function getJob(hash) {
   return out;
 }
 
-/** کتابخانه‌ی MP3 (lamejs) را از سرور گوگل می‌گیرد تا به فیلتر CDN در مرورگر وابسته نباشد. */
+/** کتابخانۀ MP3 (lamejs) را از سرور گوگل می‌گیرد تا به فیلتر CDN در مرورگر وابسته نباشد. */
 function getLame() {
   var cache = CacheService.getScriptCache();
   var parts = cache.getAll(['lame0', 'lame1', 'lame2']);
@@ -140,7 +140,7 @@ function getLame() {
   return src;
 }
 
-/** کتابخانه‌ی نمایش PDF (PDF.js، Apache-2.0) را از سرور گوگل می‌گیرد؛ فایل PDF خود کاربر هرگز به سرور نمی‌آید. */
+/** کتابخانۀ نمایش PDF (PDF.js، Apache-2.0) را از سرور گوگل می‌گیرد؛ فایل PDF خود کاربر هرگز به سرور نمی‌آید. */
 var PDFJS = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/';
 function fetchChunked_(name, url) {
   var cache = CacheService.getScriptCache(), n = +cache.get(name + '_n');

@@ -320,7 +320,7 @@
         w = new Worker(workerUrl);
       } catch (e) { w = null; }
       var fallback = function () {
-        if (!window.lamejs) return reject(new Error('کتابخانه‌ی MP3 بارگذاری نشد.'));
+        if (!window.lamejs) return reject(new Error('کتابخانۀ MP3 بارگذاری نشد.'));
         AccCore.encodeMp3(window.lamejs, [L, R], SR, kbps, onP).then(function (parts) { resolve(new Blob(parts, { type: 'audio/mpeg' })); }, reject);
       };
       if (!w) return fallback();
@@ -369,7 +369,7 @@
       }).then(function () { busy = false; unlockScreen(); updateProcessBtn(); $('btnCancel').hidden = true; });
     };
     if (result) {
-      confirmDialog({ title: 'نتیجه‌ی فعلی عوض شود؟', text: 'همراهی‌ای که الان داری با نتیجه‌ی تازه جایگزین می‌شود. اگر لازمش داری، اول دانلودش کن.', confirm: 'جایگزین کن', cancel: 'برگرد', danger: true }).then(function (yes) { if (yes) go(); });
+      confirmDialog({ title: 'نتیجۀ فعلی عوض شود؟', text: 'همراهی‌ای که الان داری با نتیجۀ تازه جایگزین می‌شود. اگر لازمش داری، اول دانلودش کن.', confirm: 'جایگزین کن', cancel: 'برگرد', danger: true }).then(function (yes) { if (yes) go(); });
     } else go();
   };
 
@@ -419,7 +419,7 @@
         if (st.status === 'done') break;
         if (st.status === 'failed' || st.status === 'error') throw new Error('MVSEP: ' + (st.message || 'پردازش ناموفق بود.'));
         if (st.status === 'waiting') setStatus(partLbl(i) + 'در صف MVSEP' + (st.eta ? ' — حدود ' + fa(Math.ceil(st.eta / 60)) + ' دقیقه' : ''), share(i, 0.25));
-        else setStatus(partLbl(i) + 'جداسازی ساز تو از بقیه‌ی اثر…', share(i, 0.45));
+        else setStatus(partLbl(i) + 'جداسازی ساز تو از بقیۀ اثر…', share(i, 0.45));
       }
       var solo = null, acc = null;
       st.files.forEach(function (f) { var t = norm(f.type); if (t === inst.solo || t.indexOf(inst.solo) >= 0) solo = f; });
@@ -619,7 +619,7 @@
     marks.forEach(function (t, i) {
       var b = document.createElement('button'); b.type = 'button'; b.className = 'wk-btn wk-btn--secondary app-mark';
       var pg = markPages[mk(t)];
-      b.setAttribute('aria-label', 'نشانه ' + markLabel(i) + '، ' + fmt(t) + (pg ? '، صفحه‌ی ' + fa(pg) : '') + '. برای حذف نگه دارید.');
+      b.setAttribute('aria-label', 'نشانه ' + markLabel(i) + '، ' + fmt(t) + (pg ? '، صفحۀ ' + fa(pg) : '') + '. برای حذف نگه دارید.');
       b.innerHTML = '<b>' + markLabel(i) + '</b><span>' + fmt(t) + '</span>' + (pg ? '<em>ص ' + fa(pg) + '</em>' : '');
       var timer = null, held = false;
       b.addEventListener('pointerdown', function () { held = false; timer = setTimeout(function () { held = true; removeMark(i); }, 650); });
@@ -643,7 +643,7 @@
   $('btnMark').onclick = addMark;
   $('btnMarksClear').onclick = function () {
     if (!marks.length) return;
-    confirmDialog({ title: 'همه‌ی نشانه‌ها حذف شود؟', text: 'نشانه‌های این ضبط پاک می‌شوند.', confirm: 'حذف همه', cancel: 'نگه دار', danger: true }).then(function (yes) { if (!yes) return; marks = []; saveMarks(); renderMarks(); toast('نشانه‌ها حذف شد'); });
+    confirmDialog({ title: 'همۀ نشانه‌ها حذف شود؟', text: 'نشانه‌های این ضبط پاک می‌شوند.', confirm: 'حذف همه', cancel: 'نگه دار', danger: true }).then(function (yes) { if (!yes) return; marks = []; saveMarks(); renderMarks(); toast('نشانه‌ها حذف شد'); });
   };
   updateTune();
 
@@ -651,9 +651,9 @@
   // ---------- record yourself (needs the microphone; works in the web build) ----------
   var recS = null, takes = [], takeAudio = null, recTimer = 0, recRaf = 0, recCtx = null;
   function micMsg(e) {
-    if (!WEB) return 'ضبط با میکروفون فقط در نسخه‌ی وب اپ کار می‌کند؛ گوگل میکروفون را در اپ‌اسکریپت می‌بندد.';
+    if (!WEB) return 'ضبط با میکروفون فقط در نسخۀ وب اپ کار می‌کند؛ گوگل میکروفون را در اپ‌اسکریپت می‌بندد.';
     var n = e && e.name;
-    if (n === 'NotAllowedError' || n === 'SecurityError') return 'اجازه‌ی میکروفون داده نشد. در تنظیمات مرورگر برای این سایت میکروفون را مجاز کن.';
+    if (n === 'NotAllowedError' || n === 'SecurityError') return 'اجازۀ میکروفون داده نشد. در تنظیمات مرورگر برای این سایت میکروفون را مجاز کن.';
     if (n === 'NotFoundError' || n === 'OverconstrainedError') return 'میکروفونی پیدا نشد. یکی را وصل کن و دوباره امتحان کن.';
     return 'میکروفون باز نشد. دوباره امتحان کن.';
   }
@@ -764,7 +764,7 @@
     PDF_LIB = Promise.all([gs('getPdfLib'), gs('getPdfWorker')]).then(function (r) {
       var el = document.createElement('script'); el.textContent = r[0]; document.head.appendChild(el);
       var lib = window['pdfjs-dist/build/pdf'];
-      if (!lib) throw new Error('کتابخانه‌ی نمایش PDF بارگذاری نشد.');
+      if (!lib) throw new Error('کتابخانۀ نمایش PDF بارگذاری نشد.');
       lib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(new Blob([r[1]], { type: 'text/javascript' }));
       return lib;
     });
@@ -787,7 +787,7 @@
       pdfBusy(false); $('scoreBox').hidden = false; $('btnPdfTxt').textContent = 'انتخاب PDF دیگر';
       showPage(1); toast('PDF باز شد');
     }).catch(function (e) {
-      if (e && e.name === 'PasswordException') pdfFail('این PDF رمز دارد. نسخه‌ی بدون رمز را باز کن.');
+      if (e && e.name === 'PasswordException') pdfFail('این PDF رمز دارد. نسخۀ بدون رمز را باز کن.');
       else if (e && e.name === 'InvalidPDFException') pdfFail('این فایل PDF سالم نیست.');
       else pdfFail((e && e.message ? e.message : 'PDF باز نشد.') + ' دوباره امتحان کن.');
     });
@@ -802,7 +802,7 @@
   function showPage(n) {
     if (!pdfDoc) return;
     n = Math.max(1, Math.min(pdfDoc.numPages, n | 0));
-    pageNum = n; $('pgInfo').textContent = 'صفحه‌ی ' + fa(n) + ' از ' + fa(pdfDoc.numPages);
+    pageNum = n; $('pgInfo').textContent = 'صفحۀ ' + fa(n) + ' از ' + fa(pdfDoc.numPages);
     $('pgPrev').disabled = n <= 1; $('pgNext').disabled = n >= pdfDoc.numPages;
     renderPage();
   }
@@ -822,7 +822,7 @@
       await renderTask.promise; renderTask = null;
     } catch (e) {
       if (e && e.name === 'RenderingCancelledException') return;
-      showAlert('pdfAlert', 'error', 'خطا:', 'این صفحه نمایش داده نشد. صفحه‌ی دیگری را امتحان کن.');
+      showAlert('pdfAlert', 'error', 'خطا:', 'این صفحه نمایش داده نشد. صفحۀ دیگری را امتحان کن.');
     }
   }
   $('pgPrev').onclick = function () { showPage(pageNum - 1); };
@@ -850,7 +850,7 @@
     var i = currentMarkIdx(false);
     if (i < 0) { toast('اول یک نشانه بساز'); return; }
     markPages[mk(marks[i])] = pageNum; saveMarks(); renderMarks(); lastAutoIdx = -2;
-    toast('نشانه ' + markLabel(i) + ' به صفحه‌ی ' + fa(pageNum) + ' وصل شد');
+    toast('نشانه ' + markLabel(i) + ' به صفحۀ ' + fa(pageNum) + ' وصل شد');
   };
 
   // ---------- metronome + reference tone ----------
@@ -973,7 +973,7 @@
     clearTimeout(inkSaveT);
     inkSaveT = setTimeout(function () {
       var s = JSON.stringify(ink);
-      if (s.length > 900000) { toast('جای ذخیره‌ی یادداشت پر شد'); return; }
+      if (s.length > 900000) { toast('جای ذخیرۀ یادداشت پر شد'); return; }
       if (s === '{}' || !Object.keys(ink).some(function (k) { return ink[k].length; })) delPref('acc_ink_' + pdfKey); else setPref('acc_ink_' + pdfKey, s);
     }, 400);
   }
@@ -1030,7 +1030,7 @@
   $('inkUndo').onclick = function () { var l = ink[pageNum] || []; if (!l.length) { toast('چیزی برای واپس‌گرد نیست'); return; } l.pop(); drawInk(); saveInk(); };
   $('inkClear').onclick = function () {
     if (!(ink[pageNum] || []).length) { toast('این صفحه یادداشتی ندارد'); return; }
-    confirmDialog({ title: 'یادداشت‌های این صفحه پاک شود؟', text: 'همه‌ی نوشته‌ها و علامت‌های همین صفحه پاک می‌شوند.', confirm: 'پاک کن', cancel: 'نگه دار', danger: true }).then(function (yes) { if (!yes) return; ink[pageNum] = []; drawInk(); saveInk(); toast('یادداشت‌های صفحه پاک شد'); });
+    confirmDialog({ title: 'یادداشت‌های این صفحه پاک شود؟', text: 'همۀ نوشته‌ها و علامت‌های همین صفحه پاک می‌شوند.', confirm: 'پاک کن', cancel: 'نگه دار', danger: true }).then(function (yes) { if (!yes) return; ink[pageNum] = []; drawInk(); saveInk(); toast('یادداشت‌های صفحه پاک شد'); });
   };
 
   // ---------- practice log (this device only) ----------
@@ -1082,7 +1082,7 @@
     save(new Blob(['﻿' + rows.join('\n') + '\n'], { type: 'text/csv;charset=utf-8' }), 'practice-log.csv');
   };
   $('logClear').onclick = function () {
-    confirmDialog({ title: 'دفتر تمرین پاک شود؟', text: 'زمان‌های ثبت‌شده‌ی این دستگاه پاک می‌شوند و برنمی‌گردند.', confirm: 'پاک کن', cancel: 'نگه دار', danger: true }).then(function (yes) { if (!yes) return; delPref(LOGK); renderLog(); toast('دفتر تمرین پاک شد'); });
+    confirmDialog({ title: 'دفتر تمرین پاک شود؟', text: 'زمان‌های ثبت‌شدۀ این دستگاه پاک می‌شوند و برنمی‌گردند.', confirm: 'پاک کن', cancel: 'نگه دار', danger: true }).then(function (yes) { if (!yes) return; delPref(LOGK); renderLog(); toast('دفتر تمرین پاک شد'); });
   };
   renderLog();
 

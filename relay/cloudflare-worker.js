@@ -82,7 +82,7 @@ async function create(req) {
 
 async function get(req) {
   const hash = String(req.hash || '');
-  if (!/^[A-Za-z0-9]{6,80}$/.test(hash)) throw new Error('شناسه‌ی کار نامعتبر است.');
+  if (!/^[A-Za-z0-9]{6,80}$/.test(hash)) throw new Error('شناسۀ کار نامعتبر است.');
   const res = await fetch(MVSEP + '/separation/get?hash=' + encodeURIComponent(hash));
   const j = await res.json();
   const o = { status: j.status, message: j.data && j.data.message, queue: j.data && j.data.queue_count,
