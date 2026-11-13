@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.8
+- Key guide: "Open the site" and "Open the API page" buttons that open MVSEP in a new tab.
+- Desktop: first screen is a two-column layout (steps beside the main card); Settings is two balanced columns (instrument on one side, appearance, key and data on the other).
+
 ## 2.7
 - "My instrument" card in Settings; the first screen shows the chosen instrument as one line with a "Change" button.
 - Calmer desktop layouts: Settings in one readable column, About as story cards in a row with full-width sections, Practice log in two equal cards.

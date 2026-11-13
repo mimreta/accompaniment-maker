@@ -250,3 +250,31 @@ body.is-stage { overflow: hidden; }
   .wk-aboutscreen__cards .wk-keys { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2) var(--space-6); }
   .wk-aboutscreen__cards > :last-child .wk-notes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4) var(--space-6); }
 }
+
+/* ---- external guide links */
+.app-guide__link { justify-self: start; min-height: 40px; margin-top: var(--space-2); padding: 0 var(--space-4); display: inline-flex; align-items: center; gap: var(--space-2); text-decoration: none; font-size: 14px; }
+
+/* ---- desktop balance v2: first page, settings */
+@media (min-width: 1024px) {
+  #view-task:has(#ws[hidden]) { max-width: 1120px; }
+  #view-task:has(#ws[hidden]) > .wk-stack { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: var(--space-5); align-items: start; }
+  #view-task:has(#ws[hidden]) > .wk-stack > :not(.app-ws) { max-width: none; grid-column: 1; }
+  #view-task:has(#ws[hidden]) > .wk-stack > .app-how { grid-column: 2; grid-row: 1; align-self: stretch; grid-auto-rows: 1fr; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; padding: var(--space-2) var(--space-5); background: var(--surface-raised); border: 1px solid var(--line); border-radius: var(--radius-xl, var(--radius-lg)); }
+  #view-task:has(#ws[hidden]) .app-how li { display: grid; grid-template-columns: 48px minmax(0, 1fr); column-gap: var(--space-4); row-gap: 2px; align-items: center; text-align: start; border: 0; border-radius: 0; background: none; padding: var(--space-5) 0; }
+  #view-task:has(#ws[hidden]) .app-how li + li { border-top: 1px solid var(--line); }
+  #view-task:has(#ws[hidden]) .app-how__ic { grid-row: 1 / span 2; width: 48px; height: 48px; margin: 0; }
+  #view-task:has(#ws[hidden]) .app-how b { font-size: 16px; line-height: 24px; align-self: end; }
+  #view-task:has(#ws[hidden]) .app-how li > span:last-child { font-size: 14px; line-height: 22px; align-self: start; }
+  #view-task:has(#ws[hidden]) .app-how li > span:last-child { display: block; }
+
+  #view-settings { max-width: 1120px; }
+  #view-settings > .wk-stack { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: var(--space-5); align-items: start; grid-template-areas: "ins th" "ins key" "ins dat"; }
+  #view-settings #cardInstSet { grid-area: ins; }
+  #view-settings #cardTheme { grid-area: th; }
+  #view-settings #cardKey { grid-area: key; }
+  #view-settings #cardData { grid-area: dat; }
+  #view-settings .app-inst__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  #view-task:has(#cardStart:not([hidden])) > .wk-stack > .app-how { align-self: start; grid-auto-rows: auto; position: sticky; top: 80px; }
+}
