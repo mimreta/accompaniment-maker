@@ -157,9 +157,6 @@ body.is-stage { overflow: hidden; }
   .app-ws #wsTools .wk-card { box-shadow: none; }
   .app-ws #wsTools .app-ctrls { grid-template-columns: 1fr; }
 
-  #view-settings .wk-stack, .app-logwrap, .wk-aboutscreen__cards { display: block; columns: 2; column-gap: var(--space-5); }
-  #view-settings .wk-stack > *, .app-logwrap > *, .wk-aboutscreen__cards > * { break-inside: avoid; margin-bottom: var(--space-5); }
-  .wk-aboutscreen { align-items: center; }
 }
 @media (min-width: 1440px) {
   .app-ws { grid-template-columns: minmax(0, 1.6fr) minmax(440px, 1fr); }
@@ -186,7 +183,7 @@ body.is-stage { overflow: hidden; }
 .app-how__ic .wk-icon { width: 22px; height: 22px; }
 .app-how b { font-size: 14px; line-height: 22px; }
 .app-how li > span:last-child { font-size: 12px; line-height: 18px; color: var(--ink-muted); }
-@media (max-width: 480px) { .app-how { grid-template-columns: 1fr; } .app-how li { flex-direction: row; text-align: start; gap: var(--space-3); padding: var(--space-3); } .app-how li > span:last-child { display: none; } .app-how__ic { margin: 0; flex: none; } }
+@media (max-width: 480px) { .app-how { gap: var(--space-2); } .app-how li { padding: var(--space-3) var(--space-1); } .app-how li > span:last-child { display: none; } .app-how b { font-size: 13px; line-height: 20px; } }
 @media (min-width: 1024px) { #view-task > .wk-stack > .app-how { max-width: 720px; } }
 .app-how[hidden] { display: none; }
 
@@ -216,3 +213,40 @@ body.is-stage { overflow: hidden; }
 .wk-card { transition: box-shadow 160ms; }
 #btnProcess { min-height: 52px; font-size: 16px; }
 .app-wave { background: linear-gradient(180deg, var(--surface-sunken), var(--surface-raised)); }
+
+/* ---- instrument bar (selected instrument, collapsed picker) */
+.app-instbar { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-2); padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3); padding-inline: var(--space-3) var(--space-2); border: 1px solid var(--accent); border-radius: var(--radius-lg); background: var(--accent-soft); }
+.app-instbar__ic { display: inline-flex; flex: none; width: 48px; height: 48px; align-items: center; justify-content: center; border-radius: 50%; background: var(--surface-raised); color: var(--accent); }
+.app-instbar__ic .wk-icon { width: 30px; height: 30px; }
+.app-instbar__name { flex: 1; min-width: 0; font-size: 17px; line-height: 26px; }
+.app-instbar__btn { flex: none; min-width: 84px; padding: 0 var(--space-4); }
+.app-instbar[hidden], .app-inst[hidden] { display: none; }
+.app-instbar + .app-inst { margin-top: var(--space-4); }
+
+/* ---- page containers (desktop) and rhythm */
+.wk-screen__title { letter-spacing: 0; }
+@media (min-width: 1024px) {
+  .wk-screen__title { font-size: 32px; line-height: 44px; margin-bottom: var(--space-2); }
+  .wk-screen__lead { font-size: 16px; margin-bottom: var(--space-6); }
+  .wk-card { padding: var(--space-6); }
+  .wk-card__title { font-size: 18px; line-height: 28px; }
+  #view-settings, #view-log, #view-about { margin-inline: auto; }
+  #view-settings { max-width: 720px; }
+  #view-log { max-width: 960px; }
+  #view-about { max-width: 1040px; }
+  .app-logwrap { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; }
+  .app-inst__grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  #view-settings .app-inst__grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .wk-screen__lead { margin-top: 0; }
+  .wk-screen__title + .wk-stack { margin-top: var(--space-5); }
+  .wk-screen__title + .wk-aboutscreen { margin-top: var(--space-5); }
+
+  /* About: story cards side by side, everything else full width with inner columns */
+  .wk-aboutscreen__cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); align-items: stretch; }
+  .wk-aboutscreen__cards > * { margin: 0; }
+  .wk-aboutscreen__cards > :nth-child(n+4) { grid-column: 1 / -1; }
+  .wk-aboutscreen__cards .wk-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
+  .wk-aboutscreen__cards .wk-about__features ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4) var(--space-6); }
+  .wk-aboutscreen__cards .wk-keys { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2) var(--space-6); }
+  .wk-aboutscreen__cards > :last-child .wk-notes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4) var(--space-6); }
+}

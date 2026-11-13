@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.7
+- "My instrument" card in Settings; the first screen shows the chosen instrument as one line with a "Change" button.
+- Calmer desktop layouts: Settings in one readable column, About as story cards in a row with full-width sections, Practice log in two equal cards.
+- Larger desktop titles and card padding; fixed the missing step number in About.
+
 ## 2.6
 - Instrument picker with an icon for each instrument, grouped by family.
 - Illustrated 4-step guide for getting the MVSEP key (first-run card and Settings).

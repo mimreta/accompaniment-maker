@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var APP_VERSION = '2.6';
+  var APP_VERSION = '2.7';
   var SR = 44100, MAX_CHUNK = 480, OVERLAP = 10, DIRECT_MAX_BYTES = 15e6, DIRECT_MAX_SEC = 590;
   var $ = function (id) { return document.getElementById(id); };
   var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
@@ -245,13 +245,13 @@
       clearAlert('inputAlert'); toast('کلید ذخیره شد'); updateProcessBtn();
     }).catch(function (e) { showAlert('startAlert', 'error', 'خطا:', e.message); });
   };
-  $('instSelect').onchange = function () { setPref('acc_inst', this.value); };
+  $('instSelect').onchange = function () { setPref('acc_inst', this.value); syncInstPicker(); };
   // ---------- instrument picker (cards with icons; the hidden select stays the source of truth) ----------
   var INST_GROUPS = [['زهی', ['violin', 'viola', 'cello', 'dbass', 'strings']], ['بادی چوبی', ['flute', 'oboe', 'clarinet', 'bassoon', 'sax', 'wind']], ['بادی برنجی', ['trumpet', 'horn', 'trombone', 'tuba']], ['آواز', ['voice']]];
-  function buildInstPicker() {
-    var box = $('instPicker'), byId = {}; box.innerHTML = '';
+  var instChosen = !!getPref('acc_inst', '');
+  function fillInstPicker(box) {
+    var byId = {}, seen = {}; box.innerHTML = '';
     CFG.instruments.forEach(function (i) { byId[i.id] = i; });
-    var seen = {};
     function group(title, ids) {
       ids = ids.filter(function (id) { return byId[id]; }); if (!ids.length) return;
       var g = document.createElement('div'), h = document.createElement('p'), grid = document.createElement('div');
@@ -266,25 +266,32 @@
     }
     INST_GROUPS.forEach(function (g) { group(g[0], g[1]); });
     group('سایر', CFG.instruments.map(function (i) { return i.id; }).filter(function (id) { return !seen[id]; }));
-    syncInstPicker();
   }
+  function buildInstPicker() { fillInstPicker($('instPicker')); fillInstPicker($('instPickerSet')); syncInstPicker(); }
   function syncInstPicker() {
-    var cur = $('instSelect').value, first = null, hit = false;
-    [].forEach.call($('instPicker').querySelectorAll('.app-inst__opt'), function (b) {
-      var on = b.getAttribute('data-id') === cur; if (!first) first = b; if (on) hit = true;
-      b.setAttribute('aria-checked', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1;
+    var cur = $('instSelect').value, label = '';
+    ['instPicker', 'instPickerSet'].forEach(function (id) {
+      var first = null, hit = false;
+      [].forEach.call($(id).querySelectorAll('.app-inst__opt'), function (b) {
+        var on = b.getAttribute('data-id') === cur; if (!first) first = b; if (on) { hit = true; label = b.lastChild.textContent; }
+        b.setAttribute('aria-checked', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1;
+      });
+      if (!hit && first) first.tabIndex = 0;
     });
-    if (!hit && first) first.tabIndex = 0;
+    $('instBarUse').setAttribute('href', '#in-' + cur); $('instBarName').textContent = label;
+    var open = !instChosen || $('instChange').getAttribute('aria-expanded') === 'true';
+    $('instBar').hidden = !instChosen; $('instPicker').hidden = !open;
   }
-  $('instPicker').addEventListener('click', function (e) {
-    var b = e.target.closest ? e.target.closest('.app-inst__opt') : null; if (!b) return;
-    $('instSelect').value = b.getAttribute('data-id'); setPref('acc_inst', $('instSelect').value); syncInstPicker();
+  function pickInst(id) { $('instSelect').value = id; setPref('acc_inst', id); instChosen = true; $('instChange').setAttribute('aria-expanded', 'false'); syncInstPicker(); }
+  ['instPicker', 'instPickerSet'].forEach(function (id) {
+    $(id).addEventListener('click', function (e) { var b = e.target.closest ? e.target.closest('.app-inst__opt') : null; if (b) pickInst(b.getAttribute('data-id')); });
+    $(id).addEventListener('keydown', function (e) {
+      var k = e.key, d = (k === 'ArrowLeft' || k === 'ArrowDown') ? 1 : (k === 'ArrowRight' || k === 'ArrowUp') ? -1 : 0; if (!d) return;
+      var all = [].slice.call($(id).querySelectorAll('.app-inst__opt')), i = all.indexOf(document.activeElement); if (i < 0) return;
+      e.preventDefault(); var n = all[(i + d + all.length) % all.length]; n.focus(); n.click();
+    });
   });
-  $('instPicker').addEventListener('keydown', function (e) {
-    var k = e.key, d = (k === 'ArrowLeft' || k === 'ArrowDown') ? 1 : (k === 'ArrowRight' || k === 'ArrowUp') ? -1 : 0; if (!d) return;
-    var all = [].slice.call($('instPicker').querySelectorAll('.app-inst__opt')), i = all.indexOf(document.activeElement); if (i < 0) return;
-    e.preventDefault(); var n = all[(i + d + all.length) % all.length]; n.focus(); n.click();
-  });
+  $('instChange').onclick = function () { var o = this.getAttribute('aria-expanded') !== 'true'; this.setAttribute('aria-expanded', o ? 'true' : 'false'); this.textContent = o ? 'بستن' : 'تغییر'; syncInstPicker(); if (o) { var c = $('instPicker').querySelector('[aria-checked="true"]'); if (c) c.focus(); } };
 
 
   $('btnReset').onclick = function () {
@@ -295,7 +302,7 @@
       $('speed').value = 100; $('guide').value = 0; setSwitch($('ciOn'), false); $('ciBeats').value = 4; $('ciBpm').value = 72;
       $('tuneRec').value = 440; $('tuneMine').value = 440; $('tuneSemi').value = 0; setSwitch($('trOn'), false); $('trEvery').value = 3; $('trStep').value = 5;
       if ($('instSelect').options.length) $('instSelect').selectedIndex = 0;
-      syncInstPicker();
+      instChosen = false; syncInstPicker();
       syncCtrls(); updateTune(); updateTr(); if (result) buildAudio(); else audio.playbackRate = rate();
       toast('ترجیحات بازنشانی شد');
     });
