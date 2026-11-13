@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.3
+- Your recorded takes are now saved on this device next to the accompaniment they belong to (up to 10 per accompaniment), and come back when you reopen it from the library. Deleting a library item or clearing the library removes its takes too.
+
 ## 3.2
 - Works offline after the first visit: the app shell and its pinned libraries are cached by a small service worker (sw.js). Making an accompaniment still needs internet.
 

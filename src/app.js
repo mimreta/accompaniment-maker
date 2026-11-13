@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var APP_VERSION = '3.2';
+  var APP_VERSION = '3.3';
   var SR = 44100, MAX_CHUNK = 480, OVERLAP = 10, DIRECT_MAX_BYTES = 15e6, DIRECT_MAX_SEC = 590;
   var $ = function (id) { return document.getElementById(id); };
   var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
@@ -584,7 +584,7 @@
     audio.addEventListener('loadedmetadata', function once() { audio.removeEventListener('loadedmetadata', once); audio.currentTime = t / K; audio.playbackRate = rate(); if (playing) audio.play(); });
   }
   function setupPlayer() {
-    $('ws').hidden = false; $('cardPlayer').hidden = false; $('cardTools').hidden = false; $('cardRec').hidden = false; $('cardScore').hidden = false; clearTakes();
+    $('ws').hidden = false; $('cardPlayer').hidden = false; $('cardTools').hidden = false; $('cardRec').hidden = false; $('cardScore').hidden = false; clearTakes(); takesLoad();
     $('playerSub').textContent = '«' + result.name + '» · بدون ' + result.instLabel;
     loopA = loopB = null; trCount = 0; $('tuneSemi').value = 0; $('tuneRec').value = 440; updateTune(); loadMarks(); renderMarks(); updateLoopInfo(); clearAlert('dlAlert'); $('dlMsg').textContent = '';
     sizeCanvas(); buildAudio(true); draw();
@@ -789,10 +789,12 @@
     $('btnRec').textContent = 'شروع ضبط'; $('btnRec').classList.add('wk-btn--primary'); $('btnRec').classList.remove('wk-btn--secondary');
     if (!s.snap || !s.chunks.length) { $('recMsg').textContent = ''; showAlert('recAlert', 'note', 'توجه:', 'چیزی ضبط نشد.'); return; }
     var blob = new Blob(s.chunks, { type: s.mime });
-    if (takes.length >= 5) { var old = takes.shift(); URL.revokeObjectURL(old.url); }
-    var n = (takes.length ? takes[takes.length - 1].n : 0) + 1;
-    takes.push({ n: n, blob: blob, url: URL.createObjectURL(blob), lead: s.lead, snap: s.snap, mime: s.mime, secs: Math.max(0, (performance.now() - s.wall0) / 1000 - s.lead) });
-    $('recMsg').textContent = ''; renderTakes(); toast('ضبط ذخیره شد');
+    if (takes.length >= TAKES_MAX) { var old = takes.shift(); URL.revokeObjectURL(old.url); takeDrop(old.id); }
+    var n = (takes.length ? takes[takes.length - 1].n : 0) + 1, now = Date.now();
+    var t = { id: curLib() + '#' + now, lib: curLib(), n: n, blob: blob, url: URL.createObjectURL(blob), lead: s.lead, snap: s.snap, mime: s.mime, secs: Math.max(0, (performance.now() - s.wall0) / 1000 - s.lead), created: now };
+    takes.push(t);
+    $('recMsg').textContent = ''; renderTakes();
+    takePut(t).then(function (ok) { toast(ok ? 'ضبط ذخیره شد' : 'ضبط فقط تا بستن صفحه می‌ماند؛ جای کافی روی دستگاه نبود'); });
   }
   $('btnRec').onclick = function () { if (recS) stopRec(); else startRec(); };
   audio.addEventListener('ended', function () { if (recS) stopRec(); });
@@ -823,17 +825,34 @@
     var ul = $('takes'); ul.innerHTML = '';
     takes.forEach(function (t, i) {
       var li = document.createElement('li');
-      var nm = document.createElement('span'); nm.textContent = 'ضبط ' + fa(t.n) + ' · ' + fa(fmt(t.secs));
+      var nm = document.createElement('span'); nm.textContent = 'ضبط ' + fa(t.n) + ' · ' + fa(fmt(t.secs)) + (t.created ? ' · ' + fmtAgo(t.created) : '');
       var bx = document.createElement('span'); bx.className = 'app-takebtns';
       function mk(act, txt, fn) { var b = document.createElement('button'); b.className = 'wk-btn wk-btn--secondary'; b.dataset.act = act; b.textContent = txt; b.onclick = function () { fn(b); }; bx.appendChild(b); }
       mk('play', 'گوش کن', function (b) { playTake(t, b); });
       mk('dl', 'دانلود', function () { save(t.blob, 'take-' + t.n + (/mp4/.test(t.mime) ? '.m4a' : /ogg/.test(t.mime) ? '.ogg' : '.webm')); });
-      mk('rm', 'حذف', function () { stopTake(); URL.revokeObjectURL(t.url); takes.splice(takes.indexOf(t), 1); renderTakes(); });
+      mk('rm', 'حذف', function () { stopTake(); URL.revokeObjectURL(t.url); takes.splice(takes.indexOf(t), 1); takeDrop(t.id); renderTakes(); });
       li.appendChild(nm); li.appendChild(bx); ul.appendChild(li);
     });
     $('takesWrap').hidden = !takes.length;
   }
   function clearTakes() { stopTake(); takes.forEach(function (t) { URL.revokeObjectURL(t.url); }); takes = []; renderTakes(); }
+  // saved takes (this device only): kept next to the accompaniment they were recorded with
+  var TAKES_MAX = 10;
+  function curLib() { return result ? result.instId + '|' + result.name : ''; }
+  function takesLoad() {
+    var id = curLib(); if (!LIB.ok || !id) return;
+    libTx(['takes'], 'readonly', function (tx) { return tx.objectStore('takes').index('lib').getAll(IDBKeyRange.only(id)); }).then(function (a) {
+      if (id !== curLib() || !a || !a.length) return;
+      a.sort(function (x, y) { return x.n - y.n; });
+      takes = a.map(function (r) { return { id: r.id, n: r.n, blob: r.blob, url: URL.createObjectURL(r.blob), lead: r.lead, snap: r.snap, mime: r.mime, secs: r.secs, created: r.created }; });
+      renderTakes();
+    }).catch(function () {});
+  }
+  function takePut(t) {
+    if (!LIB.ok) return Promise.resolve(false);
+    return libTx(['takes'], 'readwrite', function (tx) { tx.objectStore('takes').put({ id: t.id, lib: t.lib, n: t.n, blob: t.blob, lead: t.lead, snap: t.snap, mime: t.mime, secs: t.secs, created: t.created }); }).then(function () { return true; }, function () { return false; });
+  }
+  function takeDrop(id) { if (LIB.ok && id) libTx(['takes'], 'readwrite', function (tx) { tx.objectStore('takes').delete(id); }).catch(function () {}); }
 
   // ---------- player's own PDF part (local only) ----------
   var pdfDoc = null, pageNum = 1, renderTask = null, renderSeq = 0, lastAutoIdx = -2, PDF_LIB = null;
@@ -1237,8 +1256,8 @@
   function libOpen() {
     return new Promise(function (res) {
       try {
-        var rq = indexedDB.open('acc_lib', 1);
-        rq.onupgradeneeded = function () { var d = rq.result; d.createObjectStore('meta', { keyPath: 'id' }); d.createObjectStore('data', { keyPath: 'id' }); };
+        var rq = indexedDB.open('acc_lib', 2);
+        rq.onupgradeneeded = function () { var d = rq.result; if (!d.objectStoreNames.contains('meta')) d.createObjectStore('meta', { keyPath: 'id' }); if (!d.objectStoreNames.contains('data')) d.createObjectStore('data', { keyPath: 'id' }); if (!d.objectStoreNames.contains('takes')) d.createObjectStore('takes', { keyPath: 'id' }).createIndex('lib', 'lib'); };
         rq.onsuccess = function () { LIB.db = rq.result; LIB.ok = true; res(true); };
         rq.onerror = rq.onblocked = function () { res(false); };
       } catch (e) { res(false); }
@@ -1256,7 +1275,7 @@
     var m, d;
     return libTx(['meta', 'data'], 'readonly', function (tx) { var a = tx.objectStore('meta').get(id), b = tx.objectStore('data').get(id); a.onsuccess = function () { m = a.result; }; b.onsuccess = function () { d = b.result; }; }).then(function () { return m && d ? { meta: m, data: d } : null; });
   }
-  function libDel(ids) { return libTx(['meta', 'data'], 'readwrite', function (tx) { ids.forEach(function (id) { tx.objectStore('meta').delete(id); tx.objectStore('data').delete(id); }); }); }
+  function libDel(ids) { return libTx(['meta', 'data', 'takes'], 'readwrite', function (tx) { ids.forEach(function (id) { tx.objectStore('meta').delete(id); tx.objectStore('data').delete(id); var c = tx.objectStore('takes').index('lib').openKeyCursor(IDBKeyRange.only(id)); c.onsuccess = function () { var cur = c.result; if (cur) { tx.objectStore('takes').delete(cur.primaryKey); cur.continue(); } }; }); }); }
   function libPrune() { return libAll().then(function (a) { var extra = a.slice(LIB_MAX).map(function (x) { return x.id; }); return extra.length ? libDel(extra) : null; }); }
   function libSave() {
     if (!LIB.ok || !result) return Promise.resolve();
@@ -1282,7 +1301,8 @@
     return libAll().then(function (items) {
       $('cardLib').hidden = !items.length;
       var bytes = items.reduce(function (a, x) { return a + (x.bytes || 0); }, 0);
-      $('libInfo').textContent = items.length ? fa(items.length) + ' همراهی ذخیره شده است · حدود ' + fa(Math.max(1, Math.round(bytes / 1048576))) + ' مگابایت' : 'کتابخانه خالی است.';
+      var tk = libTx(['takes'], 'readonly', function (tx) { return tx.objectStore('takes').getAll(); }).catch(function () { return []; });
+      tk.then(function (ta) { ta = ta || []; var tb = ta.reduce(function (a, x) { return a + (x.blob ? x.blob.size : 0); }, 0); $('libInfo').textContent = items.length ? fa(items.length) + ' همراهی ذخیره شده است' + (ta.length ? ' و ' + fa(ta.length) + ' ضبط از خودت' : '') + ' · حدود ' + fa(Math.max(1, Math.round((bytes + tb) / 1048576))) + ' مگابایت' : 'کتابخانه خالی است.'; });
       $('libClear').disabled = !items.length;
       var ul = $('libList'); ul.innerHTML = '';
       items.forEach(function (m) {
@@ -1322,11 +1342,12 @@
   $('libClear').onclick = function () {
     confirmDialog({ title: 'کتابخانه خالی شود؟', text: 'همۀ همراهی‌های ذخیره‌شده از این دستگاه پاک می‌شوند و برنمی‌گردند.', confirm: 'خالی کن', cancel: 'نگه دار', danger: true }).then(function (yes) {
       if (!yes) return;
-      libTx(['meta', 'data'], 'readwrite', function (tx) { tx.objectStore('meta').clear(); tx.objectStore('data').clear(); }).then(function () { toast('کتابخانه خالی شد'); renderLib(); });
+      libTx(['meta', 'data', 'takes'], 'readwrite', function (tx) { tx.objectStore('meta').clear(); tx.objectStore('data').clear(); tx.objectStore('takes').clear(); }).then(function () { toast('کتابخانه خالی شد'); takes = []; if (result) renderTakes(); renderLib(); });
     });
   };
   libOpen().then(function (ok) {
     if (!ok) return;
+    libAll().then(function (a) { var ids = a.map(function (m) { return m.id; }); return libTx(['takes'], 'readwrite', function (tx) { var c = tx.objectStore('takes').openCursor(); c.onsuccess = function () { var cur = c.result; if (cur) { if (ids.indexOf(cur.value.lib) < 0) cur.delete(); cur.continue(); } }; }); }).catch(function () {});
     $('cardLibSet').hidden = false; $('dlLib').hidden = false;
     setSwitch($('libAuto'), getPref('acc_libauto', '1') !== '0');
     renderLib();
