@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.6
+- Instrument picker with an icon for each instrument, grouped by family.
+- Illustrated 4-step guide for getting the MVSEP key (first-run card and Settings).
+- A short "how it works" strip on the first screen; plainer wording, no technical details in the key card.
+
 ## 2.5
 - Responsive layout: side navigation and a two-column workspace on wide screens (waveform on top, score beside the tools), bottom tabs on phones.
 - The practice log is now its own section instead of living in Settings.

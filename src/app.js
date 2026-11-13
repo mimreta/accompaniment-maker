@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var APP_VERSION = '2.5';
+  var APP_VERSION = '2.6';
   var SR = 44100, MAX_CHUNK = 480, OVERLAP = 10, DIRECT_MAX_BYTES = 15e6, DIRECT_MAX_SEC = 590;
   var $ = function (id) { return document.getElementById(id); };
   var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
@@ -207,6 +207,7 @@
     CFG = cfg;
     cfg.instruments.forEach(function (i) { var o = document.createElement('option'); o.value = i.id; o.textContent = i.label; $('instSelect').appendChild(o); });
     var last = getPref('acc_inst', ''); if (last) $('instSelect').value = last;
+    buildInstPicker();
     if (cfg.canSetKey) {
       $('cardKey').hidden = false;
       $('keyHint').textContent = cfg.hasKey ? 'یک کلید ذخیره شده است. برای تغییر، کلید تازه را وارد کنید.' : 'هنوز کلیدی ذخیره نشده است.';
@@ -245,6 +246,46 @@
     }).catch(function (e) { showAlert('startAlert', 'error', 'خطا:', e.message); });
   };
   $('instSelect').onchange = function () { setPref('acc_inst', this.value); };
+  // ---------- instrument picker (cards with icons; the hidden select stays the source of truth) ----------
+  var INST_GROUPS = [['زهی', ['violin', 'viola', 'cello', 'dbass', 'strings']], ['بادی چوبی', ['flute', 'oboe', 'clarinet', 'bassoon', 'sax', 'wind']], ['بادی برنجی', ['trumpet', 'horn', 'trombone', 'tuba']], ['آواز', ['voice']]];
+  function buildInstPicker() {
+    var box = $('instPicker'), byId = {}; box.innerHTML = '';
+    CFG.instruments.forEach(function (i) { byId[i.id] = i; });
+    var seen = {};
+    function group(title, ids) {
+      ids = ids.filter(function (id) { return byId[id]; }); if (!ids.length) return;
+      var g = document.createElement('div'), h = document.createElement('p'), grid = document.createElement('div');
+      g.className = 'app-inst__group'; h.className = 'app-inst__title'; h.textContent = title; grid.className = 'app-inst__grid';
+      ids.forEach(function (id) {
+        seen[id] = 1;
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'app-inst__opt'; b.setAttribute('role', 'radio'); b.setAttribute('data-id', id);
+        b.innerHTML = '<svg class="app-inst__ic" aria-hidden="true"><use href="#in-' + id + '"/></svg><span></span>'; b.lastChild.textContent = byId[id].label;
+        grid.appendChild(b);
+      });
+      g.appendChild(h); g.appendChild(grid); box.appendChild(g);
+    }
+    INST_GROUPS.forEach(function (g) { group(g[0], g[1]); });
+    group('سایر', CFG.instruments.map(function (i) { return i.id; }).filter(function (id) { return !seen[id]; }));
+    syncInstPicker();
+  }
+  function syncInstPicker() {
+    var cur = $('instSelect').value, first = null, hit = false;
+    [].forEach.call($('instPicker').querySelectorAll('.app-inst__opt'), function (b) {
+      var on = b.getAttribute('data-id') === cur; if (!first) first = b; if (on) hit = true;
+      b.setAttribute('aria-checked', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1;
+    });
+    if (!hit && first) first.tabIndex = 0;
+  }
+  $('instPicker').addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('.app-inst__opt') : null; if (!b) return;
+    $('instSelect').value = b.getAttribute('data-id'); setPref('acc_inst', $('instSelect').value); syncInstPicker();
+  });
+  $('instPicker').addEventListener('keydown', function (e) {
+    var k = e.key, d = (k === 'ArrowLeft' || k === 'ArrowDown') ? 1 : (k === 'ArrowRight' || k === 'ArrowUp') ? -1 : 0; if (!d) return;
+    var all = [].slice.call($('instPicker').querySelectorAll('.app-inst__opt')), i = all.indexOf(document.activeElement); if (i < 0) return;
+    e.preventDefault(); var n = all[(i + d + all.length) % all.length]; n.focus(); n.click();
+  });
+
 
   $('btnReset').onclick = function () {
     confirmDialog({ title: 'ترجیحات این دستگاه پاک شود؟', text: 'ساز، سرعت، صدای راهنما، شمارش و ظاهر به حالت اول برمی‌گردد.', confirm: 'بازنشانی', cancel: 'نگه دار', danger: true }).then(function (yes) {
@@ -254,6 +295,7 @@
       $('speed').value = 100; $('guide').value = 0; setSwitch($('ciOn'), false); $('ciBeats').value = 4; $('ciBpm').value = 72;
       $('tuneRec').value = 440; $('tuneMine').value = 440; $('tuneSemi').value = 0; setSwitch($('trOn'), false); $('trEvery').value = 3; $('trStep').value = 5;
       if ($('instSelect').options.length) $('instSelect').selectedIndex = 0;
+      syncInstPicker();
       syncCtrls(); updateTune(); updateTr(); if (result) buildAudio(); else audio.playbackRate = rate();
       toast('ترجیحات بازنشانی شد');
     });

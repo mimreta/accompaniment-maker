@@ -166,3 +166,53 @@ body.is-stage { overflow: hidden; }
 }
 @media (min-width: 1024px) { #view-task:has(#ws[hidden]) { max-width: 760px; margin-inline: auto; } }
 .app-logempty { display: block !important; color: var(--ink-muted); font-size: 14px; }
+
+/* ---- instrument picker */
+.app-inst { display: grid; gap: var(--space-4); margin-top: var(--space-2); }
+.app-inst__title { margin: 0 0 var(--space-2); font-size: 13px; line-height: 20px; font-weight: 700; letter-spacing: 0; color: var(--ink-muted); }
+.app-inst__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); }
+.app-inst__opt { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: var(--space-1); min-height: 92px; padding: var(--space-3) var(--space-1) var(--space-2); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface-raised); color: var(--ink-muted); font: inherit; font-size: 13px; line-height: 18px; text-align: center; cursor: pointer; transition: border-color 120ms, background-color 120ms, color 120ms, transform 120ms; }
+.app-inst__opt:hover { border-color: var(--accent); color: var(--ink); }
+.app-inst__opt:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.app-inst__opt[aria-checked="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); box-shadow: inset 0 0 0 1px var(--accent); font-weight: 700; }
+.app-inst__ic { width: 40px; height: 40px; flex: none; color: var(--accent); }
+@media (min-width: 560px) { .app-inst__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .app-inst__grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+
+/* ---- how it works strip */
+.app-how { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); }
+.app-how li { display: flex; flex-direction: column; align-items: center; gap: var(--space-1); padding: var(--space-4) var(--space-2); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface-raised); text-align: center; position: relative; }
+.app-how__ic { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); margin-bottom: var(--space-1); }
+.app-how__ic .wk-icon { width: 22px; height: 22px; }
+.app-how b { font-size: 14px; line-height: 22px; }
+.app-how li > span:last-child { font-size: 12px; line-height: 18px; color: var(--ink-muted); }
+@media (max-width: 480px) { .app-how { grid-template-columns: 1fr; } .app-how li { flex-direction: row; text-align: start; gap: var(--space-3); padding: var(--space-3); } .app-how li > span:last-child { display: none; } .app-how__ic { margin: 0; flex: none; } }
+@media (min-width: 1024px) { #view-task > .wk-stack > .app-how { max-width: 720px; } }
+.app-how[hidden] { display: none; }
+
+/* ---- illustrated guide */
+.app-guide { list-style: none; margin: var(--space-4) 0; padding: 0; display: grid; gap: var(--space-4); }
+.app-guide__step { display: grid; grid-template-columns: minmax(0, 150px) minmax(0, 1fr); gap: var(--space-4); align-items: center; padding: var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); }
+.app-guide__ill { min-width: 0; }
+.app-ill { display: block; width: 100%; height: auto; direction: ltr; }
+.app-ill text { direction: ltr; unicode-bidi: plaintext; }
+.app-guide__txt { display: grid; gap: var(--space-1); min-width: 0; }
+.app-guide__txt b { display: flex; align-items: center; gap: var(--space-2); font-size: 15px; line-height: 24px; }
+.app-guide__txt > span { font-size: 14px; line-height: 24px; color: var(--ink-muted); }
+.app-guide__n { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex: none; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-size: 13px; line-height: 1; }
+@media (max-width: 420px) { .app-guide__step { grid-template-columns: 108px minmax(0, 1fr); gap: var(--space-3); padding: var(--space-2); } .app-guide__txt b { font-size: 14px; } .app-guide__txt > span { font-size: 13px; line-height: 22px; } }
+@media (min-width: 1024px) { .app-start .app-guide { grid-template-columns: 1fr 1fr; } .app-guide__step { grid-template-columns: 1fr; align-items: start; } }
+.app-details { margin: var(--space-3) 0 var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); }
+.app-details > summary { min-height: 48px; display: flex; align-items: center; padding: 0 var(--space-4); font-weight: 700; font-size: 15px; color: var(--accent); cursor: pointer; list-style: none; }
+.app-details > summary::-webkit-details-marker { display: none; }
+.app-details > summary::before { content: '＋'; margin-inline-end: var(--space-2); }
+.app-details[open] > summary::before { content: '－'; }
+.app-details .app-guide { margin: 0; padding: 0 var(--space-3) var(--space-3); }
+
+/* ---- first impression polish */
+.wk-drop { padding: var(--space-6) var(--space-4); }
+.wk-drop > .wk-icon { width: 52px; height: 52px; padding: 14px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); box-sizing: border-box; }
+.wk-drop:hover, .wk-drop.is-over { border-color: var(--accent); background: var(--accent-soft); }
+.wk-card { transition: box-shadow 160ms; }
+#btnProcess { min-height: 52px; font-size: 16px; }
+.app-wave { background: linear-gradient(180deg, var(--surface-sunken), var(--surface-raised)); }

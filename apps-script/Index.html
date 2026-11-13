@@ -420,12 +420,62 @@ body.is-stage { overflow: hidden; }
 @media (min-width: 1024px) { #view-task:has(#ws[hidden]) { max-width: 760px; margin-inline: auto; } }
 .app-logempty { display: block !important; color: var(--ink-muted); font-size: 14px; }
 
+/* ---- instrument picker */
+.app-inst { display: grid; gap: var(--space-4); margin-top: var(--space-2); }
+.app-inst__title { margin: 0 0 var(--space-2); font-size: 13px; line-height: 20px; font-weight: 700; letter-spacing: 0; color: var(--ink-muted); }
+.app-inst__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); }
+.app-inst__opt { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: var(--space-1); min-height: 92px; padding: var(--space-3) var(--space-1) var(--space-2); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface-raised); color: var(--ink-muted); font: inherit; font-size: 13px; line-height: 18px; text-align: center; cursor: pointer; transition: border-color 120ms, background-color 120ms, color 120ms, transform 120ms; }
+.app-inst__opt:hover { border-color: var(--accent); color: var(--ink); }
+.app-inst__opt:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.app-inst__opt[aria-checked="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); box-shadow: inset 0 0 0 1px var(--accent); font-weight: 700; }
+.app-inst__ic { width: 40px; height: 40px; flex: none; color: var(--accent); }
+@media (min-width: 560px) { .app-inst__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .app-inst__grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+
+/* ---- how it works strip */
+.app-how { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); }
+.app-how li { display: flex; flex-direction: column; align-items: center; gap: var(--space-1); padding: var(--space-4) var(--space-2); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface-raised); text-align: center; position: relative; }
+.app-how__ic { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); margin-bottom: var(--space-1); }
+.app-how__ic .wk-icon { width: 22px; height: 22px; }
+.app-how b { font-size: 14px; line-height: 22px; }
+.app-how li > span:last-child { font-size: 12px; line-height: 18px; color: var(--ink-muted); }
+@media (max-width: 480px) { .app-how { grid-template-columns: 1fr; } .app-how li { flex-direction: row; text-align: start; gap: var(--space-3); padding: var(--space-3); } .app-how li > span:last-child { display: none; } .app-how__ic { margin: 0; flex: none; } }
+@media (min-width: 1024px) { #view-task > .wk-stack > .app-how { max-width: 720px; } }
+.app-how[hidden] { display: none; }
+
+/* ---- illustrated guide */
+.app-guide { list-style: none; margin: var(--space-4) 0; padding: 0; display: grid; gap: var(--space-4); }
+.app-guide__step { display: grid; grid-template-columns: minmax(0, 150px) minmax(0, 1fr); gap: var(--space-4); align-items: center; padding: var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); }
+.app-guide__ill { min-width: 0; }
+.app-ill { display: block; width: 100%; height: auto; direction: ltr; }
+.app-ill text { direction: ltr; unicode-bidi: plaintext; }
+.app-guide__txt { display: grid; gap: var(--space-1); min-width: 0; }
+.app-guide__txt b { display: flex; align-items: center; gap: var(--space-2); font-size: 15px; line-height: 24px; }
+.app-guide__txt > span { font-size: 14px; line-height: 24px; color: var(--ink-muted); }
+.app-guide__n { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex: none; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-size: 13px; line-height: 1; }
+@media (max-width: 420px) { .app-guide__step { grid-template-columns: 108px minmax(0, 1fr); gap: var(--space-3); padding: var(--space-2); } .app-guide__txt b { font-size: 14px; } .app-guide__txt > span { font-size: 13px; line-height: 22px; } }
+@media (min-width: 1024px) { .app-start .app-guide { grid-template-columns: 1fr 1fr; } .app-guide__step { grid-template-columns: 1fr; align-items: start; } }
+.app-details { margin: var(--space-3) 0 var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); }
+.app-details > summary { min-height: 48px; display: flex; align-items: center; padding: 0 var(--space-4); font-weight: 700; font-size: 15px; color: var(--accent); cursor: pointer; list-style: none; }
+.app-details > summary::-webkit-details-marker { display: none; }
+.app-details > summary::before { content: '＋'; margin-inline-end: var(--space-2); }
+.app-details[open] > summary::before { content: '－'; }
+.app-details .app-guide { margin: 0; padding: 0 var(--space-3) var(--space-3); }
+
+/* ---- first impression polish */
+.wk-drop { padding: var(--space-6) var(--space-4); }
+.wk-drop > .wk-icon { width: 52px; height: 52px; padding: 14px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); box-sizing: border-box; }
+.wk-drop:hover, .wk-drop.is-over { border-color: var(--accent); background: var(--accent-soft); }
+.wk-card { transition: box-shadow 160ms; }
+#btnProcess { min-height: 52px; font-size: 16px; }
+.app-wave { background: linear-gradient(180deg, var(--surface-sunken), var(--surface-raised)); }
+
 </style>
 </head>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
   <symbol id="i-wave" viewBox="0 0 24 24"><path d="M4 10v4M8 6v12M12 3v18M16 7v10M20 10v4"/></symbol>
-  <symbol id="i-log" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M8 17h11"/></symbol><symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
+  <symbol id="in-violin" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="6" r="2"/><path d="M24 8v11"/><path d="M24 19c-5.5 0-8.5 2.6-8.5 6 0 2.4 2 3.4 2 5.2S15 33 15 36c0 4.4 4 7 9 7s9-2.6 9-7c0-3-2.5-3.6-2.5-5.8S32.5 27.4 32.5 25c0-3.4-3-6-8.5-6z"/><path d="M20.5 28c.8 1.4.8 4 0 5.4M27.5 28c-.8 1.4-.8 4 0 5.4"/><path d="M21.5 38.5h5"/><path d="M40 7l-3 34"/></symbol><symbol id="in-viola" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="6" r="2"/><path d="M24 8v11"/><path d="M24 19c-5.5 0-8.5 2.6-8.5 6 0 2.4 2 3.4 2 5.2S15 33 15 36c0 4.4 4 7 9 7s9-2.6 9-7c0-3-2.5-3.6-2.5-5.8S32.5 27.4 32.5 25c0-3.4-3-6-8.5-6z"/><path d="M20.5 28c.8 1.4.8 4 0 5.4M27.5 28c-.8 1.4-.8 4 0 5.4"/><path d="M21.5 38.5h5"/><path d="M24 12l-4-2M24 12l4-2" opacity=".0"/><path d="M36 14c3 8 3 18 0 26"/></symbol><symbol id="in-cello" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="5" r="2"/><path d="M24 7v10"/><path d="M24 17c-6.5 0-10.5 3-10.5 7 0 2.6 2.5 3.6 2.5 6s-4 3-4 6.5c0 4.5 5 7.5 12 7.5s12-3 12-7.5c0-3.5-4-4.1-4-6.5s2.5-3.4 2.5-6c0-4-4-7-10.5-7z"/><path d="M19.5 27.5c1 1.6 1 4.6 0 6.2M28.5 27.5c-1 1.6-1 4.6 0 6.2"/><path d="M24 44v3"/></symbol><symbol id="in-dbass" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="4" r="2"/><path d="M24 6v12"/><path d="M24 18c-4.5 0-8 1.5-8 4.8 0 2.4 1.6 3.4 1.6 5.4 0 1.4-4.4 3-4.4 8 0 4.2 5.4 7 10.8 7s10.8-2.8 10.8-7c0-5-4.4-6.6-4.4-8 0-2 1.6-3 1.6-5.4C32 19.5 28.5 18 24 18z"/><path d="M20 28c.8 1.4.8 4 0 5.4M28 28c-.8 1.4-.8 4 0 5.4"/><path d="M24 44v3"/></symbol><symbol id="in-flute" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="20.5" width="44" height="7" rx="3.5" transform="rotate(-30 24 24)"/><circle cx="12" cy="31" r="1.2"/><circle cx="19" cy="27" r="1.2"/><circle cx="26" cy="23" r="1.2"/><circle cx="33" cy="19" r="1.2"/></symbol><symbol id="in-oboe" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 40L34 9"/><path d="M5 44l5-4M34 9l4-3"/><path d="M8 38l-4 4 5 5 4-4"/><circle cx="17" cy="31" r="1.2"/><circle cx="22" cy="25" r="1.2"/><circle cx="27" cy="18.5" r="1.2"/></symbol><symbol id="in-clarinet" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M31 5l6 6"/><path d="M33 8l-22 26"/><path d="M37 11L15 37"/><path d="M8 33c-2 3-4 6-3 9 3 1 6-1 9-3"/><circle cx="17" cy="27" r="1.2"/><circle cx="22" cy="21" r="1.2"/><circle cx="27" cy="15" r="1.2"/></symbol><symbol id="in-bassoon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 5v32c0 4 3 6 6 6s6-2 6-6V9"/><path d="M20 5v31c0 1 .6 2 1 2s1-1 1-2V9"/><path d="M26 9c1-3 4-4 7-4"/><circle cx="17" cy="14" r="1.2"/><circle cx="17" cy="21" r="1.2"/><circle cx="17" cy="28" r="1.2"/></symbol><symbol id="in-sax" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c4-2 8-1 10 3"/><path d="M20 8l5 26"/><path d="M26 7l5 26"/><path d="M25 34c0 7 13 8 14-1"/><path d="M31 33c0 3 4 3 4 0"/><path d="M38 33l-3-8M43 31l3-8"/><circle cx="23" cy="17" r="1.2"/><circle cx="24.5" cy="24" r="1.2"/></symbol><symbol id="in-trumpet" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h22"/><path d="M3 26h22"/><path d="M25 20c8 0 8-6 14-6 4 0 6 2 6 5v10c0 3-2 5-6 5-6 0-6-6-14-6"/><path d="M12 20v-5M18 20v-5"/><circle cx="12" cy="13" r="1.4"/><circle cx="18" cy="13" r="1.4"/></symbol><symbol id="in-horn" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="22" cy="24" r="14"/><circle cx="22" cy="24" r="8"/><path d="M36 24c4 0 7 2 8 6"/><path d="M44 30c1 4 1 9-3 12"/><path d="M8 20l-5-3"/><circle cx="2.5" cy="16.5" r="1.4"/></symbol><symbol id="in-trombone" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h30M4 27h30"/><path d="M4 20v7"/><path d="M34 20l11-7v21l-11-7"/><path d="M10 27v8h18v-8"/><path d="M10 14l-4 3"/></symbol><symbol id="in-tuba" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5h8"/><path d="M16 5v8"/><circle cx="20" cy="28" r="14"/><circle cx="20" cy="28" r="7"/><path d="M34 28c4 0 6-6 8-12"/><path d="M36 14l8-1"/></symbol><symbol id="in-voice" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="17" y="4" width="14" height="22" rx="7"/><path d="M11 22c0 7 5 12 13 12s13-5 13-12"/><path d="M24 34v9M17 43h14"/></symbol><symbol id="in-strings" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12h36M6 20h36M6 28h36M6 36h36" opacity=".45"/><path d="M8 42L40 6"/><path d="M6 44l4-4" /></symbol><symbol id="in-wind" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="16" width="8" height="26" rx="2"/><rect x="20" y="6" width="8" height="36" rx="2"/><rect x="33" y="22" width="8" height="20" rx="2"/><circle cx="11" cy="22" r="1.1"/><circle cx="24" cy="14" r="1.1"/><circle cx="37" cy="28" r="1.1"/></symbol><symbol id="i-log" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M8 17h11"/></symbol><symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
   <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
   <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5h.01"/></symbol>
@@ -453,14 +503,20 @@ body.is-stage { overflow: hidden; }
     <h1 class="wk-screen__title" id="h-task">ساخت همراهی</h1>
     <p class="wk-screen__lead">اکامپانیمان بساز: ساز خودت را از ضبط حذف کن و جایش بنواز.</p>
     <div class="wk-stack">
+      <ol class="app-how" id="appHow" aria-label="چطور کار می‌کند">
+        <li><span class="app-how__ic"><svg class="wk-icon" aria-hidden="true"><use href="#i-upload"/></svg></span><b>فایل را بده</b><span>هر ضبطی که ساز تو در آن هست</span></li>
+        <li><span class="app-how__ic"><svg class="wk-icon" aria-hidden="true"><use href="#i-wave"/></svg></span><b>ساز تو حذف می‌شود</b><span>بقیۀ گروه می‌ماند</span></li>
+        <li><span class="app-how__ic"><svg class="wk-icon" aria-hidden="true"><use href="#i-play"/></svg></span><b>جایش بنواز</b><span>با هر سرعتی که بخواهی</span></li>
+      </ol>
+
       <div class="wk-card app-start" id="cardStart" hidden>
         <h2 class="wk-card__heading"><span class="wk-steps__n">۱</span>قدم اول: کلید MVSEP</h2>
-        <p class="wk-card__text">جداسازی روی سایت MVSEP انجام می‌شود. یک حساب رایگان و کلید API آن را فقط یک بار لازم داری.</p>
-        <ol class="wk-notes app-startsteps"><li>در <span dir="ltr">mvsep.com</span> وارد شو یا حساب بساز.</li><li>از منوی بالای سایت «API» را باز کن و کلید را کپی کن.</li><li>کلید را همین‌جا بچسبان.</li></ol>
+        <p class="wk-card__text">جداسازی ساز با سرویس MVSEP انجام می‌شود. حساب رایگان و یک کلید لازم داری؛ ۴ قدم ساده:</p>
+        <ol class="app-guide"><li class="app-guide__step"><div class="app-guide__ill"><svg class="app-ill" viewBox="0 0 160 104" aria-hidden="true"><rect x="6" y="6" width="148" height="92" rx="8" fill="var(--surface-raised)" stroke="var(--line)"/><path d="M6 24h148" stroke="var(--line)"/><circle cx="16" cy="15" r="2.2" fill="var(--line)"/><circle cx="24" cy="15" r="2.2" fill="var(--line)"/><circle cx="32" cy="15" r="2.2" fill="var(--line)"/><rect x="44" y="9" width="84" height="12" rx="6" fill="var(--surface-sunken)"/><text x="86" y="18" text-anchor="middle" font-size="7.5" fill="var(--ink-muted)" font-family="monospace">mvsep.com</text><rect x="20" y="36" width="64" height="7" rx="3.5" fill="var(--line)"/><rect x="20" y="49" width="44" height="5" rx="2.5" fill="var(--line)" opacity=".6"/><rect x="20" y="64" width="56" height="18" rx="9" fill="var(--accent)"/><text x="48" y="76" text-anchor="middle" font-size="7.5" font-weight="700" fill="var(--on-accent)">Sign up</text><circle cx="124" cy="52" r="9" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/><path d="M114 76c1-7 5-10 10-10s9 3 10 10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/><path d="M62 74l0 13 3.2-3.2 2.8 6 3-1.3-2.8-5.8h4.6z" fill="var(--ink)" stroke="var(--surface-raised)" stroke-width="1.2"/></svg></div><div class="app-guide__txt"><b><span class="app-guide__n">۱</span>حساب رایگان بساز</b><span>به <span dir="ltr">mvsep.com</span> برو و با ایمیلت ثبت‌نام کن. رایگان است.</span></div></li><li class="app-guide__step"><div class="app-guide__ill"><svg class="app-ill" viewBox="0 0 160 104" aria-hidden="true"><rect x="6" y="6" width="148" height="92" rx="8" fill="var(--surface-raised)" stroke="var(--line)"/><path d="M6 24h148" stroke="var(--line)"/><circle cx="16" cy="15" r="2.2" fill="var(--line)"/><circle cx="24" cy="15" r="2.2" fill="var(--line)"/><circle cx="32" cy="15" r="2.2" fill="var(--line)"/><rect x="44" y="9" width="84" height="12" rx="6" fill="var(--surface-sunken)"/><text x="86" y="18" text-anchor="middle" font-size="7.5" fill="var(--ink-muted)" font-family="monospace">mvsep.com</text><rect x="14" y="31" width="22" height="9" rx="4.5" fill="var(--line)"/><rect x="42" y="31" width="22" height="9" rx="4.5" fill="var(--line)"/><rect x="70" y="31" width="22" height="9" rx="4.5" fill="var(--accent)"/><text x="81" y="38" text-anchor="middle" font-size="7.5" font-weight="700" fill="var(--on-accent)">API</text><rect x="66" y="27" width="30" height="17" rx="8.5" fill="none" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="2.5 2.5"/><rect x="20" y="56" width="90" height="6" rx="3" fill="var(--line)"/><rect x="20" y="68" width="70" height="5" rx="2.5" fill="var(--line)" opacity=".6"/><rect x="20" y="78" width="80" height="5" rx="2.5" fill="var(--line)" opacity=".6"/><path d="M80 38l0 13 3.2-3.2 2.8 6 3-1.3-2.8-5.8h4.6z" fill="var(--ink)" stroke="var(--surface-raised)" stroke-width="1.2"/></svg></div><div class="app-guide__txt"><b><span class="app-guide__n">۲</span>صفحۀ API را باز کن</b><span>از منوی بالای سایت «API» را بزن.</span></div></li><li class="app-guide__step"><div class="app-guide__ill"><svg class="app-ill" viewBox="0 0 160 104" aria-hidden="true"><rect x="6" y="6" width="148" height="92" rx="8" fill="var(--surface-raised)" stroke="var(--line)"/><path d="M6 24h148" stroke="var(--line)"/><circle cx="16" cy="15" r="2.2" fill="var(--line)"/><circle cx="24" cy="15" r="2.2" fill="var(--line)"/><circle cx="32" cy="15" r="2.2" fill="var(--line)"/><rect x="44" y="9" width="84" height="12" rx="6" fill="var(--surface-sunken)"/><text x="86" y="18" text-anchor="middle" font-size="7.5" fill="var(--ink-muted)" font-family="monospace">mvsep.com</text><rect x="18" y="34" width="34" height="5" rx="2.5" fill="var(--line)"/><rect x="18" y="46" width="94" height="20" rx="6" fill="var(--surface-sunken)" stroke="var(--border-strong)"/><text x="26" y="60" font-size="8" fill="var(--ink)" font-family="monospace" text-anchor="start">a1b2c3d4e5f6••</text><rect x="118" y="46" width="26" height="20" rx="6" fill="var(--accent)"/><rect x="126" y="52" width="9" height="9" rx="1.8" fill="none" stroke="var(--on-accent)" stroke-width="1.5"/><path d="M129 49h7a1.8 1.8 0 011.8 1.8v7" fill="none" stroke="var(--on-accent)" stroke-width="1.5"/><rect x="18" y="76" width="50" height="9" rx="4.5" fill="var(--accent-soft)"/><path d="M130 60l0 13 3.2-3.2 2.8 6 3-1.3-2.8-5.8h4.6z" fill="var(--ink)" stroke="var(--surface-raised)" stroke-width="1.2"/></svg></div><div class="app-guide__txt"><b><span class="app-guide__n">۳</span>کلید را کپی کن</b><span>کنار کلید دکمۀ کپی هست. اگر کلیدی نداری، «کلید تازه بساز» را بزن.</span></div></li><li class="app-guide__step"><div class="app-guide__ill"><svg class="app-ill" viewBox="0 0 160 104" aria-hidden="true"><rect x="6" y="6" width="148" height="92" rx="12" fill="var(--surface-raised)" stroke="var(--line)"/><rect x="62" y="20" width="76" height="8" rx="4" fill="var(--ink)" opacity=".85"/><rect x="22" y="40" width="116" height="20" rx="6" fill="var(--surface-sunken)" stroke="var(--accent)" stroke-width="1.6"/><text x="30" y="54" font-size="8" fill="var(--ink)" font-family="monospace" text-anchor="start">a1b2c3d4e5f6••</text><rect x="22" y="68" width="116" height="20" rx="10" fill="var(--accent)"/><text x="80" y="82" text-anchor="middle" font-size="9" font-weight="700" fill="var(--on-accent)">ذخیره</text><circle cx="132" cy="22" r="9" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><path d="M127.5 22l3 3 5.5-6" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="app-guide__txt"><b><span class="app-guide__n">۴</span>اینجا بچسبان</b><span>کلید را در کادر بچسبان و «ذخیره» را بزن. فقط یک بار لازم است.</span></div></li></ol>
         <div id="startAlert"></div>
-        <div class="wk-field"><label class="wk-field__label" for="startKey">کلید API</label><input class="wk-field__input" type="password" id="startKey" dir="ltr" autocomplete="off" spellcheck="false" placeholder="paste your key"></div>
+        <div class="wk-field"><label class="wk-field__label" for="startKey">کلیدت را اینجا بچسبان</label><input class="wk-field__input" type="password" id="startKey" dir="ltr" autocomplete="off" spellcheck="false" placeholder="paste your key"></div>
         <div class="wk-actions"><button class="wk-btn wk-btn--primary wk-btn--block" id="btnStartKey">ذخیره و ادامه</button></div>
-        <p class="wk-note">کلید فقط در همین مرورگر می‌ماند و از طریق ریلی بدون ذخیره به MVSEP می‌رسد.</p>
+        <p class="wk-note">کلید فقط روی همین دستگاه می‌ماند.</p>
       </div>
 
       <div class="wk-card" id="cardInput">
@@ -474,8 +530,9 @@ body.is-stage { overflow: hidden; }
             <input type="file" id="fileInput" accept="audio/*,.mp3,.wav,.flac,.m4a,.ogg,.aac" hidden>
           </div>
           <div class="wk-field">
-            <label class="wk-field__label" for="instSelect">سازی که می‌نوازی (برای حذف)</label>
-            <div class="wk-select-wrap"><select class="wk-field__input wk-select" id="instSelect"></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div>
+            <span class="wk-field__label" id="instLabel">سازی که می‌نوازی (همین از ضبط حذف می‌شود)</span>
+            <div class="app-inst" id="instPicker" role="radiogroup" aria-labelledby="instLabel"></div>
+            <div class="wk-select-wrap" hidden><select class="wk-field__input wk-select" id="instSelect" tabindex="-1" aria-hidden="true"></select></div>
           </div>
           <div>
             <button class="wk-btn wk-btn--primary wk-btn--block" id="btnProcess" disabled>ساختن همراهی</button>
@@ -715,19 +772,15 @@ body.is-stage { overflow: hidden; }
 
       <div class="wk-card" id="cardKey" hidden>
         <h2 class="wk-card__title">کلید API سایت MVSEP</h2>
-        <p class="wk-card__text">برای جداسازی به یک حساب رایگان در سایت MVSEP و کلید API آن نیاز داری. فقط یک بار لازم است:</p>
-        <ol class="wk-notes" style="margin:var(--space-3) 0 var(--space-4)">
-          <li>در <span dir="ltr">mvsep.com</span> حساب رایگان بساز و وارد شو.</li>
-          <li>از منوی بالای سایت «API» را باز کن (<span dir="ltr">mvsep.com/user-api</span>) و کلید را کپی کن. اگر کلیدت قدیمی است، همان‌جا کلید تازه بساز.</li>
-          <li>کلید را در کادر زیر بچسبان و «ذخیره» را بزن.</li>
-        </ol>
+        <p class="wk-card__text">برای جداسازی به یک حساب رایگان در سایت MVSEP و کلید آن نیاز داری. فقط یک بار لازم است.</p>
+        <details class="app-details"><summary>راهنمای تصویری گرفتن کلید</summary><ol class="app-guide"><li class="app-guide__step"><div class="app-guide__ill"><svg class="app-ill" viewBox="0 0 160 104" aria-hidden="true"><rect x="6" y="6" width="148" height="92" rx="8" fill="var(--surface-raised)" stroke="var(--line)"/><path d="M6 24h148" stroke="var(--line)"/><circle cx="16" cy="15" r="2.2" fill="var(--line)"/><circle cx="24" cy="15" r="2.2" fill="var(--line)"/><circle cx="32" cy="15" r="2.2" fill="var(--line)"/><rect x="44" y="9" width="84" height="12" rx="6" fill="var(--surface-sunken)"/><text x="86" y="18" text-anchor="middle" font-size="7.5" fill="var(--ink-muted)" font-family="monospace">mvsep.com</text><rect x="20" y="36" width="64" height="7" rx="3.5" fill="var(--line)"/><rect x="20" y="49" width="44" height="5" rx="2.5" fill="var(--line)" opacity=".6"/><rect x="20" y="64" width="56" height="18" rx="9" fill="var(--accent)"/><text x="48" y="76" text-anchor="middle" font-size="7.5" font-weight="700" fill="var(--on-accent)">Sign up</text><circle cx="124" cy="52" r="9" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/><path d="M114 76c1-7 5-10 10-10s9 3 10 10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/><path d="M62 74l0 13 3.2-3.2 2.8 6 3-1.3-2.8-5.8h4.6z" fill="var(--ink)" stroke="var(--surface-raised)" stroke-width="1.2"/></svg></div><div class="app-guide__txt"><b><span class="app-guide__n">۱</span>حساب رایگان بساز</b><span>به <span dir="ltr">mvsep.com</span> برو و با ایمیلت ثبت‌نام کن. رایگان است.</span></div></li><li class="app-guide__step"><div class="app-guide__ill"><svg class="app-ill" viewBox="0 0 160 104" aria-hidden="true"><rect x="6" y="6" width="148" height="92" rx="8" fill="var(--surface-raised)" stroke="var(--line)"/><path d="M6 24h148" stroke="var(--line)"/><circle cx="16" cy="15" r="2.2" fill="var(--line)"/><circle cx="24" cy="15" r="2.2" fill="var(--line)"/><circle cx="32" cy="15" r="2.2" fill="var(--line)"/><rect x="44" y="9" width="84" height="12" rx="6" fill="var(--surface-sunken)"/><text x="86" y="18" text-anchor="middle" font-size="7.5" fill="var(--ink-muted)" font-family="monospace">mvsep.com</text><rect x="14" y="31" width="22" height="9" rx="4.5" fill="var(--line)"/><rect x="42" y="31" width="22" height="9" rx="4.5" fill="var(--line)"/><rect x="70" y="31" width="22" height="9" rx="4.5" fill="var(--accent)"/><text x="81" y="38" text-anchor="middle" font-size="7.5" font-weight="700" fill="var(--on-accent)">API</text><rect x="66" y="27" width="30" height="17" rx="8.5" fill="none" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="2.5 2.5"/><rect x="20" y="56" width="90" height="6" rx="3" fill="var(--line)"/><rect x="20" y="68" width="70" height="5" rx="2.5" fill="var(--line)" opacity=".6"/><rect x="20" y="78" width="80" height="5" rx="2.5" fill="var(--line)" opacity=".6"/><path d="M80 38l0 13 3.2-3.2 2.8 6 3-1.3-2.8-5.8h4.6z" fill="var(--ink)" stroke="var(--surface-raised)" stroke-width="1.2"/></svg></div><div class="app-guide__txt"><b><span class="app-guide__n">۲</span>صفحۀ API را باز کن</b><span>از منوی بالای سایت «API» را بزن.</span></div></li><li class="app-guide__step"><div class="app-guide__ill"><svg class="app-ill" viewBox="0 0 160 104" aria-hidden="true"><rect x="6" y="6" width="148" height="92" rx="8" fill="var(--surface-raised)" stroke="var(--line)"/><path d="M6 24h148" stroke="var(--line)"/><circle cx="16" cy="15" r="2.2" fill="var(--line)"/><circle cx="24" cy="15" r="2.2" fill="var(--line)"/><circle cx="32" cy="15" r="2.2" fill="var(--line)"/><rect x="44" y="9" width="84" height="12" rx="6" fill="var(--surface-sunken)"/><text x="86" y="18" text-anchor="middle" font-size="7.5" fill="var(--ink-muted)" font-family="monospace">mvsep.com</text><rect x="18" y="34" width="34" height="5" rx="2.5" fill="var(--line)"/><rect x="18" y="46" width="94" height="20" rx="6" fill="var(--surface-sunken)" stroke="var(--border-strong)"/><text x="26" y="60" font-size="8" fill="var(--ink)" font-family="monospace" text-anchor="start">a1b2c3d4e5f6••</text><rect x="118" y="46" width="26" height="20" rx="6" fill="var(--accent)"/><rect x="126" y="52" width="9" height="9" rx="1.8" fill="none" stroke="var(--on-accent)" stroke-width="1.5"/><path d="M129 49h7a1.8 1.8 0 011.8 1.8v7" fill="none" stroke="var(--on-accent)" stroke-width="1.5"/><rect x="18" y="76" width="50" height="9" rx="4.5" fill="var(--accent-soft)"/><path d="M130 60l0 13 3.2-3.2 2.8 6 3-1.3-2.8-5.8h4.6z" fill="var(--ink)" stroke="var(--surface-raised)" stroke-width="1.2"/></svg></div><div class="app-guide__txt"><b><span class="app-guide__n">۳</span>کلید را کپی کن</b><span>کنار کلید دکمۀ کپی هست. اگر کلیدی نداری، «کلید تازه بساز» را بزن.</span></div></li><li class="app-guide__step"><div class="app-guide__ill"><svg class="app-ill" viewBox="0 0 160 104" aria-hidden="true"><rect x="6" y="6" width="148" height="92" rx="12" fill="var(--surface-raised)" stroke="var(--line)"/><rect x="62" y="20" width="76" height="8" rx="4" fill="var(--ink)" opacity=".85"/><rect x="22" y="40" width="116" height="20" rx="6" fill="var(--surface-sunken)" stroke="var(--accent)" stroke-width="1.6"/><text x="30" y="54" font-size="8" fill="var(--ink)" font-family="monospace" text-anchor="start">a1b2c3d4e5f6••</text><rect x="22" y="68" width="116" height="20" rx="10" fill="var(--accent)"/><text x="80" y="82" text-anchor="middle" font-size="9" font-weight="700" fill="var(--on-accent)">ذخیره</text><circle cx="132" cy="22" r="9" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><path d="M127.5 22l3 3 5.5-6" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="app-guide__txt"><b><span class="app-guide__n">۴</span>اینجا بچسبان</b><span>کلید را در کادر بچسبان و «ذخیره» را بزن. فقط یک بار لازم است.</span></div></li></ol></details>
         <div class="wk-block">
           <div id="keyAlert"></div>
           <div class="wk-field">
             <label class="wk-field__label" for="keyInput">کلید API</label>
             <input class="wk-field__input" type="text" id="keyInput" dir="ltr" autocomplete="off" spellcheck="false">
             <p class="wk-field__hint" id="keyHint"></p>
-            <p class="wk-field__hint" id="keyNote" hidden>کلید فقط در همین مرورگر ذخیره می‌شود و برای هر درخواست از طریق سرور واسطِ بدون‌ذخیره به MVSEP می‌رسد.</p>
+            <p class="wk-field__hint" id="keyNote" hidden>کلید فقط روی همین دستگاه ذخیره می‌شود.</p>
           </div>
           <div class="wk-field" id="relayField" hidden>
             <label class="wk-field__label" for="relayInput">آدرس سرور واسط (فقط اگر نسخۀ خودت را میزبانی می‌کنی)</label>
@@ -751,7 +804,7 @@ body.is-stage { overflow: hidden; }
     <div class="wk-aboutscreen">
       <svg class="wk-about__mark" viewBox="0 0 96 96" aria-hidden="true"><use href="#app-icon"/></svg>
       <p class="wk-about__name">همراهی‌ساز</p>
-      <p class="wk-about__version" dir="ltr">Accompaniment Maker · v2.5</p>
+      <p class="wk-about__version" dir="ltr">Accompaniment Maker · v2.6</p>
       <p class="wk-about__purpose">اکامپانیمان بساز: ساز خودت را از ضبط حذف کن و جایش بنواز.</p>
       <div class="wk-aboutscreen__cards">
         <div class="wk-card"><h2 class="wk-card__title">اکامپانیمان یعنی چه؟</h2><p class="wk-card__text">«اکامپانیمان» (accompaniment؛ در فارسی همراهی) یعنی بقیۀ موسیقی، بدون سازی که خودت می‌نوازی. ارکستر باشد یا گروه، پیانو یا هر ترکیب دیگر: همۀ سازها را می‌شنوی جز یکی، مثلاً همۀ ارکستر جز ویولنسل، و ویولنسل را خودت می‌نوازی. این روش از سال ۱۹۵۰ با نام Music Minus One (موسیقی منهای یک) برای تمرین به کار می‌رود.</p></div>
@@ -761,7 +814,7 @@ body.is-stage { overflow: hidden; }
         <div class="wk-about__features"><h3>امکانات</h3><ul><li><strong>حذف ساز تو</strong><span>یکی از ۱۶ گزینه، از ویولنسل و ویولن تا فلوت و آواز؛ بقیۀ سازهای اثر می‌مانند.</span></li><li><strong>فایل بلند</strong><span>ضبط طولانی تکه‌تکه پردازش می‌شود و تکه‌ها با هم‌پوشانی به هم وصل می‌شوند تا درز شنیده نشود.</span></li><li><strong>سرعت دلخواه</strong><span>از ۵۰٪ تا ۱۲۵٪؛ سرعت عوض می‌شود، کوک عوض نمی‌شود.</span></li><li><strong>تکرار یک بخش</strong><span>روی موج بکش یا با «شروع» و «پایان» بخش را علامت بزن تا مدام تکرار شود.</span></li><li><strong>صدای راهنما</strong><span>ساز خودت را آرام زیر بقیۀ اثر می‌شنوی تا جایت را گم نکنی.</span></li><li><strong>نشانه‌های نام‌دار</strong><span>جاهای مهم قطعه را با حرف‌های تمرین (A، B، …) علامت بزن و با یک ضربه به آن‌جا برو.</span></li><li><strong>افزایش تدریجی سرعت</strong><span>بخش تکرارشونده را آهسته شروع کن و هر چند دور خودکار تندتر شود تا به سرعت اصلی برسد.</span></li><li><strong>کوک و گام</strong><span>ضبط ۴۴۲ هرتز و سازت ۴۴۰؟ کوک پخش را با سازت هماهنگ کن یا گام را نیم‌پرده جابه‌جا کن.</span></li><li><strong>مترونوم و نت مرجع</strong><span>ضرب با تمپوی دلخواه (با «تمپو با ضربه» هم می‌شود تعیینش کرد) و نتی که بر پایۀ کوک سازت ساخته می‌شود تا سازت را کوک کنی.</span></li><li><strong>ضبط خودت</strong><span>با اکامپانیمان بنواز و خودت را ضبط کن، بعد ضبط را هم‌زمان با اکامپانیمان گوش بده؛ تأخیر را هم می‌شود جبران کرد. فقط در نسخۀ وب اپ.</span></li>
 <li><strong>نت پارت تو</strong><span>PDF پارت خودت را کنار تمرین باز کن؛ با رسیدن پخش به هر نشانه، صفحۀ مربوط خودکار ورق می‌خورد؛ حالت تمام‌صفحه، ورق‌زدن با پدال بلوتوثی و یادداشت‌نویسی روی نت هم دارد.</span></li><li><strong>دفتر تمرین</strong><span>در بخش «دفتر تمرین» می‌بینی هر روز و در هفتۀ اخیر چقدر تمرین کرده‌ای و چند روز پشت‌سرهم بوده است.</span></li><li><strong>شمارش قبل از شروع</strong><span>چند ضرب با تمپوی دلخواه می‌شمارد و بعد پخش می‌شود.</span></li><li><strong>دانلود</strong><span>اکامپانیمان (اثر بدون ساز تو) به MP3 یا WAV (با صدای راهنمای فعلی) و ساز جداشده به MP3.</span></li><li><strong>ظاهر روشن و تیره</strong><span>خودکار مطابق گوشی، یا هر کدام را خودت انتخاب کن.</span></li><li><strong>موبایل و کامپیوتر</strong><span>روی گوشی با لمس و کشیدن، روی کامپیوتر با کلیدهای میان‌بر.</span></li></ul></div>
         <div class="wk-card"><h2 class="wk-card__title">کلیدهای میان‌بر</h2><ul class="wk-keys"><li><span>پخش / توقف</span><span class="wk-keys__k"><kbd class="wk-kbd">Space</kbd></span></li><li><span>۵ ثانیه عقب / جلو</span><span class="wk-keys__k"><kbd class="wk-kbd">←</kbd><kbd class="wk-kbd">→</kbd></span></li><li><span>شروع / پایان تکرار</span><span class="wk-keys__k"><kbd class="wk-kbd">[</kbd><kbd class="wk-kbd">]</kbd></span></li><li><span>افزودن نشانه</span><span class="wk-keys__k"><kbd class="wk-kbd">M</kbd></span></li><li><span>صفحۀ قبل / بعد</span><span class="wk-keys__k"><kbd class="wk-kbd">PgUp</kbd><kbd class="wk-kbd">PgDn</kbd></span></li><li><span>خروج از تمام‌صفحه</span><span class="wk-keys__k"><kbd class="wk-kbd">Esc</kbd></span></li></ul></div>
-        <div class="wk-card"><h2 class="wk-card__title">نکته‌ها</h2><ul class="wk-notes"><li><strong>جای نوازندگان واقعی را نمی‌گیرد:</strong> اکامپانیمان همان اجرای ضبط است و با ریتم و بیان همان نوازندگان می‌رود، نه با تو. برای تمرین عالی است؛ برای اجرای زندۀ جدی با گروه یا همراه‌نواز واقعی هماهنگ شو.</li><li><strong>کیفیت جداسازی:</strong> بسته به ضبط، ممکن است ردی از ساز تو در اکامپانیمان بماند؛ هرچه سازهای هم‌صدا بیشترند (مثلاً چند ویولن در یک گروه)، جداکردن سخت‌تر است.</li><li><strong>حریم خصوصی:</strong> فایل تو از طریق یک سرور واسط که چیزی نگه نمی‌دارد به سرویس MVSEP فرستاده می‌شود (در نسخۀ وب، کلید API تو فقط در مرورگر خودت می‌ماند و همراه همین درخواست می‌رود). اپ جایی ذخیره‌اش نمی‌کند و نتیجه فقط در حافظۀ همین صفحه می‌ماند؛ با بستن صفحه از بین می‌رود. نگه‌داری فایل در MVSEP تابع قوانین خود آن سرویس است.</li><li><strong>ضبط با میکروفون:</strong> ضبط‌های تو فقط در حافظۀ همین صفحه می‌مانند و به هیچ سرویسی فرستاده نمی‌شوند؛ با بستن صفحه از بین می‌روند (اگر خواستی، دانلودشان کن).</li>
+        <div class="wk-card"><h2 class="wk-card__title">نکته‌ها</h2><ul class="wk-notes"><li><strong>جای نوازندگان واقعی را نمی‌گیرد:</strong> اکامپانیمان همان اجرای ضبط است و با ریتم و بیان همان نوازندگان می‌رود، نه با تو. برای تمرین عالی است؛ برای اجرای زندۀ جدی با گروه یا همراه‌نواز واقعی هماهنگ شو.</li><li><strong>کیفیت جداسازی:</strong> بسته به ضبط، ممکن است ردی از ساز تو در اکامپانیمان بماند؛ هرچه سازهای هم‌صدا بیشترند (مثلاً چند ویولن در یک گروه)، جداکردن سخت‌تر است.</li><li><strong>حریم خصوصی:</strong> فایل تو فقط برای جداسازی به سرویس MVSEP فرستاده می‌شود و جای دیگری ذخیره نمی‌شود. کلید و ترجیحاتت فقط روی همین دستگاه می‌مانند. نگه‌داری فایل در MVSEP تابع قوانین خود آن سرویس است.</li><li><strong>ضبط با میکروفون:</strong> ضبط‌های تو فقط در حافظۀ همین صفحه می‌مانند و به هیچ سرویسی فرستاده نمی‌شوند؛ با بستن صفحه از بین می‌روند (اگر خواستی، دانلودشان کن).</li>
 <li><strong>PDF پارت و یادداشت‌ها:</strong> PDF فقط در مرورگر خودت باز می‌شود و به هیچ سرویسی فرستاده نمی‌شود. یادداشت‌های روی نت و دفتر تمرین فقط روی همین دستگاه می‌مانند و با پاک‌شدن داده‌های مرورگر از بین می‌روند.</li><li><strong>حق استفاده:</strong> فقط ضبط‌هایی را بده که حق استفاده‌شان را داری.</li><li><strong>محدودیت:</strong> سرویس رایگان MVSEP سقف خودش را دارد و وقتی صف شلوغ است باید صبر کنی.</li><li><strong>ساخته‌شده با:</strong> MVSEP برای جداسازی، lamejs برای MP3، PDF.js (Mozilla) برای نمایش PDF و فونت وزیرمتن.</li></ul></div>
       </div>
       <footer class="wk-signature">
@@ -972,7 +1025,7 @@ var AccCore = (function () {
 <script>
 (function () {
   'use strict';
-  var APP_VERSION = '2.5';
+  var APP_VERSION = '2.6';
   var SR = 44100, MAX_CHUNK = 480, OVERLAP = 10, DIRECT_MAX_BYTES = 15e6, DIRECT_MAX_SEC = 590;
   var $ = function (id) { return document.getElementById(id); };
   var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
@@ -1179,6 +1232,7 @@ var AccCore = (function () {
     CFG = cfg;
     cfg.instruments.forEach(function (i) { var o = document.createElement('option'); o.value = i.id; o.textContent = i.label; $('instSelect').appendChild(o); });
     var last = getPref('acc_inst', ''); if (last) $('instSelect').value = last;
+    buildInstPicker();
     if (cfg.canSetKey) {
       $('cardKey').hidden = false;
       $('keyHint').textContent = cfg.hasKey ? 'یک کلید ذخیره شده است. برای تغییر، کلید تازه را وارد کنید.' : 'هنوز کلیدی ذخیره نشده است.';
@@ -1217,6 +1271,46 @@ var AccCore = (function () {
     }).catch(function (e) { showAlert('startAlert', 'error', 'خطا:', e.message); });
   };
   $('instSelect').onchange = function () { setPref('acc_inst', this.value); };
+  // ---------- instrument picker (cards with icons; the hidden select stays the source of truth) ----------
+  var INST_GROUPS = [['زهی', ['violin', 'viola', 'cello', 'dbass', 'strings']], ['بادی چوبی', ['flute', 'oboe', 'clarinet', 'bassoon', 'sax', 'wind']], ['بادی برنجی', ['trumpet', 'horn', 'trombone', 'tuba']], ['آواز', ['voice']]];
+  function buildInstPicker() {
+    var box = $('instPicker'), byId = {}; box.innerHTML = '';
+    CFG.instruments.forEach(function (i) { byId[i.id] = i; });
+    var seen = {};
+    function group(title, ids) {
+      ids = ids.filter(function (id) { return byId[id]; }); if (!ids.length) return;
+      var g = document.createElement('div'), h = document.createElement('p'), grid = document.createElement('div');
+      g.className = 'app-inst__group'; h.className = 'app-inst__title'; h.textContent = title; grid.className = 'app-inst__grid';
+      ids.forEach(function (id) {
+        seen[id] = 1;
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'app-inst__opt'; b.setAttribute('role', 'radio'); b.setAttribute('data-id', id);
+        b.innerHTML = '<svg class="app-inst__ic" aria-hidden="true"><use href="#in-' + id + '"/></svg><span></span>'; b.lastChild.textContent = byId[id].label;
+        grid.appendChild(b);
+      });
+      g.appendChild(h); g.appendChild(grid); box.appendChild(g);
+    }
+    INST_GROUPS.forEach(function (g) { group(g[0], g[1]); });
+    group('سایر', CFG.instruments.map(function (i) { return i.id; }).filter(function (id) { return !seen[id]; }));
+    syncInstPicker();
+  }
+  function syncInstPicker() {
+    var cur = $('instSelect').value, first = null, hit = false;
+    [].forEach.call($('instPicker').querySelectorAll('.app-inst__opt'), function (b) {
+      var on = b.getAttribute('data-id') === cur; if (!first) first = b; if (on) hit = true;
+      b.setAttribute('aria-checked', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1;
+    });
+    if (!hit && first) first.tabIndex = 0;
+  }
+  $('instPicker').addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('.app-inst__opt') : null; if (!b) return;
+    $('instSelect').value = b.getAttribute('data-id'); setPref('acc_inst', $('instSelect').value); syncInstPicker();
+  });
+  $('instPicker').addEventListener('keydown', function (e) {
+    var k = e.key, d = (k === 'ArrowLeft' || k === 'ArrowDown') ? 1 : (k === 'ArrowRight' || k === 'ArrowUp') ? -1 : 0; if (!d) return;
+    var all = [].slice.call($('instPicker').querySelectorAll('.app-inst__opt')), i = all.indexOf(document.activeElement); if (i < 0) return;
+    e.preventDefault(); var n = all[(i + d + all.length) % all.length]; n.focus(); n.click();
+  });
+
 
   $('btnReset').onclick = function () {
     confirmDialog({ title: 'ترجیحات این دستگاه پاک شود؟', text: 'ساز، سرعت، صدای راهنما، شمارش و ظاهر به حالت اول برمی‌گردد.', confirm: 'بازنشانی', cancel: 'نگه دار', danger: true }).then(function (yes) {
@@ -1226,6 +1320,7 @@ var AccCore = (function () {
       $('speed').value = 100; $('guide').value = 0; setSwitch($('ciOn'), false); $('ciBeats').value = 4; $('ciBpm').value = 72;
       $('tuneRec').value = 440; $('tuneMine').value = 440; $('tuneSemi').value = 0; setSwitch($('trOn'), false); $('trEvery').value = 3; $('trStep').value = 5;
       if ($('instSelect').options.length) $('instSelect').selectedIndex = 0;
+      syncInstPicker();
       syncCtrls(); updateTune(); updateTr(); if (result) buildAudio(); else audio.playbackRate = rate();
       toast('ترجیحات بازنشانی شد');
     });
