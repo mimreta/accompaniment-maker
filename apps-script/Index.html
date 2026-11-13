@@ -521,7 +521,7 @@ body.is-stage { overflow: hidden; }
   #view-task:has(#ws[hidden]) .app-how li > span:last-child { display: block; }
 
   #view-settings { max-width: 1120px; }
-  #view-settings > .wk-stack { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: var(--space-5); align-items: start; grid-template-areas: "ins th" "ins key" "ins dat"; }
+  #view-settings > .wk-stack { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: var(--space-5); align-items: start; grid-template-rows: auto auto auto 1fr; grid-template-areas: "ins th" "ins key" "ins dat" "ins ."; }
   #view-settings #cardInstSet { grid-area: ins; }
   #view-settings #cardTheme { grid-area: th; }
   #view-settings #cardKey { grid-area: key; }
@@ -530,6 +530,30 @@ body.is-stage { overflow: hidden; }
 }
 @media (min-width: 1024px) {
   #view-task:has(#cardStart:not([hidden])) > .wk-stack > .app-how { align-self: start; grid-auto-rows: auto; position: sticky; top: 80px; }
+}
+
+/* ---- saved-key row */
+.app-keydone { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-3); padding: var(--space-3) var(--space-4); border: 1px solid var(--accent); border-radius: var(--radius-lg); background: var(--accent-soft); }
+.app-keydone__ic { display: inline-flex; flex: none; width: 40px; height: 40px; align-items: center; justify-content: center; border-radius: 50%; background: var(--surface-raised); color: var(--accent); }
+.app-keydone__ic .wk-icon { width: 22px; height: 22px; }
+.app-keydone__txt { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.app-keydone__txt b { font-size: 15px; line-height: 24px; }
+.app-keydone__txt span { font-size: 13px; line-height: 20px; color: var(--ink-muted); }
+.app-keydone__btn { flex: none; padding: 0 var(--space-4); }
+.app-keydone[hidden], #keyForm[hidden] { display: none; }
+#btnKeyCancel { margin-top: var(--space-2); }
+@media (max-width: 420px) { .app-keydone { flex-wrap: wrap; } .app-keydone__btn { width: 100%; } }
+
+/* ---- practice log intro */
+.app-loghow__list { list-style: none; margin: var(--space-3) 0 0; padding: 0; display: grid; gap: var(--space-4); }
+.app-loghow__list li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: var(--space-3); align-items: start; }
+.app-loghow__list .app-how__ic { margin: 0; }
+.app-loghow__list div { display: grid; gap: 2px; }
+.app-loghow__list b { font-size: 15px; line-height: 24px; }
+.app-loghow__list span:not(.app-how__ic) { font-size: 14px; line-height: 24px; color: var(--ink-muted); }
+@media (min-width: 1024px) {
+  .app-logwrap > .app-loghow { grid-column: 1 / -1; }
+  .app-loghow__list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-6); }
 }
 
 </style>
@@ -806,10 +830,19 @@ body.is-stage { overflow: hidden; }
 
   <section id="view-log" data-view="log" aria-labelledby="h-log" hidden>
     <h1 class="wk-screen__title" id="h-log">دفتر تمرین</h1>
-    <p class="wk-screen__lead">زمانی که ضبط در حال پخش است حساب می‌شود. فقط روی همین دستگاه می‌ماند.</p>
+    <p class="wk-screen__lead">ببین هر روز چقدر و روی کدام قطعه تمرین کرده‌ای.</p>
     <div class="wk-stack app-logwrap">
+      <section class="wk-card app-loghow" aria-labelledby="h-loghow">
+        <h2 class="wk-card__title" id="h-loghow">این دفتر چطور کار می‌کند؟</h2>
+        <ol class="app-loghow__list">
+          <li><span class="app-how__ic"><svg class="wk-icon" aria-hidden="true"><use href="#i-play"/></svg></span><div><b>خودکار پر می‌شود</b><span>هر وقت در صفحۀ «همراهی» یک ضبط را پخش کنی، مدت پخشش به حساب امروز اضافه می‌شود. لازم نیست چیزی وارد کنی.</span></div></li>
+          <li><span class="app-how__ic"><svg class="wk-icon" aria-hidden="true"><use href="#i-log"/></svg></span><div><b>چه چیزی می‌بینی</b><span>دقیقه‌های امروز و هفته، چند روز پشت‌سرهم تمرین کرده‌ای و کدام قطعه‌ها بیشترین وقتت را گرفته‌اند.</span></div></li>
+          <li><span class="app-how__ic"><svg class="wk-icon" aria-hidden="true"><use href="#i-check"/></svg></span><div><b>فقط برای خودت</b><span>هیچ صدایی ذخیره نمی‌شود؛ فقط نام قطعه و مدت. همه‌چیز روی همین دستگاه می‌ماند و هر وقت خواستی پاکش می‌کنی.</span></div></li>
+        </ol>
+      </section>
       <div class="wk-card" id="cardLog">
         <div class="app-logsum"><div><b id="logToday">۰</b><span>دقیقۀ امروز</span></div><div><b id="logWeek">۰</b><span>دقیقه در هفته</span></div><div><b id="logStreak">۰</b><span>روز پشت‌سرهم</span></div></div>
+        <p class="wk-note" style="margin-top:var(--space-3)">«پشت‌سرهم» یعنی روزهایی که دست‌کم یک دقیقه تمرین کرده‌ای.</p>
         <h2 class="wk-card__title" style="margin-top:var(--space-5)">هفتۀ اخیر</h2>
         <div class="app-logbars" id="logBars" role="img" aria-label="تمرین هفت روز اخیر"></div>
       </div>
@@ -845,6 +878,12 @@ body.is-stage { overflow: hidden; }
 
       <div class="wk-card" id="cardKey" hidden>
         <h2 class="wk-card__title">کلید API سایت MVSEP</h2>
+        <div class="app-keydone" id="keyDone" hidden>
+          <span class="app-keydone__ic"><svg class="wk-icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+          <div class="app-keydone__txt"><b>کلید ذخیره شده است</b><span>آمادۀ ساختن همراهی است.</span></div>
+          <button class="wk-btn wk-btn--secondary app-keydone__btn" type="button" id="btnKeyChange">تغییر کلید</button>
+        </div>
+        <div id="keyForm">
         <p class="wk-card__text">برای جداسازی به یک حساب رایگان در سایت MVSEP و کلید آن نیاز داری. فقط یک بار لازم است.</p>
         <details class="app-details"><summary>راهنمای تصویری گرفتن کلید</summary><ol class="app-guide"><li class="app-guide__step"><div class="app-guide__ill"><svg class="app-ill" viewBox="0 0 160 104" aria-hidden="true"><rect x="6" y="6" width="148" height="92" rx="8" fill="var(--surface-raised)" stroke="var(--line)"/><path d="M6 24h148" stroke="var(--line)"/><circle cx="16" cy="15" r="2.2" fill="var(--line)"/><circle cx="24" cy="15" r="2.2" fill="var(--line)"/><circle cx="32" cy="15" r="2.2" fill="var(--line)"/><rect x="44" y="9" width="84" height="12" rx="6" fill="var(--surface-sunken)"/><text x="86" y="18" text-anchor="middle" font-size="7.5" fill="var(--ink-muted)" font-family="monospace">mvsep.com</text><rect x="20" y="36" width="64" height="7" rx="3.5" fill="var(--line)"/><rect x="20" y="49" width="44" height="5" rx="2.5" fill="var(--line)" opacity=".6"/><rect x="20" y="64" width="56" height="18" rx="9" fill="var(--accent)"/><text x="48" y="76" text-anchor="middle" font-size="7.5" font-weight="700" fill="var(--on-accent)">Sign up</text><circle cx="124" cy="52" r="9" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/><path d="M114 76c1-7 5-10 10-10s9 3 10 10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/><path d="M62 74l0 13 3.2-3.2 2.8 6 3-1.3-2.8-5.8h4.6z" fill="var(--ink)" stroke="var(--surface-raised)" stroke-width="1.2"/></svg></div><div class="app-guide__txt"><b><span class="app-guide__n">۱</span>حساب رایگان بساز</b><span>به <span dir="ltr">mvsep.com</span> برو و با ایمیلت ثبت‌نام کن. رایگان است.</span><a class="wk-btn wk-btn--secondary app-guide__link" href="https://mvsep.com/" target="_blank" rel="noopener noreferrer">باز کردن سایت <span aria-hidden="true">↗</span></a></div></li><li class="app-guide__step"><div class="app-guide__ill"><svg class="app-ill" viewBox="0 0 160 104" aria-hidden="true"><rect x="6" y="6" width="148" height="92" rx="8" fill="var(--surface-raised)" stroke="var(--line)"/><path d="M6 24h148" stroke="var(--line)"/><circle cx="16" cy="15" r="2.2" fill="var(--line)"/><circle cx="24" cy="15" r="2.2" fill="var(--line)"/><circle cx="32" cy="15" r="2.2" fill="var(--line)"/><rect x="44" y="9" width="84" height="12" rx="6" fill="var(--surface-sunken)"/><text x="86" y="18" text-anchor="middle" font-size="7.5" fill="var(--ink-muted)" font-family="monospace">mvsep.com</text><rect x="14" y="31" width="22" height="9" rx="4.5" fill="var(--line)"/><rect x="42" y="31" width="22" height="9" rx="4.5" fill="var(--line)"/><rect x="70" y="31" width="22" height="9" rx="4.5" fill="var(--accent)"/><text x="81" y="38" text-anchor="middle" font-size="7.5" font-weight="700" fill="var(--on-accent)">API</text><rect x="66" y="27" width="30" height="17" rx="8.5" fill="none" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="2.5 2.5"/><rect x="20" y="56" width="90" height="6" rx="3" fill="var(--line)"/><rect x="20" y="68" width="70" height="5" rx="2.5" fill="var(--line)" opacity=".6"/><rect x="20" y="78" width="80" height="5" rx="2.5" fill="var(--line)" opacity=".6"/><path d="M80 38l0 13 3.2-3.2 2.8 6 3-1.3-2.8-5.8h4.6z" fill="var(--ink)" stroke="var(--surface-raised)" stroke-width="1.2"/></svg></div><div class="app-guide__txt"><b><span class="app-guide__n">۲</span>صفحۀ API را باز کن</b><span>از منوی بالای سایت «API» را بزن.</span><a class="wk-btn wk-btn--secondary app-guide__link" href="https://mvsep.com/user-api" target="_blank" rel="noopener noreferrer">باز کردن صفحۀ API <span aria-hidden="true">↗</span></a></div></li><li class="app-guide__step"><div class="app-guide__ill"><svg class="app-ill" viewBox="0 0 160 104" aria-hidden="true"><rect x="6" y="6" width="148" height="92" rx="8" fill="var(--surface-raised)" stroke="var(--line)"/><path d="M6 24h148" stroke="var(--line)"/><circle cx="16" cy="15" r="2.2" fill="var(--line)"/><circle cx="24" cy="15" r="2.2" fill="var(--line)"/><circle cx="32" cy="15" r="2.2" fill="var(--line)"/><rect x="44" y="9" width="84" height="12" rx="6" fill="var(--surface-sunken)"/><text x="86" y="18" text-anchor="middle" font-size="7.5" fill="var(--ink-muted)" font-family="monospace">mvsep.com</text><rect x="18" y="34" width="34" height="5" rx="2.5" fill="var(--line)"/><rect x="18" y="46" width="94" height="20" rx="6" fill="var(--surface-sunken)" stroke="var(--border-strong)"/><text x="26" y="60" font-size="8" fill="var(--ink)" font-family="monospace" text-anchor="start">a1b2c3d4e5f6••</text><rect x="118" y="46" width="26" height="20" rx="6" fill="var(--accent)"/><rect x="126" y="52" width="9" height="9" rx="1.8" fill="none" stroke="var(--on-accent)" stroke-width="1.5"/><path d="M129 49h7a1.8 1.8 0 011.8 1.8v7" fill="none" stroke="var(--on-accent)" stroke-width="1.5"/><rect x="18" y="76" width="50" height="9" rx="4.5" fill="var(--accent-soft)"/><path d="M130 60l0 13 3.2-3.2 2.8 6 3-1.3-2.8-5.8h4.6z" fill="var(--ink)" stroke="var(--surface-raised)" stroke-width="1.2"/></svg></div><div class="app-guide__txt"><b><span class="app-guide__n">۳</span>کلید را کپی کن</b><span>کنار کلید دکمۀ کپی هست. اگر کلیدی نداری، «کلید تازه بساز» را بزن.</span></div></li><li class="app-guide__step"><div class="app-guide__ill"><svg class="app-ill" viewBox="0 0 160 104" aria-hidden="true"><rect x="6" y="6" width="148" height="92" rx="12" fill="var(--surface-raised)" stroke="var(--line)"/><rect x="62" y="20" width="76" height="8" rx="4" fill="var(--ink)" opacity=".85"/><rect x="22" y="40" width="116" height="20" rx="6" fill="var(--surface-sunken)" stroke="var(--accent)" stroke-width="1.6"/><text x="30" y="54" font-size="8" fill="var(--ink)" font-family="monospace" text-anchor="start">a1b2c3d4e5f6••</text><rect x="22" y="68" width="116" height="20" rx="10" fill="var(--accent)"/><text x="80" y="82" text-anchor="middle" font-size="9" font-weight="700" fill="var(--on-accent)">ذخیره</text><circle cx="132" cy="22" r="9" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><path d="M127.5 22l3 3 5.5-6" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="app-guide__txt"><b><span class="app-guide__n">۴</span>اینجا بچسبان</b><span>کلید را در کادر بچسبان و «ذخیره» را بزن. فقط یک بار لازم است.</span></div></li></ol></details>
         <div class="wk-block">
@@ -861,7 +900,9 @@ body.is-stage { overflow: hidden; }
             <p class="wk-field__hint" id="relayHint">این فیلد برای سایت اصلی لازم نیست. فقط اگر این اپ را روی سایت خودت اجرا کرده‌ای، آدرس سرور واسط خودت (Cloudflare Worker یا Apps Script؛ راهنما: docs/DEPLOY.md) را اینجا بگذار.</p>
           </div>
           <button class="wk-btn wk-btn--primary wk-btn--block" id="btnSaveKey">ذخیره</button>
+          <button class="wk-btn wk-btn--secondary wk-btn--block" type="button" id="btnKeyCancel" hidden>انصراف</button>
         </div>
+      </div>
       </div>
 
       <div class="wk-card" id="cardData">
@@ -877,7 +918,7 @@ body.is-stage { overflow: hidden; }
     <div class="wk-aboutscreen">
       <svg class="wk-about__mark" viewBox="0 0 96 96" aria-hidden="true"><use href="#app-icon"/></svg>
       <p class="wk-about__name">همراهی‌ساز</p>
-      <p class="wk-about__version" dir="ltr">Accompaniment Maker · v2.8</p>
+      <p class="wk-about__version" dir="ltr">Accompaniment Maker · v2.9</p>
       <p class="wk-about__purpose">اکامپانیمان بساز: ساز خودت را از ضبط حذف کن و جایش بنواز.</p>
       <div class="wk-aboutscreen__cards">
         <div class="wk-card"><h2 class="wk-card__title">اکامپانیمان یعنی چه؟</h2><p class="wk-card__text">«اکامپانیمان» (accompaniment؛ در فارسی همراهی) یعنی بقیۀ موسیقی، بدون سازی که خودت می‌نوازی. ارکستر باشد یا گروه، پیانو یا هر ترکیب دیگر: همۀ سازها را می‌شنوی جز یکی، مثلاً همۀ ارکستر جز ویولنسل، و ویولنسل را خودت می‌نوازی. این روش از سال ۱۹۵۰ با نام Music Minus One (موسیقی منهای یک) برای تمرین به کار می‌رود.</p></div>
@@ -1098,7 +1139,7 @@ var AccCore = (function () {
 <script>
 (function () {
   'use strict';
-  var APP_VERSION = '2.8';
+  var APP_VERSION = '2.9';
   var SR = 44100, MAX_CHUNK = 480, OVERLAP = 10, DIRECT_MAX_BYTES = 15e6, DIRECT_MAX_SEC = 590;
   var $ = function (id) { return document.getElementById(id); };
   var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
@@ -1308,12 +1349,21 @@ var AccCore = (function () {
     buildInstPicker();
     if (cfg.canSetKey) {
       $('cardKey').hidden = false;
-      $('keyHint').textContent = cfg.hasKey ? 'یک کلید ذخیره شده است. برای تغییر، کلید تازه را وارد کنید.' : 'هنوز کلیدی ذخیره نشده است.';
       if (WEB) { $('keyNote').hidden = false; $('relayField').hidden = !!(window.SOLO_RELAY || '').trim(); if (relayUrl()) $('relayHint').textContent = 'یک آدرس ریلی ذخیره شده است. برای تغییر، آدرس تازه را وارد کن.'; }
     }
-    keyNotice(); updateProcessBtn();
+    renderKeyCard(); keyNotice(); updateProcessBtn();
   }).catch(function (e) { showAlert('inputAlert', 'error', 'خطا:', 'اپ بارگذاری نشد (' + e.message + '). صفحه را دوباره باز کنید.'); });
 
+  var keyChanging = false;
+  function renderKeyCard() {
+    if (!CFG || !CFG.canSetKey) return;
+    var showForm = !CFG.hasKey || keyChanging || (WEB && !relayUrl());
+    $('keyDone').hidden = showForm; $('keyForm').hidden = !showForm;
+    $('btnKeyCancel').hidden = !(CFG.hasKey && keyChanging);
+    $('keyHint').textContent = CFG.hasKey ? '' : 'هنوز کلیدی ذخیره نشده است.';
+  }
+  $('btnKeyChange').onclick = function () { keyChanging = true; renderKeyCard(); $('keyInput').focus(); };
+  $('btnKeyCancel').onclick = function () { keyChanging = false; $('keyInput').value = ''; clearAlert('keyAlert'); renderKeyCard(); };
   function keyNotice() {
     if (WEB && !relayUrl()) { showAlert('inputAlert', 'note', 'توجه:', 'آدرس ریلی ثبت نشده است. از «تنظیمات» ثبتش کن (راهنما در README).'); return; }
     $('cardStart').hidden = !(CFG && CFG.canSetKey && !CFG.hasKey);
@@ -1327,19 +1377,17 @@ var AccCore = (function () {
       if (!validRelay(ru)) { showAlert('keyAlert', 'error', 'خطا:', 'آدرس ریلی باید شبیه https://…workers.dev یا https://script.google.com/macros/s/…/exec باشد.'); return; }
       setPref('relay_url', ru); $('relayInput').value = ''; $('relayHint').textContent = 'یک آدرس ریلی ذخیره شده است. برای تغییر، آدرس تازه را وارد کن.';
       clearAlert('inputAlert'); toast('آدرس ریلی ذخیره شد');
-      if (!$('keyInput').value.trim()) { keyNotice(); updateProcessBtn(); return; }
+      if (!$('keyInput').value.trim()) { renderKeyCard(); keyNotice(); updateProcessBtn(); return; }
     }
     gs('setApiKey', $('keyInput').value).then(function () {
-      CFG.hasKey = true; $('keyInput').value = ''; $('cardStart').hidden = true;
-      $('keyHint').textContent = 'یک کلید ذخیره شده است. برای تغییر، کلید تازه را وارد کنید.';
+      CFG.hasKey = true; keyChanging = false; $('keyInput').value = ''; $('cardStart').hidden = true; renderKeyCard();
       clearAlert('inputAlert'); toast('کلید ذخیره شد'); updateProcessBtn();
     }).catch(function (e) { showAlert('keyAlert', 'error', 'خطا:', e.message); });
   };
   $('btnStartKey').onclick = function () {
     clearAlert('startAlert');
     gs('setApiKey', $('startKey').value).then(function () {
-      CFG.hasKey = true; $('startKey').value = ''; $('cardStart').hidden = true;
-      $('keyHint').textContent = 'یک کلید ذخیره شده است. برای تغییر، کلید تازه را وارد کنید.';
+      CFG.hasKey = true; keyChanging = false; $('startKey').value = ''; $('cardStart').hidden = true; renderKeyCard();
       clearAlert('inputAlert'); toast('کلید ذخیره شد'); updateProcessBtn();
     }).catch(function (e) { showAlert('startAlert', 'error', 'خطا:', e.message); });
   };
@@ -2230,7 +2278,7 @@ var AccCore = (function () {
     var agg = {}; Object.keys(L).sort().slice(-30).forEach(function (kk) { var p = L[kk].p || {}; Object.keys(p).forEach(function (n) { agg[n] = (agg[n] || 0) + p[n]; }); });
     var top = Object.keys(agg).sort(function (a, b) { return agg[b] - agg[a]; }).slice(0, 5);
     $('logList').innerHTML = '';
-    if (!Object.keys(agg).length) { var em = document.createElement('li'); em.className = 'app-logempty'; em.textContent = 'هنوز تمرینی ثبت نشده. ضبطی را پخش کن تا زمانش اینجا بیاید.'; $('logList').appendChild(em); }
+    if (!Object.keys(agg).length) { var em = document.createElement('li'); em.className = 'app-logempty'; em.textContent = 'هنوز تمرینی ثبت نشده. در صفحۀ «همراهی» یک ضبط بساز و پخشش کن؛ زمانش خودکار اینجا می‌آید.'; $('logList').appendChild(em); }
     top.forEach(function (n) { var li = document.createElement('li'), a = document.createElement('span'), t = document.createElement('span'); a.textContent = n; t.textContent = fmtDur(agg[n]); li.appendChild(a); li.appendChild(t); $('logList').appendChild(li); });
     $('logCsv').disabled = $('logClear').disabled = !Object.keys(L).length;
   }

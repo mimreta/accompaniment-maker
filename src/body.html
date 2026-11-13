@@ -270,10 +270,19 @@
 
   <section id="view-log" data-view="log" aria-labelledby="h-log" hidden>
     <h1 class="wk-screen__title" id="h-log">دفتر تمرین</h1>
-    <p class="wk-screen__lead">زمانی که ضبط در حال پخش است حساب می‌شود. فقط روی همین دستگاه می‌ماند.</p>
+    <p class="wk-screen__lead">ببین هر روز چقدر و روی کدام قطعه تمرین کرده‌ای.</p>
     <div class="wk-stack app-logwrap">
+      <section class="wk-card app-loghow" aria-labelledby="h-loghow">
+        <h2 class="wk-card__title" id="h-loghow">این دفتر چطور کار می‌کند؟</h2>
+        <ol class="app-loghow__list">
+          <li><span class="app-how__ic"><svg class="wk-icon" aria-hidden="true"><use href="#i-play"/></svg></span><div><b>خودکار پر می‌شود</b><span>هر وقت در صفحۀ «همراهی» یک ضبط را پخش کنی، مدت پخشش به حساب امروز اضافه می‌شود. لازم نیست چیزی وارد کنی.</span></div></li>
+          <li><span class="app-how__ic"><svg class="wk-icon" aria-hidden="true"><use href="#i-log"/></svg></span><div><b>چه چیزی می‌بینی</b><span>دقیقه‌های امروز و هفته، چند روز پشت‌سرهم تمرین کرده‌ای و کدام قطعه‌ها بیشترین وقتت را گرفته‌اند.</span></div></li>
+          <li><span class="app-how__ic"><svg class="wk-icon" aria-hidden="true"><use href="#i-check"/></svg></span><div><b>فقط برای خودت</b><span>هیچ صدایی ذخیره نمی‌شود؛ فقط نام قطعه و مدت. همه‌چیز روی همین دستگاه می‌ماند و هر وقت خواستی پاکش می‌کنی.</span></div></li>
+        </ol>
+      </section>
       <div class="wk-card" id="cardLog">
         <div class="app-logsum"><div><b id="logToday">۰</b><span>دقیقۀ امروز</span></div><div><b id="logWeek">۰</b><span>دقیقه در هفته</span></div><div><b id="logStreak">۰</b><span>روز پشت‌سرهم</span></div></div>
+        <p class="wk-note" style="margin-top:var(--space-3)">«پشت‌سرهم» یعنی روزهایی که دست‌کم یک دقیقه تمرین کرده‌ای.</p>
         <h2 class="wk-card__title" style="margin-top:var(--space-5)">هفتۀ اخیر</h2>
         <div class="app-logbars" id="logBars" role="img" aria-label="تمرین هفت روز اخیر"></div>
       </div>
@@ -309,6 +318,12 @@
 
       <div class="wk-card" id="cardKey" hidden>
         <h2 class="wk-card__title">کلید API سایت MVSEP</h2>
+        <div class="app-keydone" id="keyDone" hidden>
+          <span class="app-keydone__ic"><svg class="wk-icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+          <div class="app-keydone__txt"><b>کلید ذخیره شده است</b><span>آمادۀ ساختن همراهی است.</span></div>
+          <button class="wk-btn wk-btn--secondary app-keydone__btn" type="button" id="btnKeyChange">تغییر کلید</button>
+        </div>
+        <div id="keyForm">
         <p class="wk-card__text">برای جداسازی به یک حساب رایگان در سایت MVSEP و کلید آن نیاز داری. فقط یک بار لازم است.</p>
         <details class="app-details"><summary>راهنمای تصویری گرفتن کلید</summary><ol class="app-guide"><li class="app-guide__step"><div class="app-guide__ill"><svg class="app-ill" viewBox="0 0 160 104" aria-hidden="true"><rect x="6" y="6" width="148" height="92" rx="8" fill="var(--surface-raised)" stroke="var(--line)"/><path d="M6 24h148" stroke="var(--line)"/><circle cx="16" cy="15" r="2.2" fill="var(--line)"/><circle cx="24" cy="15" r="2.2" fill="var(--line)"/><circle cx="32" cy="15" r="2.2" fill="var(--line)"/><rect x="44" y="9" width="84" height="12" rx="6" fill="var(--surface-sunken)"/><text x="86" y="18" text-anchor="middle" font-size="7.5" fill="var(--ink-muted)" font-family="monospace">mvsep.com</text><rect x="20" y="36" width="64" height="7" rx="3.5" fill="var(--line)"/><rect x="20" y="49" width="44" height="5" rx="2.5" fill="var(--line)" opacity=".6"/><rect x="20" y="64" width="56" height="18" rx="9" fill="var(--accent)"/><text x="48" y="76" text-anchor="middle" font-size="7.5" font-weight="700" fill="var(--on-accent)">Sign up</text><circle cx="124" cy="52" r="9" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/><path d="M114 76c1-7 5-10 10-10s9 3 10 10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/><path d="M62 74l0 13 3.2-3.2 2.8 6 3-1.3-2.8-5.8h4.6z" fill="var(--ink)" stroke="var(--surface-raised)" stroke-width="1.2"/></svg></div><div class="app-guide__txt"><b><span class="app-guide__n">۱</span>حساب رایگان بساز</b><span>به <span dir="ltr">mvsep.com</span> برو و با ایمیلت ثبت‌نام کن. رایگان است.</span><a class="wk-btn wk-btn--secondary app-guide__link" href="https://mvsep.com/" target="_blank" rel="noopener noreferrer">باز کردن سایت <span aria-hidden="true">↗</span></a></div></li><li class="app-guide__step"><div class="app-guide__ill"><svg class="app-ill" viewBox="0 0 160 104" aria-hidden="true"><rect x="6" y="6" width="148" height="92" rx="8" fill="var(--surface-raised)" stroke="var(--line)"/><path d="M6 24h148" stroke="var(--line)"/><circle cx="16" cy="15" r="2.2" fill="var(--line)"/><circle cx="24" cy="15" r="2.2" fill="var(--line)"/><circle cx="32" cy="15" r="2.2" fill="var(--line)"/><rect x="44" y="9" width="84" height="12" rx="6" fill="var(--surface-sunken)"/><text x="86" y="18" text-anchor="middle" font-size="7.5" fill="var(--ink-muted)" font-family="monospace">mvsep.com</text><rect x="14" y="31" width="22" height="9" rx="4.5" fill="var(--line)"/><rect x="42" y="31" width="22" height="9" rx="4.5" fill="var(--line)"/><rect x="70" y="31" width="22" height="9" rx="4.5" fill="var(--accent)"/><text x="81" y="38" text-anchor="middle" font-size="7.5" font-weight="700" fill="var(--on-accent)">API</text><rect x="66" y="27" width="30" height="17" rx="8.5" fill="none" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="2.5 2.5"/><rect x="20" y="56" width="90" height="6" rx="3" fill="var(--line)"/><rect x="20" y="68" width="70" height="5" rx="2.5" fill="var(--line)" opacity=".6"/><rect x="20" y="78" width="80" height="5" rx="2.5" fill="var(--line)" opacity=".6"/><path d="M80 38l0 13 3.2-3.2 2.8 6 3-1.3-2.8-5.8h4.6z" fill="var(--ink)" stroke="var(--surface-raised)" stroke-width="1.2"/></svg></div><div class="app-guide__txt"><b><span class="app-guide__n">۲</span>صفحۀ API را باز کن</b><span>از منوی بالای سایت «API» را بزن.</span><a class="wk-btn wk-btn--secondary app-guide__link" href="https://mvsep.com/user-api" target="_blank" rel="noopener noreferrer">باز کردن صفحۀ API <span aria-hidden="true">↗</span></a></div></li><li class="app-guide__step"><div class="app-guide__ill"><svg class="app-ill" viewBox="0 0 160 104" aria-hidden="true"><rect x="6" y="6" width="148" height="92" rx="8" fill="var(--surface-raised)" stroke="var(--line)"/><path d="M6 24h148" stroke="var(--line)"/><circle cx="16" cy="15" r="2.2" fill="var(--line)"/><circle cx="24" cy="15" r="2.2" fill="var(--line)"/><circle cx="32" cy="15" r="2.2" fill="var(--line)"/><rect x="44" y="9" width="84" height="12" rx="6" fill="var(--surface-sunken)"/><text x="86" y="18" text-anchor="middle" font-size="7.5" fill="var(--ink-muted)" font-family="monospace">mvsep.com</text><rect x="18" y="34" width="34" height="5" rx="2.5" fill="var(--line)"/><rect x="18" y="46" width="94" height="20" rx="6" fill="var(--surface-sunken)" stroke="var(--border-strong)"/><text x="26" y="60" font-size="8" fill="var(--ink)" font-family="monospace" text-anchor="start">a1b2c3d4e5f6••</text><rect x="118" y="46" width="26" height="20" rx="6" fill="var(--accent)"/><rect x="126" y="52" width="9" height="9" rx="1.8" fill="none" stroke="var(--on-accent)" stroke-width="1.5"/><path d="M129 49h7a1.8 1.8 0 011.8 1.8v7" fill="none" stroke="var(--on-accent)" stroke-width="1.5"/><rect x="18" y="76" width="50" height="9" rx="4.5" fill="var(--accent-soft)"/><path d="M130 60l0 13 3.2-3.2 2.8 6 3-1.3-2.8-5.8h4.6z" fill="var(--ink)" stroke="var(--surface-raised)" stroke-width="1.2"/></svg></div><div class="app-guide__txt"><b><span class="app-guide__n">۳</span>کلید را کپی کن</b><span>کنار کلید دکمۀ کپی هست. اگر کلیدی نداری، «کلید تازه بساز» را بزن.</span></div></li><li class="app-guide__step"><div class="app-guide__ill"><svg class="app-ill" viewBox="0 0 160 104" aria-hidden="true"><rect x="6" y="6" width="148" height="92" rx="12" fill="var(--surface-raised)" stroke="var(--line)"/><rect x="62" y="20" width="76" height="8" rx="4" fill="var(--ink)" opacity=".85"/><rect x="22" y="40" width="116" height="20" rx="6" fill="var(--surface-sunken)" stroke="var(--accent)" stroke-width="1.6"/><text x="30" y="54" font-size="8" fill="var(--ink)" font-family="monospace" text-anchor="start">a1b2c3d4e5f6••</text><rect x="22" y="68" width="116" height="20" rx="10" fill="var(--accent)"/><text x="80" y="82" text-anchor="middle" font-size="9" font-weight="700" fill="var(--on-accent)">ذخیره</text><circle cx="132" cy="22" r="9" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><path d="M127.5 22l3 3 5.5-6" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="app-guide__txt"><b><span class="app-guide__n">۴</span>اینجا بچسبان</b><span>کلید را در کادر بچسبان و «ذخیره» را بزن. فقط یک بار لازم است.</span></div></li></ol></details>
         <div class="wk-block">
@@ -325,7 +340,9 @@
             <p class="wk-field__hint" id="relayHint">این فیلد برای سایت اصلی لازم نیست. فقط اگر این اپ را روی سایت خودت اجرا کرده‌ای، آدرس سرور واسط خودت (Cloudflare Worker یا Apps Script؛ راهنما: docs/DEPLOY.md) را اینجا بگذار.</p>
           </div>
           <button class="wk-btn wk-btn--primary wk-btn--block" id="btnSaveKey">ذخیره</button>
+          <button class="wk-btn wk-btn--secondary wk-btn--block" type="button" id="btnKeyCancel" hidden>انصراف</button>
         </div>
+      </div>
       </div>
 
       <div class="wk-card" id="cardData">
@@ -341,7 +358,7 @@
     <div class="wk-aboutscreen">
       <svg class="wk-about__mark" viewBox="0 0 96 96" aria-hidden="true"><use href="#app-icon"/></svg>
       <p class="wk-about__name">همراهی‌ساز</p>
-      <p class="wk-about__version" dir="ltr">Accompaniment Maker · v2.8</p>
+      <p class="wk-about__version" dir="ltr">Accompaniment Maker · v2.9</p>
       <p class="wk-about__purpose">اکامپانیمان بساز: ساز خودت را از ضبط حذف کن و جایش بنواز.</p>
       <div class="wk-aboutscreen__cards">
         <div class="wk-card"><h2 class="wk-card__title">اکامپانیمان یعنی چه؟</h2><p class="wk-card__text">«اکامپانیمان» (accompaniment؛ در فارسی همراهی) یعنی بقیۀ موسیقی، بدون سازی که خودت می‌نوازی. ارکستر باشد یا گروه، پیانو یا هر ترکیب دیگر: همۀ سازها را می‌شنوی جز یکی، مثلاً همۀ ارکستر جز ویولنسل، و ویولنسل را خودت می‌نوازی. این روش از سال ۱۹۵۰ با نام Music Minus One (موسیقی منهای یک) برای تمرین به کار می‌رود.</p></div>

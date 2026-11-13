@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var APP_VERSION = '2.8';
+  var APP_VERSION = '2.9';
   var SR = 44100, MAX_CHUNK = 480, OVERLAP = 10, DIRECT_MAX_BYTES = 15e6, DIRECT_MAX_SEC = 590;
   var $ = function (id) { return document.getElementById(id); };
   var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
@@ -210,12 +210,21 @@
     buildInstPicker();
     if (cfg.canSetKey) {
       $('cardKey').hidden = false;
-      $('keyHint').textContent = cfg.hasKey ? 'یک کلید ذخیره شده است. برای تغییر، کلید تازه را وارد کنید.' : 'هنوز کلیدی ذخیره نشده است.';
       if (WEB) { $('keyNote').hidden = false; $('relayField').hidden = !!(window.SOLO_RELAY || '').trim(); if (relayUrl()) $('relayHint').textContent = 'یک آدرس ریلی ذخیره شده است. برای تغییر، آدرس تازه را وارد کن.'; }
     }
-    keyNotice(); updateProcessBtn();
+    renderKeyCard(); keyNotice(); updateProcessBtn();
   }).catch(function (e) { showAlert('inputAlert', 'error', 'خطا:', 'اپ بارگذاری نشد (' + e.message + '). صفحه را دوباره باز کنید.'); });
 
+  var keyChanging = false;
+  function renderKeyCard() {
+    if (!CFG || !CFG.canSetKey) return;
+    var showForm = !CFG.hasKey || keyChanging || (WEB && !relayUrl());
+    $('keyDone').hidden = showForm; $('keyForm').hidden = !showForm;
+    $('btnKeyCancel').hidden = !(CFG.hasKey && keyChanging);
+    $('keyHint').textContent = CFG.hasKey ? '' : 'هنوز کلیدی ذخیره نشده است.';
+  }
+  $('btnKeyChange').onclick = function () { keyChanging = true; renderKeyCard(); $('keyInput').focus(); };
+  $('btnKeyCancel').onclick = function () { keyChanging = false; $('keyInput').value = ''; clearAlert('keyAlert'); renderKeyCard(); };
   function keyNotice() {
     if (WEB && !relayUrl()) { showAlert('inputAlert', 'note', 'توجه:', 'آدرس ریلی ثبت نشده است. از «تنظیمات» ثبتش کن (راهنما در README).'); return; }
     $('cardStart').hidden = !(CFG && CFG.canSetKey && !CFG.hasKey);
@@ -229,19 +238,17 @@
       if (!validRelay(ru)) { showAlert('keyAlert', 'error', 'خطا:', 'آدرس ریلی باید شبیه https://…workers.dev یا https://script.google.com/macros/s/…/exec باشد.'); return; }
       setPref('relay_url', ru); $('relayInput').value = ''; $('relayHint').textContent = 'یک آدرس ریلی ذخیره شده است. برای تغییر، آدرس تازه را وارد کن.';
       clearAlert('inputAlert'); toast('آدرس ریلی ذخیره شد');
-      if (!$('keyInput').value.trim()) { keyNotice(); updateProcessBtn(); return; }
+      if (!$('keyInput').value.trim()) { renderKeyCard(); keyNotice(); updateProcessBtn(); return; }
     }
     gs('setApiKey', $('keyInput').value).then(function () {
-      CFG.hasKey = true; $('keyInput').value = ''; $('cardStart').hidden = true;
-      $('keyHint').textContent = 'یک کلید ذخیره شده است. برای تغییر، کلید تازه را وارد کنید.';
+      CFG.hasKey = true; keyChanging = false; $('keyInput').value = ''; $('cardStart').hidden = true; renderKeyCard();
       clearAlert('inputAlert'); toast('کلید ذخیره شد'); updateProcessBtn();
     }).catch(function (e) { showAlert('keyAlert', 'error', 'خطا:', e.message); });
   };
   $('btnStartKey').onclick = function () {
     clearAlert('startAlert');
     gs('setApiKey', $('startKey').value).then(function () {
-      CFG.hasKey = true; $('startKey').value = ''; $('cardStart').hidden = true;
-      $('keyHint').textContent = 'یک کلید ذخیره شده است. برای تغییر، کلید تازه را وارد کنید.';
+      CFG.hasKey = true; keyChanging = false; $('startKey').value = ''; $('cardStart').hidden = true; renderKeyCard();
       clearAlert('inputAlert'); toast('کلید ذخیره شد'); updateProcessBtn();
     }).catch(function (e) { showAlert('startAlert', 'error', 'خطا:', e.message); });
   };
@@ -1132,7 +1139,7 @@
     var agg = {}; Object.keys(L).sort().slice(-30).forEach(function (kk) { var p = L[kk].p || {}; Object.keys(p).forEach(function (n) { agg[n] = (agg[n] || 0) + p[n]; }); });
     var top = Object.keys(agg).sort(function (a, b) { return agg[b] - agg[a]; }).slice(0, 5);
     $('logList').innerHTML = '';
-    if (!Object.keys(agg).length) { var em = document.createElement('li'); em.className = 'app-logempty'; em.textContent = 'هنوز تمرینی ثبت نشده. ضبطی را پخش کن تا زمانش اینجا بیاید.'; $('logList').appendChild(em); }
+    if (!Object.keys(agg).length) { var em = document.createElement('li'); em.className = 'app-logempty'; em.textContent = 'هنوز تمرینی ثبت نشده. در صفحۀ «همراهی» یک ضبط بساز و پخشش کن؛ زمانش خودکار اینجا می‌آید.'; $('logList').appendChild(em); }
     top.forEach(function (n) { var li = document.createElement('li'), a = document.createElement('span'), t = document.createElement('span'); a.textContent = n; t.textContent = fmtDur(agg[n]); li.appendChild(a); li.appendChild(t); $('logList').appendChild(li); });
     $('logCsv').disabled = $('logClear').disabled = !Object.keys(L).length;
   }

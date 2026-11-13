@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.9
+- Settings: once a key is saved, the key field is replaced by a "Key saved" row with a "Change key" button (and Cancel).
+- Practice log: a plain explanation of what it is, what fills it, and what it stores; clearer empty state and a note about the streak rule.
+
 ## 2.8
 - Key guide: "Open the site" and "Open the API page" buttons that open MVSEP in a new tab.
 - Desktop: first screen is a two-column layout (steps beside the main card); Settings is two balanced columns (instrument on one side, appearance, key and data on the other).
