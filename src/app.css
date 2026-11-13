@@ -268,15 +268,16 @@ body.is-stage { overflow: hidden; }
   #view-task:has(#ws[hidden]) .app-how li > span:last-child { display: block; }
 
   #view-settings { max-width: 1120px; }
-  #view-settings > .wk-stack { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: var(--space-5); align-items: start; grid-template-rows: auto auto auto 1fr; grid-template-areas: "ins th" "ins key" "ins dat" "ins ."; }
+  #view-settings > .wk-stack { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: var(--space-5); align-items: start; grid-template-rows: auto auto auto auto 1fr; grid-template-areas: "ins th" "ins key" "ins lib" "ins dat" "ins ."; }
   #view-settings #cardInstSet { grid-area: ins; }
   #view-settings #cardTheme { grid-area: th; }
   #view-settings #cardKey { grid-area: key; }
+  #view-settings #cardLibSet { grid-area: lib; }
   #view-settings #cardData { grid-area: dat; }
   #view-settings .app-inst__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 @media (min-width: 1024px) {
-  #view-task:has(#cardStart:not([hidden])) > .wk-stack > .app-how { align-self: start; grid-auto-rows: auto; position: sticky; top: 80px; }
+  #view-task:has(#cardStart:not([hidden])) > .wk-stack > .app-how, #view-task:has(#cardLib:not([hidden])) > .wk-stack > .app-how { align-self: start; grid-auto-rows: auto; position: sticky; top: 80px; }
 }
 
 /* ---- saved-key row */
@@ -302,3 +303,15 @@ body.is-stage { overflow: hidden; }
   .app-logwrap > .app-loghow { grid-column: 1 / -1; }
   .app-loghow__list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-6); }
 }
+
+/* ---- saved accompaniments */
+.app-liblist { list-style: none; margin: var(--space-3) 0 0; padding: 0; display: grid; gap: var(--space-2); }
+.app-libitem { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); }
+.app-libitem__ic { flex: none; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--accent-soft); color: var(--accent); }
+.app-libitem__ic .wk-icon { width: 22px; height: 22px; }
+.app-libitem__txt { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.app-libitem__txt b { font-size: 15px; line-height: 24px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app-libitem__txt span { font-size: 13px; line-height: 20px; color: var(--ink-muted); }
+.app-libitem__open { flex: none; min-height: 40px; padding: 0 var(--space-4); }
+.app-libitem__del { flex: none; min-width: 40px; min-height: 40px; padding: 0; }
+@media (max-width: 420px) { .app-libitem { flex-wrap: wrap; } .app-libitem__txt { flex-basis: calc(100% - 60px); } .app-libitem__open { flex: 1; } }

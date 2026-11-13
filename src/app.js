@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var APP_VERSION = '2.9';
+  var APP_VERSION = '3.0';
   var SR = 44100, MAX_CHUNK = 480, OVERLAP = 10, DIRECT_MAX_BYTES = 15e6, DIRECT_MAX_SEC = 590;
   var $ = function (id) { return document.getElementById(id); };
   var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
@@ -439,9 +439,13 @@
     } else go();
   };
 
+  function resetWorkspace() {
+    audio.pause(); result = null; $('ws').hidden = true; $('cardPlayer').hidden = true; $('cardTools').hidden = true; $('cardRec').hidden = true; $('cardScore').hidden = true; closePdf(); stopTools(); if (recS) stopRec(); clearTakes(); peaks = peaksSolo = null;
+  }
+
   async function run() {
     busy = true; cancelled = false; lockScreen(); updateProcessBtn();
-    audio.pause(); result = null; $('ws').hidden = true; $('cardPlayer').hidden = true; $('cardTools').hidden = true; $('cardRec').hidden = true; $('cardScore').hidden = true; closePdf(); stopTools(); if (recS) stopRec(); clearTakes(); peaks = peaksSolo = null;
+    resetWorkspace();
     var instId = $('instSelect').value, inst = CFG.instruments.filter(function (i) { return i.id === instId; })[0];
     $('cardProgress').hidden = false; $('btnCancel').hidden = false; $('log').innerHTML = ''; clearAlert('progAlert');
     $('cardProgress').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -505,9 +509,10 @@
     }
     mix = null; ab = null; buf = null;
     setStatus('آماده است', 1);
-    result = { acc: out.acc, solo: out.solo, name: file.name.replace(/\.[^.]+$/, ''), instLabel: inst.label };
+    result = { acc: out.acc, solo: out.solo, name: file.name.replace(/\.[^.]+$/, ''), instLabel: inst.label, instId: instId };
     setupPlayer();
     toast('همراهی آماده است');
+    if (LIB.ok && getPref('acc_libauto', '1') !== '0') libSave();
   }
 
   // ---------- player ----------
@@ -1205,5 +1210,105 @@
     mp3(result.solo[0], result.solo[0], 192, function (p) { $('dlMsg').textContent = 'ساختن MP3… ' + fa(Math.round(p * 100)) + '٪'; })
       .then(function (b) { dlBusy(false); save(b, result.name + '_solo.mp3'); }, dlFail);
   };
-  window.__app = { showView: showView, version: APP_VERSION, audio: audio };
+
+  // ---------- library: saved accompaniments (this device only, IndexedDB) ----------
+  var LIB = { ok: false, db: null }, LIB_MAX = 12;
+  function libOpen() {
+    return new Promise(function (res) {
+      try {
+        var rq = indexedDB.open('acc_lib', 1);
+        rq.onupgradeneeded = function () { var d = rq.result; d.createObjectStore('meta', { keyPath: 'id' }); d.createObjectStore('data', { keyPath: 'id' }); };
+        rq.onsuccess = function () { LIB.db = rq.result; LIB.ok = true; res(true); };
+        rq.onerror = rq.onblocked = function () { res(false); };
+      } catch (e) { res(false); }
+    });
+  }
+  function libTx(stores, mode, fn) {
+    return new Promise(function (res, rej) {
+      var tx = LIB.db.transaction(stores, mode), out = fn(tx);
+      tx.oncomplete = function () { res(out && out.result !== undefined ? out.result : out); };
+      tx.onerror = tx.onabort = function () { rej(tx.error || new Error('ذخیره‌سازی روی این دستگاه ناموفق بود.')); };
+    });
+  }
+  function libAll() { return libTx(['meta'], 'readonly', function (tx) { return tx.objectStore('meta').getAll(); }).then(function (a) { return (a || []).sort(function (x, y) { return y.opened - x.opened; }); }); }
+  function libGet(id) {
+    var m, d;
+    return libTx(['meta', 'data'], 'readonly', function (tx) { var a = tx.objectStore('meta').get(id), b = tx.objectStore('data').get(id); a.onsuccess = function () { m = a.result; }; b.onsuccess = function () { d = b.result; }; }).then(function () { return m && d ? { meta: m, data: d } : null; });
+  }
+  function libDel(ids) { return libTx(['meta', 'data'], 'readwrite', function (tx) { ids.forEach(function (id) { tx.objectStore('meta').delete(id); tx.objectStore('data').delete(id); }); }); }
+  function libPrune() { return libAll().then(function (a) { var extra = a.slice(LIB_MAX).map(function (x) { return x.id; }); return extra.length ? libDel(extra) : null; }); }
+  function libSave() {
+    if (!LIB.ok || !result) return Promise.resolve();
+    var r = result, id = r.instId + '|' + r.name;
+    toast('در حال ذخیره در کتابخانه…');
+    return mp3(r.acc[0], r.acc[1], 192).then(function (accB) {
+      return mp3(r.solo[0], r.solo[0], 128).then(function (soloB) {
+        var now = Date.now(), meta = { id: id, name: r.name, inst: r.instId, instLabel: r.instLabel, dur: Math.round(r.acc[0].length / SR), created: now, opened: now, bytes: accB.size + soloB.size };
+        return libTx(['meta', 'data'], 'readwrite', function (tx) { tx.objectStore('meta').put(meta); tx.objectStore('data').put({ id: id, acc: accB, solo: soloB }); });
+      });
+    }).then(libPrune).then(function () { toast('در کتابخانه ذخیره شد'); return renderLib(); }, function (e) {
+      var full = e && /quota/i.test(e.name + ' ' + e.message);
+      showAlert('inputAlert', 'note', 'توجه:', full ? 'جای کافی روی این دستگاه نبود و همراهی در کتابخانه ذخیره نشد. از «تنظیمات» می‌توانی کتابخانه را خالی کنی.' : 'همراهی در کتابخانه ذخیره نشد؛ ولی همین‌جا قابل استفاده است.');
+    });
+  }
+  function fmtAgo(t) {
+    var d0 = new Date(); d0.setHours(0, 0, 0, 0);
+    var days = Math.round((d0.getTime() - new Date(new Date(t).setHours(0, 0, 0, 0)).getTime()) / 864e5);
+    return days <= 0 ? 'امروز' : days === 1 ? 'دیروز' : days < 7 ? fa(days) + ' روز پیش' : new Date(t).toLocaleDateString('fa-IR', { day: 'numeric', month: 'long' });
+  }
+  function renderLib() {
+    if (!LIB.ok) return Promise.resolve();
+    return libAll().then(function (items) {
+      $('cardLib').hidden = !items.length;
+      var bytes = items.reduce(function (a, x) { return a + (x.bytes || 0); }, 0);
+      $('libInfo').textContent = items.length ? fa(items.length) + ' همراهی ذخیره شده است · حدود ' + fa(Math.max(1, Math.round(bytes / 1048576))) + ' مگابایت' : 'کتابخانه خالی است.';
+      $('libClear').disabled = !items.length;
+      var ul = $('libList'); ul.innerHTML = '';
+      items.forEach(function (m) {
+        var li = document.createElement('li'), ic = document.createElement('span'), tx = document.createElement('div'), b = document.createElement('b'), sub = document.createElement('span'), open = document.createElement('button'), del = document.createElement('button');
+        li.className = 'app-libitem'; ic.className = 'app-libitem__ic'; ic.innerHTML = ICON('wave'); tx.className = 'app-libitem__txt';
+        b.textContent = m.name; sub.textContent = 'بدون ' + m.instLabel + ' · ' + fmtDur(m.dur) + ' · ' + fmtAgo(m.created);
+        open.className = 'wk-btn wk-btn--primary app-libitem__open'; open.type = 'button'; open.textContent = 'باز کن'; open.onclick = function () { openSaved(m.id); };
+        del.className = 'wk-btn wk-btn--quiet app-libitem__del'; del.type = 'button'; del.innerHTML = ICON('close'); del.setAttribute('aria-label', 'حذف «' + m.name + '»');
+        del.onclick = function () {
+          confirmDialog({ title: 'از کتابخانه حذف شود؟', text: '«' + m.name + '» از این دستگاه پاک می‌شود. برای داشتنش باید دوباره بسازی.', confirm: 'حذف کن', cancel: 'نگه دار', danger: true }).then(function (yes) { if (yes) libDel([m.id]).then(renderLib); });
+        };
+        tx.appendChild(b); tx.appendChild(sub); li.appendChild(ic); li.appendChild(tx); li.appendChild(open); li.appendChild(del); ul.appendChild(li);
+      });
+    }).catch(function () {});
+  }
+  function openSaved(id) {
+    if (busy) { showAlert('inputAlert', 'note', 'توجه:', 'تا پایان پردازش جاری صبر کن.'); return; }
+    var go = function () {
+      toast('در حال باز کردن…');
+      libGet(id).then(function (rec) {
+        if (!rec) throw new Error('این همراهی پیدا نشد.');
+        return Promise.all([rec.data.acc.arrayBuffer().then(decode), rec.data.solo.arrayBuffer().then(decode)]).then(function (ab) {
+          var a = channels(ab[0]), s = channels(ab[1])[0], n = Math.min(a[0].length, a[1].length, s.length);
+          resetWorkspace(); $('cardProgress').hidden = true; clearAlert('inputAlert');
+          result = { acc: [a[0].subarray(0, n), a[1].subarray(0, n)], solo: [s.subarray(0, n)], name: rec.meta.name, instLabel: rec.meta.instLabel, instId: rec.meta.inst };
+          setupPlayer();
+          rec.meta.opened = Date.now();
+          libTx(['meta'], 'readwrite', function (tx) { tx.objectStore('meta').put(rec.meta); }).then(renderLib);
+        });
+      }).catch(function (e) { showAlert('inputAlert', 'error', 'خطا:', e.message); });
+    };
+    if (result) confirmDialog({ title: 'همراهی فعلی بسته شود؟', text: 'اگر ذخیره‌اش نکرده باشی (یا در کتابخانه نباشد) با باز کردن این یکی از دست می‌رود.', confirm: 'باز کن', cancel: 'برگرد', danger: true }).then(function (yes) { if (yes) go(); });
+    else go();
+  }
+  $('dlLib').onclick = function () { libSave(); };
+  $('libAuto').onclick = function () { var on = !isOn(this); setSwitch(this, on); setPref('acc_libauto', on ? '1' : '0'); };
+  $('libClear').onclick = function () {
+    confirmDialog({ title: 'کتابخانه خالی شود؟', text: 'همۀ همراهی‌های ذخیره‌شده از این دستگاه پاک می‌شوند و برنمی‌گردند.', confirm: 'خالی کن', cancel: 'نگه دار', danger: true }).then(function (yes) {
+      if (!yes) return;
+      libTx(['meta', 'data'], 'readwrite', function (tx) { tx.objectStore('meta').clear(); tx.objectStore('data').clear(); }).then(function () { toast('کتابخانه خالی شد'); renderLib(); });
+    });
+  };
+  libOpen().then(function (ok) {
+    if (!ok) return;
+    $('cardLibSet').hidden = false; $('dlLib').hidden = false;
+    setSwitch($('libAuto'), getPref('acc_libauto', '1') !== '0');
+    renderLib();
+  });
+  window.__app = { showView: showView, version: APP_VERSION, audio: audio, test: { setResult: function (r) { result = r; setupPlayer(); }, libSave: libSave, has: function () { return !!result; } } };
 })();

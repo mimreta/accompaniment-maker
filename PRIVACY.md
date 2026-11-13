@@ -12,7 +12,7 @@ Short version: the app has no accounts, no analytics and no server of its own th
 - Stored in your browser's local storage (web version) or in the Script Properties of the account that deployed the app (Apps Script version). It is sent with each request to the relay/MVSEP and is never part of this repository. Treat it like a password, and regenerate it at mvsep.com/user-api if you think it leaked.
 
 ## What stays only on your device
-Markers, tuning, speed settings, PDF annotations, practice log and theme are saved in your browser (local storage). Your PDF part is read in the browser and never uploaded. Microphone recordings stay in memory until you close the page; nothing is uploaded. Clearing browser data removes everything.
+Markers, tuning, speed settings, PDF annotations, practice log and theme are saved in your browser (local storage). Finished accompaniments are saved in your browser's IndexedDB (the library, up to 12 items, can be switched off or cleared in Settings) so you do not have to process them again; they are never uploaded. Your PDF part is read in the browser and never uploaded. Microphone recordings stay in memory until you close the page; nothing is uploaded. Clearing browser data removes everything.
 
 ## Third-party hosts the page contacts
 The page loads the font and, when needed, the MP3 encoder and PDF viewer from public CDNs (jsDelivr, and unpkg as a fallback). Those hosts see your IP address and the request, like any website does. Nothing else is contacted except the relay/MVSEP when you make an accompaniment.

@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0
+- Library: finished accompaniments are saved on the device (IndexedDB, up to 12, MP3-compressed) and can be reopened from the first screen without processing again. Auto-save toggle, manual "Save to library" and "Clear library" in Settings.
+
 ## 2.9
 - Settings: once a key is saved, the key field is replaced by a "Key saved" row with a "Change key" button (and Cancel).
 - Practice log: a plain explanation of what it is, what fills it, and what it stores; clearer empty state and a note about the streak rule.
