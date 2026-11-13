@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var APP_VERSION = '3.0';
+  var APP_VERSION = '3.1';
   var SR = 44100, MAX_CHUNK = 480, OVERLAP = 10, DIRECT_MAX_BYTES = 15e6, DIRECT_MAX_SEC = 590;
   var $ = function (id) { return document.getElementById(id); };
   var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
@@ -197,6 +197,7 @@
   $('tuneRec').value = 440; $('tuneMine').value = 440;
   for (var sm = -6; sm <= 6; sm++) addOpt($('tuneSemi'), sm, sm === 0 ? 'بدون انتقال' : fa(Math.abs(sm)) + ' نیم‌پرده ' + (sm > 0 ? 'بالاتر' : 'پایین‌تر'));
   $('tuneSemi').value = 0;
+  addOpt($('goalSel'), 0, 'بدون هدف'); [10, 15, 20, 30, 45, 60].forEach(function (m) { addOpt($('goalSel'), m, fa(m) + ' دقیقه'); });
   addOpt($('trStep'), 5, '۵٪'); addOpt($('trStep'), 10, '۱۰٪'); $('trStep').value = 5;
   loadPrefs(); syncCtrls();
   $('ciOn').onclick = function () { setSwitch(this, !isOn(this)); syncCtrls(); savePrefs(); };
@@ -304,7 +305,7 @@
   $('btnReset').onclick = function () {
     confirmDialog({ title: 'ترجیحات این دستگاه پاک شود؟', text: 'ساز، سرعت، صدای راهنما، شمارش و ظاهر به حالت اول برمی‌گردد.', confirm: 'بازنشانی', cancel: 'نگه دار', danger: true }).then(function (yes) {
       if (!yes) return;
-      ['theme', 'acc_inst', 'acc_prefs'].forEach(delPref);
+      ['theme', 'acc_inst', 'acc_prefs', 'acc_goal', 'acc_goal_done'].forEach(delPref);
       themeMode = 'auto'; setThemeSeg('auto'); applyTheme('auto');
       $('speed').value = 100; $('guide').value = 0; setSwitch($('ciOn'), false); $('ciBeats').value = 4; $('ciBpm').value = 72;
       $('tuneRec').value = 440; $('tuneMine').value = 440; $('tuneSemi').value = 0; setSwitch($('trOn'), false); $('trEvery').value = 3; $('trStep').value = 5;
@@ -1115,13 +1116,20 @@
     var L = logLoad(), k = dayKey(), d = L[k] || (L[k] = { t: 0, p: {} }), name = result ? result.name : '—';
     d.t = Math.round((d.t + sec) * 10) / 10; d.p[name] = Math.round(((d.p[name] || 0) + sec) * 10) / 10;
     Object.keys(L).sort().slice(0, Math.max(0, Object.keys(L).length - 400)).forEach(function (x) { delete L[x]; });
-    setPref(LOGK, JSON.stringify(L));
+    setPref(LOGK, JSON.stringify(L)); checkGoal();
   }
   audio.addEventListener('play', function () { playStart = Date.now(); });
   audio.addEventListener('pause', function () { logFlush(); playStart = 0; });
   audio.addEventListener('ended', function () { logFlush(); playStart = 0; });
   setInterval(function () { if (playStart) { logFlush(); if (!$('view-log').hidden) renderLog(); } }, 10000);
   window.addEventListener('pagehide', function () { logFlush(); playStart = 0; });
+  function goalMin() { var g = parseInt(getPref('acc_goal', '0'), 10); return [10, 15, 20, 30, 45, 60].indexOf(g) >= 0 ? g : 0; }
+  function checkGoal() {
+    var g = goalMin(); if (!g) return;
+    var L = logLoad(), k = dayKey();
+    if (L[k] && L[k].t >= g * 60 && getPref('acc_goal_done', '') !== k) { setPref('acc_goal_done', k); toast('هدف امروز کامل شد'); }
+  }
+  $('goalSel').onchange = function () { setPref('acc_goal', this.value); renderLog(); checkGoal(); };
   function fmtDur(sec) {
     sec = Math.round(sec); if (sec <= 0) return '۰'; if (sec < 60) return 'کمتر از ۱ دقیقه';
     var m = Math.round(sec / 60), h = Math.floor(m / 60); m = m % 60;
@@ -1135,10 +1143,17 @@
     for (i = 0; i < 400; i++) { d = new Date(today.getFullYear(), today.getMonth(), today.getDate() - off - i); k = dayKey(d); if (L[k] && L[k].t >= 60) streak++; else break; }
     function mins(s) { return fa(s > 0 ? Math.max(1, Math.round(s / 60)) : 0); }
     $('logToday').textContent = mins(days[6].t); $('logWeek').textContent = mins(week); $('logStreak').textContent = fa(streak);
+    var goal = goalMin(), gs = goal * 60, todaySec = days[6].t;
+    $('goalSel').value = String(goal); $('goalBar').hidden = !goal;
+    if (goal) {
+      var pct = Math.min(100, Math.round(todaySec / gs * 100));
+      $('goalFill').style.width = pct + '%'; $('goalBar').setAttribute('aria-valuenow', pct);
+      $('goalTxt').textContent = todaySec >= gs ? 'هدف امروز کامل شد.' : mins(todaySec) + ' از ' + fa(goal) + ' دقیقه · ' + fa(Math.max(1, goal - Math.round(todaySec / 60))) + ' دقیقه مانده';
+    } else $('goalTxt').textContent = 'برای هر روز مدتی بگذار تا اینجا پیشرفتت را ببینی.';
     $('logBars').innerHTML = ''; $('logBars').setAttribute('aria-label', 'تمرین هفت روز اخیر: ' + fmtDur(week));
     days.forEach(function (x) {
       var c = document.createElement('div'), b = document.createElement('i'), l = document.createElement('span');
-      b.style.setProperty('--r', (x.t / max).toFixed(3)); if (!x.t) b.style.opacity = '.25';
+      b.style.setProperty('--r', (x.t / max).toFixed(3)); if (!x.t) b.style.opacity = '.25'; else if (goal && x.t < gs) b.style.opacity = '.55';
       l.textContent = x.d.toLocaleDateString('fa-IR', { weekday: 'short' }); c.title = fmtDur(x.t); c.appendChild(b); c.appendChild(l); $('logBars').appendChild(c);
     });
     var agg = {}; Object.keys(L).sort().slice(-30).forEach(function (kk) { var p = L[kk].p || {}; Object.keys(p).forEach(function (n) { agg[n] = (agg[n] || 0) + p[n]; }); });

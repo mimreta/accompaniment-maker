@@ -289,6 +289,14 @@
       <div class="wk-card" id="cardLog">
         <div class="app-logsum"><div><b id="logToday">۰</b><span>دقیقۀ امروز</span></div><div><b id="logWeek">۰</b><span>دقیقه در هفته</span></div><div><b id="logStreak">۰</b><span>روز پشت‌سرهم</span></div></div>
         <p class="wk-note" style="margin-top:var(--space-3)">«پشت‌سرهم» یعنی روزهایی که دست‌کم یک دقیقه تمرین کرده‌ای.</p>
+        <div class="app-goal">
+          <div class="app-goal__head">
+            <label class="wk-field__label" for="goalSel">هدف روزانه</label>
+            <div class="wk-select-wrap app-goal__sel"><select class="wk-field__input wk-select" id="goalSel"></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div>
+          </div>
+          <div class="app-goal__bar" id="goalBar" role="progressbar" aria-label="پیشرفت هدف امروز" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden><i id="goalFill"></i></div>
+          <p class="wk-note" id="goalTxt" role="status" aria-live="polite">برای هر روز مدتی بگذار تا اینجا پیشرفتت را ببینی.</p>
+        </div>
         <h2 class="wk-card__title" style="margin-top:var(--space-5)">هفتۀ اخیر</h2>
         <div class="app-logbars" id="logBars" role="img" aria-label="تمرین هفت روز اخیر"></div>
       </div>
@@ -371,7 +379,7 @@
     <div class="wk-aboutscreen">
       <svg class="wk-about__mark" viewBox="0 0 96 96" aria-hidden="true"><use href="#app-icon"/></svg>
       <p class="wk-about__name">همراهی‌ساز</p>
-      <p class="wk-about__version" dir="ltr">Accompaniment Maker · v3.0</p>
+      <p class="wk-about__version" dir="ltr">Accompaniment Maker · v3.1</p>
       <p class="wk-about__purpose">اکامپانیمان بساز: ساز خودت را از ضبط حذف کن و جایش بنواز.</p>
       <div class="wk-aboutscreen__cards">
         <div class="wk-card"><h2 class="wk-card__title">اکامپانیمان یعنی چه؟</h2><p class="wk-card__text">«اکامپانیمان» (accompaniment؛ در فارسی همراهی) یعنی بقیۀ موسیقی، بدون سازی که خودت می‌نوازی. ارکستر باشد یا گروه، پیانو یا هر ترکیب دیگر: همۀ سازها را می‌شنوی جز یکی، مثلاً همۀ ارکستر جز ویولنسل، و ویولنسل را خودت می‌نوازی. این روش از سال ۱۹۵۰ با نام Music Minus One (موسیقی منهای یک) برای تمرین به کار می‌رود.</p></div>

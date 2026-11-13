@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.1
+- Practice log: daily goal (10-60 min) with a progress bar, dimmed bars for days below the goal, and a toast when the goal is reached.
+
 ## 3.0
 - Library: finished accompaniments are saved on the device (IndexedDB, up to 12, MP3-compressed) and can be reopened from the first screen without processing again. Auto-save toggle, manual "Save to library" and "Clear library" in Settings.
 
