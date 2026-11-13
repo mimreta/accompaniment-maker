@@ -8,6 +8,7 @@
 - The real file name is never sent to MVSEP (only `audio.<ext>`).
 - Settings explain how to get an MVSEP key; Getting started guide in English and Persian; PRIVACY, SECURITY, CONTRIBUTING, CODE_OF_CONDUCT, THIRD_PARTY_NOTICES, issue and PR templates.
 - No shared relay: each web user deploys their own and pastes its address in Settings, so nobody's Apps Script quota is used by others.
+- Cloudflare Worker relay (`relay/cloudflare-worker.js`) as the no-Google-quota option.
 - Renamed to Accompaniment Maker (repo `accompaniment-maker`).
 - One source of truth: everything is edited in `src/` and built by `scripts/build.py`; `scripts/check.sh` verifies the build and scans for secrets.
 

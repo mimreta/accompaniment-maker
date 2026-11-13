@@ -32,6 +32,7 @@ Change the deployment access to "Anyone" (or "Anyone with a Google account"). Ot
 - **Your data:** markers, notes, tuning, practice log and settings are stored in the browser (localStorage) on each device. Clearing browser data removes them.
 
 ## Web version (no Apps Script for the app itself)
-1. Deploy the relay once: create an Apps Script project, paste `relay/Code.gs`, Deploy → New deployment → Web app, Execute as: Me, Access: Anyone. Authorize when asked.
+0. Easiest: deploy `relay/cloudflare-worker.js` as a Cloudflare Worker (free) and use its `https://….workers.dev` address in step 2. No Google quota is used. The Apps Script relay below also works.
+1. Or deploy the Apps Script relay once: create an Apps Script project, paste `relay/Code.gs`, Deploy → New deployment → Web app, Execute as: Me, Access: Anyone. Authorize when asked.
 2. Copy the deployment's `/exec` URL and paste it in the app under Settings, "Your relay address" (stored only in your browser). Keep the URL private: anyone who has it can spend your Apps Script daily quota. If it leaks, make a new deployment and delete the old one.
 3. Publish the repo root (it contains `index.html`) on any static host (it needs HTTPS for the microphone).

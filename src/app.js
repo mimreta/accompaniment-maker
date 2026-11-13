@@ -31,7 +31,7 @@
     throw new Error('دریافت کتابخانه ممکن نشد. اینترنت را بررسی کن و دوباره امتحان کن.');
   }
   function relayUrl() { return (getPref('relay_url', '') || window.SOLO_RELAY || '').trim(); }
-  function validRelay(u) { return /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]{20,}\/exec$/.test(u); }
+  function validRelay(u) { return /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]{20,}\/exec$/.test(u) || /^https:\/\/[a-z0-9-]+\.[a-z0-9-]+\.workers\.dev\/?$/.test(u); }
   async function relay(body) {
     if (!relayUrl()) throw new Error('آدرس ریلی ثبت نشده است. از «تنظیمات» وارد کن.');
     var r;
@@ -223,7 +223,7 @@
     clearAlert('keyAlert');
     if (WEB && $('relayInput').value.trim()) {
       var ru = $('relayInput').value.trim();
-      if (!validRelay(ru)) { showAlert('keyAlert', 'error', 'خطا:', 'آدرس ریلی باید شبیه https://script.google.com/macros/s/…/exec باشد.'); return; }
+      if (!validRelay(ru)) { showAlert('keyAlert', 'error', 'خطا:', 'آدرس ریلی باید شبیه https://…workers.dev یا https://script.google.com/macros/s/…/exec باشد.'); return; }
       setPref('relay_url', ru); $('relayInput').value = ''; $('relayHint').textContent = 'یک آدرس ریلی ذخیره شده است. برای تغییر، آدرس تازه را وارد کن.';
       clearAlert('inputAlert'); toast('آدرس ریلی ذخیره شد');
       if (!$('keyInput').value.trim()) { keyNotice(); updateProcessBtn(); return; }
