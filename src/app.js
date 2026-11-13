@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var APP_VERSION = '3.9';
+  var APP_VERSION = '4.0';
   var SR = 44100, MAX_CHUNK = 480, OVERLAP = 10, DIRECT_MAX_BYTES = 15e6, DIRECT_MAX_SEC = 590;
   var $ = function (id) { return document.getElementById(id); };
   var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
@@ -317,7 +317,7 @@
   $('btnReset').onclick = function () {
     confirmDialog({ title: 'ترجیحات این دستگاه پاک شود؟', text: 'ساز، سرعت، صدای راهنما، شمارش و ظاهر به حالت اول برمی‌گردد.', confirm: 'بازنشانی', cancel: 'نگه دار', danger: true }).then(function (yes) {
       if (!yes) return;
-      ['theme', 'acc_inst', 'acc_prefs', 'acc_goal', 'acc_goal_done'].forEach(delPref);
+      ['theme', 'acc_inst', 'acc_prefs', 'acc_goal', 'acc_goal_done', 'acc_game_best'].forEach(delPref); GAME.best = 0;
       themeMode = 'auto'; setThemeSeg('auto'); applyTheme('auto');
       $('speed').value = 100; $('guide').value = 0; setSwitch($('ciOn'), false); $('ciBeats').value = 4; $('ciBpm').value = 72;
       $('tuneRec').value = 440; $('tuneMine').value = 440; $('tuneSemi').value = 0; setSwitch($('trOn'), false); $('trEvery').value = 3; $('trStep').value = 5;
@@ -435,6 +435,65 @@
   }
   function log(t) { var li = document.createElement('li'); li.textContent = t; $('log').appendChild(li); $('log').scrollTop = 1e9; }
 
+  // ---------- waiting game «تکرار کن» ----------
+  // Four notes made by the browser itself (no recordings, nothing stored but the best round on this device).
+  var GAME = { seq: [], pos: 0, state: 'idle', timers: [], ctx: null, best: parseInt(getPref('acc_game_best', '0'), 10) || 0 };
+  var GAME_HZ = [261.63, 293.66, 329.63, 392];
+  function gameTone(n) {
+    try {
+      var C = window.AudioContext || window.webkitAudioContext; if (!C) return;
+      if (!GAME.ctx) GAME.ctx = new C();
+      if (GAME.ctx.state === 'suspended') GAME.ctx.resume();
+      var t = GAME.ctx.currentTime, o = GAME.ctx.createOscillator(), g = GAME.ctx.createGain();
+      o.type = 'triangle'; o.frequency.value = GAME_HZ[n];
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.2, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
+      o.connect(g); g.connect(GAME.ctx.destination); o.start(t); o.stop(t + 0.5);
+    } catch (e) {}
+  }
+  function gamePad(n) { return $('gamePads').children[n]; }
+  function gameFlash(n, ms) { var p = gamePad(n); p.classList.add('is-on'); setTimeout(function () { p.classList.remove('is-on'); }, ms || 260); }
+  function gameMsg(t) { $('gameMsg').textContent = t; }
+  function gameScore() { $('gameScore').textContent = (GAME.seq.length && /^(play|input|wait)$/.test(GAME.state) ? 'دور ' + fa(GAME.seq.length) + ' · ' : '') + 'بهترین: ' + fa(GAME.best); }
+  function gameLock(on) { Array.prototype.forEach.call($('gamePads').children, function (b) { b.setAttribute('aria-disabled', on ? 'true' : 'false'); }); }
+  function gameClear() { GAME.timers.forEach(clearTimeout); GAME.timers = []; }
+  function gamePlay() {
+    GAME.state = 'play'; GAME.pos = 0; gameLock(true); gameScore(); gameMsg('گوش کن…');
+    var step = Math.max(340, 640 - GAME.seq.length * 16);
+    GAME.seq.forEach(function (n, i) {
+      GAME.timers.push(setTimeout(function () { gameTone(n); gameFlash(n, step * 0.6); }, 700 + i * step));
+    });
+    GAME.timers.push(setTimeout(function () { GAME.state = 'input'; gameLock(false); gameMsg('نوبت توست: همان ترتیب را بزن.'); }, 700 + GAME.seq.length * step));
+  }
+  function gameNext() { GAME.seq.push(Math.floor(Math.random() * 4)); gamePlay(); }
+  function gameStart() { gameClear(); GAME.seq = []; $('gameStart').textContent = 'از اول'; gameNext(); }
+  function gameHit(n) {
+    if (GAME.state === 'play') return;
+    gameTone(n); gameFlash(n);
+    if (GAME.state !== 'input') return;
+    if (n !== GAME.seq[GAME.pos]) {
+      var reached = GAME.seq.length - 1;
+      GAME.state = 'over'; gameLock(false); gameClear();
+      if (reached > GAME.best) { GAME.best = reached; setPref('acc_game_best', String(reached)); }
+      gameScore(); gameMsg(reached > 0 ? 'اشتباه شد. تا دور ' + fa(reached) + ' رسیدی؛ دوباره امتحان کن.' : 'اشتباه شد. دوباره امتحان کن.');
+      $('gameStart').textContent = 'دوباره'; return;
+    }
+    if (++GAME.pos === GAME.seq.length) {
+      gameLock(true); gameMsg('آفرین! دور بعد…');
+      if (GAME.seq.length > GAME.best) { GAME.best = GAME.seq.length; setPref('acc_game_best', String(GAME.best)); }
+      GAME.state = 'wait'; gameScore();
+      GAME.timers.push(setTimeout(gameNext, 900));
+    }
+  }
+  function gameShow() { $('game').hidden = false; $('gameBox').hidden = true; $('gameOpen').hidden = false; GAME.state = 'idle'; GAME.seq = []; gameScore(); $('gameStart').textContent = 'شروع'; gameMsg('نت‌ها را گوش کن و همان ترتیب را بزن.'); gameLock(false); }
+  function gameStop() {
+    gameClear(); GAME.state = 'idle'; GAME.seq = []; $('game').hidden = true; $('gameBox').hidden = true;
+    try { if (GAME.ctx) { GAME.ctx.close(); GAME.ctx = null; } } catch (e) {}
+  }
+  $('gameOpen').onclick = function () { $('gameOpen').hidden = true; $('gameBox').hidden = false; gameScore(); gameMsg('برای شروع، «شروع» را بزن.'); };
+  $('gameClose').onclick = function () { gameClear(); GAME.state = 'idle'; GAME.seq = []; $('gameBox').hidden = true; $('gameOpen').hidden = false; };
+  $('gameStart').onclick = gameStart;
+  Array.prototype.forEach.call($('gamePads').children, function (b) { b.onclick = function () { gameHit(+b.getAttribute('data-n')); }; });
+
   $('btnCancel').onclick = function () {
     confirmDialog({ title: 'پردازش لغو شود؟', text: 'کارهایی که تمام شده ذخیره نمی‌شود؛ از اول شروع می‌کنی.', confirm: 'لغو پردازش', cancel: 'ادامه بده', danger: true }).then(function (yes) {
       if (yes && busy) { cancelled = true; setStatus('در حال لغو…'); }
@@ -467,7 +526,7 @@
       run().catch(function (e) {
         if (e.message === 'لغو شد.') { setStatus('لغو شد'); showAlert('progAlert', 'note', 'توجه:', 'پردازش لغو شد. هر وقت خواستی دوباره شروع کن.'); }
         else { setStatus('متوقف شد'); showAlert('progAlert', 'error', 'خطا:', friendlyErr(e.message)); }
-      }).then(function () { busy = false; unlockScreen(); updateProcessBtn(); $('btnCancel').hidden = true; });
+      }).then(function () { busy = false; unlockScreen(); updateProcessBtn(); $('btnCancel').hidden = true; gameStop(); });
     };
     if (result) {
       confirmDialog({ title: 'نتیجۀ فعلی عوض شود؟', text: 'همراهی‌ای که الان داری با نتیجۀ تازه جایگزین می‌شود. اگر لازمش داری، اول دانلودش کن.', confirm: 'جایگزین کن', cancel: 'برگرد', danger: true }).then(function (yes) { if (yes) go(); });
@@ -482,7 +541,7 @@
     busy = true; cancelled = false; lockScreen(); updateProcessBtn();
     resetWorkspace();
     var instId = $('instSelect').value, inst = CFG.instruments.filter(function (i) { return i.id === instId; })[0];
-    $('cardProgress').hidden = false; $('btnCancel').hidden = false; $('log').innerHTML = ''; clearAlert('progAlert');
+    $('cardProgress').hidden = false; $('btnCancel').hidden = false; gameShow(); $('log').innerHTML = ''; clearAlert('progAlert');
     $('cardProgress').scrollIntoView({ behavior: 'smooth', block: 'start' });
     setStatus('در حال خواندن فایل…', 0.02);
     var buf = await file.arrayBuffer();
@@ -1381,5 +1440,5 @@
     setSwitch($('libAuto'), getPref('acc_libauto', '1') !== '0');
     renderLib();
   });
-  window.__app = { showView: showView, version: APP_VERSION, audio: audio, test: { setResult: function (r) { result = r; setupPlayer(); }, libSave: libSave, has: function () { return !!result; } } };
+  window.__app = { showView: showView, version: APP_VERSION, audio: audio, test: { gameSeq: function () { return GAME.seq.slice(); }, setResult: function (r) { result = r; setupPlayer(); }, libSave: libSave, has: function () { return !!result; } } };
 })();

@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0
+- New: a small waiting game, «تکرار کن». While your accompaniment is being made, an optional button opens four notes (دو، ر، می، سل): listen to the sequence, repeat it, and it grows by one note each round. The notes are made by the browser itself, nothing is recorded or sent, only your best round stays on this device. The game closes by itself when processing ends or is cancelled.
+
 ## 3.9
 - The progress line no longer names the service: «فایل در حال ارسال است…» and «در نوبت پردازش — حدود N دقیقه».
 

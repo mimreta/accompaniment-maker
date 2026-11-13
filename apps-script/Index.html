@@ -580,6 +580,27 @@ body.is-stage { overflow: hidden; }
 #goalTxt { margin-top: var(--space-2); }
 @media (prefers-reduced-motion: reduce) { .app-goal__bar i { transition: none; } }
 
+/* Waiting game «تکرار کن» (v4.0): four notes, repeat the growing sequence */
+:root, [data-theme="light"] { --pad-0: #0b7a7c; --pad-1: #14284b; --pad-2: #3e6fa8; --pad-3: #5b7088; }
+[data-theme="dark"] { --pad-0: #5fc9c4; --pad-1: #a9c2ea; --pad-2: #6f9fd8; --pad-3: #8fa3ba; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --pad-0: #5fc9c4; --pad-1: #a9c2ea; --pad-2: #6f9fd8; --pad-3: #8fa3ba; } }
+.app-game { margin-top: var(--space-4); }
+.app-game__box { display: grid; gap: var(--space-3); margin-top: var(--space-3); padding: var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface-sunken); }
+.app-game__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+.app-game__title { margin: 0; font-size: 16px; line-height: 24px; font-weight: 700; }
+.app-game__score { font-size: 14px; line-height: 24px; color: var(--ink-muted); }
+.app-game__msg { margin: 0; font-size: 14px; line-height: 24px; color: var(--ink-muted); min-height: 24px; }
+.app-game__pads { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); width: 100%; max-width: 360px; margin-inline: auto; direction: ltr; }
+.app-game__pad { min-height: 76px; border: 2px solid transparent; border-radius: var(--radius-md); font: inherit; font-size: 20px; font-weight: 700; color: var(--on-accent); cursor: pointer; opacity: .86; transition: opacity var(--motion-fast), transform var(--motion-fast); -webkit-tap-highlight-color: transparent; }
+.app-game__pad[data-n="0"] { background: var(--pad-0); } .app-game__pad[data-n="1"] { background: var(--pad-1); }
+.app-game__pad[data-n="2"] { background: var(--pad-2); } .app-game__pad[data-n="3"] { background: var(--pad-3); }
+.app-game__pad.is-on { opacity: 1; transform: scale(1.04); border-color: var(--ink); }
+.app-game__pad:disabled { cursor: default; }
+.app-game__pad:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+.app-game__acts { display: flex; flex-wrap: wrap; gap: var(--space-2); justify-content: center; }
+.app-game__acts .wk-btn { width: auto; min-width: 120px; }
+@media (prefers-reduced-motion: reduce) { .app-game__pad { transition: none; } .app-game__pad.is-on { transform: none; } }
+
 </style>
 </head>
 <body>
@@ -667,6 +688,20 @@ body.is-stage { overflow: hidden; }
         <div class="wk-progress" id="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="barFill"></div></div>
         <ul class="app-log" id="log"></ul>
         <div id="progAlert" style="margin-top:var(--space-3)"></div>
+        <div class="app-game" id="game" hidden>
+          <button class="wk-btn wk-btn--secondary wk-btn--block" id="gameOpen" type="button">تا آماده شود، بازی کن</button>
+          <div class="app-game__box" id="gameBox" hidden>
+            <div class="app-game__head"><h3 class="app-game__title">تکرار کن</h3><span class="app-game__score" id="gameScore"></span></div>
+            <p class="app-game__msg" id="gameMsg" role="status" aria-live="polite">نت‌ها را گوش کن و همان ترتیب را بزن.</p>
+            <div class="app-game__pads" id="gamePads" role="group" aria-label="چهار نت">
+              <button class="app-game__pad" type="button" data-n="0" aria-label="نت دو">دو</button>
+              <button class="app-game__pad" type="button" data-n="1" aria-label="نت ر">ر</button>
+              <button class="app-game__pad" type="button" data-n="2" aria-label="نت می">می</button>
+              <button class="app-game__pad" type="button" data-n="3" aria-label="نت سل">سل</button>
+            </div>
+            <div class="app-game__acts"><button class="wk-btn wk-btn--primary" id="gameStart" type="button">شروع</button><button class="wk-btn wk-btn--quiet" id="gameClose" type="button">بستن بازی</button></div>
+          </div>
+        </div>
         <div class="wk-actions"><button class="wk-btn wk-btn--secondary" id="btnCancel">لغو پردازش</button></div>
       </div>
 
@@ -963,7 +998,7 @@ body.is-stage { overflow: hidden; }
     <div class="wk-aboutscreen">
       <svg class="wk-about__mark" viewBox="0 0 96 96" aria-hidden="true"><use href="#app-icon"/></svg>
       <p class="wk-about__name">همراهی‌ساز</p>
-      <p class="wk-about__version" dir="ltr">Accompaniment Maker · v3.9</p>
+      <p class="wk-about__version" dir="ltr">Accompaniment Maker · v4.0</p>
       <p class="wk-about__purpose">اکامپانیمان بساز: ساز خودت را از ضبط حذف کن و جایش بنواز.</p>
       <div class="wk-aboutscreen__cards">
         <div class="wk-card"><h2 class="wk-card__title">اکامپانیمان یعنی چه؟</h2><p class="wk-card__text">«اکامپانیمان» (accompaniment؛ در فارسی همراهی) یعنی بقیۀ موسیقی، بدون سازی که خودت می‌نوازی. ارکستر باشد یا گروه، پیانو یا هر ترکیب دیگر: همۀ سازها را می‌شنوی جز یکی، مثلاً همۀ ارکستر جز ویولنسل، و ویولنسل را خودت می‌نوازی. این روش از سال ۱۹۵۰ با نام Music Minus One (موسیقی منهای یک) برای تمرین به کار می‌رود.</p></div>
@@ -971,7 +1006,7 @@ body.is-stage { overflow: hidden; }
         <div class="wk-card"><h2 class="wk-card__title">برای چه کسانی است؟</h2><ul class="wk-notes"><li><strong>هنرجوی ساز:</strong> ویولن، ویولنسل، فلوت، کلارینت، ترومپت و مانند آن، که قطعه‌ای از ارکستر یا گروه را کار می‌کند و می‌خواهد با بقیۀ اثر هم‌نوا شود.</li><li><strong>نوازندۀ ارکستر:</strong> که پارت خودش را پیش از تمرین جمعی با بقیۀ گروه می‌سازد.</li><li><strong>نوازندۀ آماتور و حرفه‌ای:</strong> که برای اجرا یا آزمون آماده می‌شود.</li><li><strong>معلم:</strong> که می‌خواهد هنرجو در خانه هم با بقیۀ اثر تمرین کند.</li><li><strong>هر کس که همراه‌نوازی در دسترس ندارد.</strong></li></ul></div>
         <div class="wk-card"><h2 class="wk-card__title">چطور کار می‌کند</h2><ol class="wk-steps"><li><span class="wk-steps__n">۱</span><div><strong>فایل و ساز را انتخاب کن</strong><span>ضبط را بده و بگو کدام ساز حذف شود؛ همان که خودت می‌نوازی.</span></div></li><li><span class="wk-steps__n">۲</span><div><strong>اپ اکامپانیمان را می‌سازد</strong><span>ضبط به سرویس MVSEP فرستاده می‌شود و آن ساز از بقیۀ اثر جدا می‌شود. زمانش به شلوغی صف سرویس بستگی دارد.</span></div></li><li><span class="wk-steps__n">۳</span><div><strong>با اکامپانیمان تمرین کن</strong><span>آهسته، با تکرار بخش دلخواه و شمارش قبل از شروع، ساز خودت را در جای خالی می‌نوازی؛ هر وقت خواستی دانلودش می‌کنی.</span></div></li></ol></div>
         <div class="wk-about__features"><h3>امکانات</h3><ul><li><strong>حذف ساز تو</strong><span>یکی از ۱۶ گزینه، از ویولنسل و ویولن تا فلوت و آواز؛ بقیۀ سازهای اثر می‌مانند.</span></li><li><strong>فایل بلند</strong><span>ضبط طولانی تکه‌تکه پردازش می‌شود و تکه‌ها با هم‌پوشانی به هم وصل می‌شوند تا درز شنیده نشود.</span></li><li><strong>سرعت دلخواه</strong><span>از ۵۰٪ تا ۱۲۵٪؛ سرعت عوض می‌شود، کوک عوض نمی‌شود.</span></li><li><strong>تکرار یک بخش</strong><span>روی موج بکش یا با «شروع» و «پایان» بخش را علامت بزن تا مدام تکرار شود.</span></li><li><strong>صدای راهنما</strong><span>ساز خودت را آرام زیر بقیۀ اثر می‌شنوی تا جایت را گم نکنی.</span></li><li><strong>نشانه‌های نام‌دار</strong><span>جاهای مهم قطعه را با حرف‌های تمرین (A، B، …) علامت بزن و با یک ضربه به آن‌جا برو.</span></li><li><strong>افزایش تدریجی سرعت</strong><span>بخش تکرارشونده را آهسته شروع کن و هر چند دور خودکار تندتر شود تا به سرعت اصلی برسد.</span></li><li><strong>کوک و گام</strong><span>ضبط ۴۴۲ هرتز و سازت ۴۴۰؟ کوک پخش را با سازت هماهنگ کن یا گام را نیم‌پرده جابه‌جا کن.</span></li><li><strong>مترونوم و نت مرجع</strong><span>ضرب با تمپوی دلخواه (با «تمپو با ضربه» هم می‌شود تعیینش کرد) و نتی که بر پایۀ کوک سازت ساخته می‌شود تا سازت را کوک کنی.</span></li><li><strong>ضبط خودت</strong><span>با اکامپانیمان بنواز و خودت را ضبط کن، بعد ضبط را هم‌زمان با اکامپانیمان گوش بده؛ تأخیر را هم می‌شود جبران کرد. فقط در نسخۀ وب اپ.</span></li>
-<li><strong>نت پارت تو</strong><span>PDF پارت خودت را کنار تمرین باز کن؛ با رسیدن پخش به هر نشانه، صفحۀ مربوط خودکار ورق می‌خورد؛ حالت تمام‌صفحه، ورق‌زدن با پدال بلوتوثی و یادداشت‌نویسی روی نت هم دارد.</span></li><li><strong>دفتر تمرین</strong><span>در بخش «دفتر تمرین» می‌بینی هر روز و در هفتۀ اخیر چقدر تمرین کرده‌ای و چند روز پشت‌سرهم بوده است.</span></li><li><strong>شمارش قبل از شروع</strong><span>چند ضرب با تمپوی دلخواه می‌شمارد و بعد پخش می‌شود.</span></li><li><strong>دانلود</strong><span>اکامپانیمان (اثر بدون ساز تو) به MP3 یا WAV (با صدای راهنمای فعلی) و ساز جداشده به MP3.</span></li><li><strong>ظاهر روشن و تیره</strong><span>خودکار مطابق گوشی، یا هر کدام را خودت انتخاب کن.</span></li><li><strong>موبایل و کامپیوتر</strong><span>روی گوشی با لمس و کشیدن، روی کامپیوتر با کلیدهای میان‌بر.</span></li></ul></div>
+<li><strong>نت پارت تو</strong><span>PDF پارت خودت را کنار تمرین باز کن؛ با رسیدن پخش به هر نشانه، صفحۀ مربوط خودکار ورق می‌خورد؛ حالت تمام‌صفحه، ورق‌زدن با پدال بلوتوثی و یادداشت‌نویسی روی نت هم دارد.</span></li><li><strong>دفتر تمرین</strong><span>در بخش «دفتر تمرین» می‌بینی هر روز و در هفتۀ اخیر چقدر تمرین کرده‌ای و چند روز پشت‌سرهم بوده است.</span></li><li><strong>شمارش قبل از شروع</strong><span>چند ضرب با تمپوی دلخواه می‌شمارد و بعد پخش می‌شود.</span></li><li><strong>کتابخانه</strong><span>همراهی‌هایی که ساخته‌ای خودکار روی همین دستگاه ذخیره می‌شوند؛ هر وقت خواستی از «کتابخانه» باز می‌کنی و دوباره منتظر نمی‌مانی.</span></li><li><strong>دانلود</strong><span>اکامپانیمان (اثر بدون ساز تو) به MP3 یا WAV (با صدای راهنمای فعلی) و ساز جداشده به MP3.</span></li><li><strong>بازی هنگام انتظار</strong><span>تا همراهی ساخته می‌شود، اگر خواستی «تکرار کن» را بازی کن: چهار نت را گوش کن و همان ترتیب را بزن.</span></li><li><strong>ظاهر روشن و تیره</strong><span>خودکار مطابق گوشی، یا هر کدام را خودت انتخاب کن.</span></li><li><strong>موبایل و کامپیوتر</strong><span>روی گوشی با لمس و کشیدن، روی کامپیوتر با کلیدهای میان‌بر.</span></li></ul></div>
         <div class="wk-card"><h2 class="wk-card__title">کلیدهای میان‌بر</h2><ul class="wk-keys"><li><span>پخش / توقف</span><span class="wk-keys__k"><kbd class="wk-kbd">Space</kbd></span></li><li><span>۵ ثانیه عقب / جلو</span><span class="wk-keys__k"><kbd class="wk-kbd">←</kbd><kbd class="wk-kbd">→</kbd></span></li><li><span>شروع / پایان تکرار</span><span class="wk-keys__k"><kbd class="wk-kbd">[</kbd><kbd class="wk-kbd">]</kbd></span></li><li><span>افزودن نشانه</span><span class="wk-keys__k"><kbd class="wk-kbd">M</kbd></span></li><li><span>صفحۀ قبل / بعد</span><span class="wk-keys__k"><kbd class="wk-kbd">PgUp</kbd><kbd class="wk-kbd">PgDn</kbd></span></li><li><span>خروج از تمام‌صفحه</span><span class="wk-keys__k"><kbd class="wk-kbd">Esc</kbd></span></li></ul></div>
         <div class="wk-card"><h2 class="wk-card__title">نکته‌ها</h2><ul class="wk-notes"><li><strong>جای نوازندگان واقعی را نمی‌گیرد:</strong> اکامپانیمان همان اجرای ضبط است و با ریتم و بیان همان نوازندگان می‌رود، نه با تو. برای تمرین عالی است؛ برای اجرای زندۀ جدی با گروه یا همراه‌نواز واقعی هماهنگ شو.</li><li><strong>کیفیت جداسازی:</strong> بسته به ضبط، ممکن است ردی از ساز تو در اکامپانیمان بماند؛ هرچه سازهای هم‌صدا بیشترند (مثلاً چند ویولن در یک گروه)، جداکردن سخت‌تر است.</li><li><strong>حریم خصوصی:</strong> فایل تو فقط برای جداسازی به سرویس MVSEP فرستاده می‌شود و جای دیگری ذخیره نمی‌شود. کلید، ترجیحات و همراهی‌های ذخیره‌شده‌ات فقط روی همین دستگاه می‌مانند. نگه‌داری فایل در MVSEP تابع قوانین خود آن سرویس است.</li><li><strong>ضبط با میکروفون:</strong> ضبط‌های تو روی همین دستگاه کنار همان همراهی می‌مانند و به هیچ سرویسی فرستاده نمی‌شوند؛ با پاک‌کردن همراهی یا خالی‌کردن کتابخانه از بین می‌روند (اگر خواستی، دانلودشان کن).</li>
 <li><strong>PDF پارت و یادداشت‌ها:</strong> PDF فقط در مرورگر خودت باز می‌شود و به هیچ سرویسی فرستاده نمی‌شود. یادداشت‌های روی نت و دفتر تمرین فقط روی همین دستگاه می‌مانند و با پاک‌شدن داده‌های مرورگر از بین می‌روند.</li><li><strong>حق استفاده:</strong> فقط ضبط‌هایی را بده که حق استفاده‌شان را داری.</li><li><strong>محدودیت:</strong> سرویس رایگان MVSEP سقف خودش را دارد و وقتی صف شلوغ است باید صبر کنی.</li><li><strong>ساخته‌شده با:</strong> MVSEP برای جداسازی، lamejs برای MP3، PDF.js (Mozilla) برای نمایش PDF و فونت وزیرمتن.</li></ul></div>
@@ -1184,7 +1219,7 @@ var AccCore = (function () {
 <script>
 (function () {
   'use strict';
-  var APP_VERSION = '3.9';
+  var APP_VERSION = '4.0';
   var SR = 44100, MAX_CHUNK = 480, OVERLAP = 10, DIRECT_MAX_BYTES = 15e6, DIRECT_MAX_SEC = 590;
   var $ = function (id) { return document.getElementById(id); };
   var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
@@ -1501,7 +1536,7 @@ var AccCore = (function () {
   $('btnReset').onclick = function () {
     confirmDialog({ title: 'ترجیحات این دستگاه پاک شود؟', text: 'ساز، سرعت، صدای راهنما، شمارش و ظاهر به حالت اول برمی‌گردد.', confirm: 'بازنشانی', cancel: 'نگه دار', danger: true }).then(function (yes) {
       if (!yes) return;
-      ['theme', 'acc_inst', 'acc_prefs', 'acc_goal', 'acc_goal_done'].forEach(delPref);
+      ['theme', 'acc_inst', 'acc_prefs', 'acc_goal', 'acc_goal_done', 'acc_game_best'].forEach(delPref); GAME.best = 0;
       themeMode = 'auto'; setThemeSeg('auto'); applyTheme('auto');
       $('speed').value = 100; $('guide').value = 0; setSwitch($('ciOn'), false); $('ciBeats').value = 4; $('ciBpm').value = 72;
       $('tuneRec').value = 440; $('tuneMine').value = 440; $('tuneSemi').value = 0; setSwitch($('trOn'), false); $('trEvery').value = 3; $('trStep').value = 5;
@@ -1619,6 +1654,65 @@ var AccCore = (function () {
   }
   function log(t) { var li = document.createElement('li'); li.textContent = t; $('log').appendChild(li); $('log').scrollTop = 1e9; }
 
+  // ---------- waiting game «تکرار کن» ----------
+  // Four notes made by the browser itself (no recordings, nothing stored but the best round on this device).
+  var GAME = { seq: [], pos: 0, state: 'idle', timers: [], ctx: null, best: parseInt(getPref('acc_game_best', '0'), 10) || 0 };
+  var GAME_HZ = [261.63, 293.66, 329.63, 392];
+  function gameTone(n) {
+    try {
+      var C = window.AudioContext || window.webkitAudioContext; if (!C) return;
+      if (!GAME.ctx) GAME.ctx = new C();
+      if (GAME.ctx.state === 'suspended') GAME.ctx.resume();
+      var t = GAME.ctx.currentTime, o = GAME.ctx.createOscillator(), g = GAME.ctx.createGain();
+      o.type = 'triangle'; o.frequency.value = GAME_HZ[n];
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.2, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
+      o.connect(g); g.connect(GAME.ctx.destination); o.start(t); o.stop(t + 0.5);
+    } catch (e) {}
+  }
+  function gamePad(n) { return $('gamePads').children[n]; }
+  function gameFlash(n, ms) { var p = gamePad(n); p.classList.add('is-on'); setTimeout(function () { p.classList.remove('is-on'); }, ms || 260); }
+  function gameMsg(t) { $('gameMsg').textContent = t; }
+  function gameScore() { $('gameScore').textContent = (GAME.seq.length && /^(play|input|wait)$/.test(GAME.state) ? 'دور ' + fa(GAME.seq.length) + ' · ' : '') + 'بهترین: ' + fa(GAME.best); }
+  function gameLock(on) { Array.prototype.forEach.call($('gamePads').children, function (b) { b.setAttribute('aria-disabled', on ? 'true' : 'false'); }); }
+  function gameClear() { GAME.timers.forEach(clearTimeout); GAME.timers = []; }
+  function gamePlay() {
+    GAME.state = 'play'; GAME.pos = 0; gameLock(true); gameScore(); gameMsg('گوش کن…');
+    var step = Math.max(340, 640 - GAME.seq.length * 16);
+    GAME.seq.forEach(function (n, i) {
+      GAME.timers.push(setTimeout(function () { gameTone(n); gameFlash(n, step * 0.6); }, 700 + i * step));
+    });
+    GAME.timers.push(setTimeout(function () { GAME.state = 'input'; gameLock(false); gameMsg('نوبت توست: همان ترتیب را بزن.'); }, 700 + GAME.seq.length * step));
+  }
+  function gameNext() { GAME.seq.push(Math.floor(Math.random() * 4)); gamePlay(); }
+  function gameStart() { gameClear(); GAME.seq = []; $('gameStart').textContent = 'از اول'; gameNext(); }
+  function gameHit(n) {
+    if (GAME.state === 'play') return;
+    gameTone(n); gameFlash(n);
+    if (GAME.state !== 'input') return;
+    if (n !== GAME.seq[GAME.pos]) {
+      var reached = GAME.seq.length - 1;
+      GAME.state = 'over'; gameLock(false); gameClear();
+      if (reached > GAME.best) { GAME.best = reached; setPref('acc_game_best', String(reached)); }
+      gameScore(); gameMsg(reached > 0 ? 'اشتباه شد. تا دور ' + fa(reached) + ' رسیدی؛ دوباره امتحان کن.' : 'اشتباه شد. دوباره امتحان کن.');
+      $('gameStart').textContent = 'دوباره'; return;
+    }
+    if (++GAME.pos === GAME.seq.length) {
+      gameLock(true); gameMsg('آفرین! دور بعد…');
+      if (GAME.seq.length > GAME.best) { GAME.best = GAME.seq.length; setPref('acc_game_best', String(GAME.best)); }
+      GAME.state = 'wait'; gameScore();
+      GAME.timers.push(setTimeout(gameNext, 900));
+    }
+  }
+  function gameShow() { $('game').hidden = false; $('gameBox').hidden = true; $('gameOpen').hidden = false; GAME.state = 'idle'; GAME.seq = []; gameScore(); $('gameStart').textContent = 'شروع'; gameMsg('نت‌ها را گوش کن و همان ترتیب را بزن.'); gameLock(false); }
+  function gameStop() {
+    gameClear(); GAME.state = 'idle'; GAME.seq = []; $('game').hidden = true; $('gameBox').hidden = true;
+    try { if (GAME.ctx) { GAME.ctx.close(); GAME.ctx = null; } } catch (e) {}
+  }
+  $('gameOpen').onclick = function () { $('gameOpen').hidden = true; $('gameBox').hidden = false; gameScore(); gameMsg('برای شروع، «شروع» را بزن.'); };
+  $('gameClose').onclick = function () { gameClear(); GAME.state = 'idle'; GAME.seq = []; $('gameBox').hidden = true; $('gameOpen').hidden = false; };
+  $('gameStart').onclick = gameStart;
+  Array.prototype.forEach.call($('gamePads').children, function (b) { b.onclick = function () { gameHit(+b.getAttribute('data-n')); }; });
+
   $('btnCancel').onclick = function () {
     confirmDialog({ title: 'پردازش لغو شود؟', text: 'کارهایی که تمام شده ذخیره نمی‌شود؛ از اول شروع می‌کنی.', confirm: 'لغو پردازش', cancel: 'ادامه بده', danger: true }).then(function (yes) {
       if (yes && busy) { cancelled = true; setStatus('در حال لغو…'); }
@@ -1651,7 +1745,7 @@ var AccCore = (function () {
       run().catch(function (e) {
         if (e.message === 'لغو شد.') { setStatus('لغو شد'); showAlert('progAlert', 'note', 'توجه:', 'پردازش لغو شد. هر وقت خواستی دوباره شروع کن.'); }
         else { setStatus('متوقف شد'); showAlert('progAlert', 'error', 'خطا:', friendlyErr(e.message)); }
-      }).then(function () { busy = false; unlockScreen(); updateProcessBtn(); $('btnCancel').hidden = true; });
+      }).then(function () { busy = false; unlockScreen(); updateProcessBtn(); $('btnCancel').hidden = true; gameStop(); });
     };
     if (result) {
       confirmDialog({ title: 'نتیجۀ فعلی عوض شود؟', text: 'همراهی‌ای که الان داری با نتیجۀ تازه جایگزین می‌شود. اگر لازمش داری، اول دانلودش کن.', confirm: 'جایگزین کن', cancel: 'برگرد', danger: true }).then(function (yes) { if (yes) go(); });
@@ -1666,7 +1760,7 @@ var AccCore = (function () {
     busy = true; cancelled = false; lockScreen(); updateProcessBtn();
     resetWorkspace();
     var instId = $('instSelect').value, inst = CFG.instruments.filter(function (i) { return i.id === instId; })[0];
-    $('cardProgress').hidden = false; $('btnCancel').hidden = false; $('log').innerHTML = ''; clearAlert('progAlert');
+    $('cardProgress').hidden = false; $('btnCancel').hidden = false; gameShow(); $('log').innerHTML = ''; clearAlert('progAlert');
     $('cardProgress').scrollIntoView({ behavior: 'smooth', block: 'start' });
     setStatus('در حال خواندن فایل…', 0.02);
     var buf = await file.arrayBuffer();
@@ -2565,7 +2659,7 @@ var AccCore = (function () {
     setSwitch($('libAuto'), getPref('acc_libauto', '1') !== '0');
     renderLib();
   });
-  window.__app = { showView: showView, version: APP_VERSION, audio: audio, test: { setResult: function (r) { result = r; setupPlayer(); }, libSave: libSave, has: function () { return !!result; } } };
+  window.__app = { showView: showView, version: APP_VERSION, audio: audio, test: { gameSeq: function () { return GAME.seq.slice(); }, setResult: function (r) { result = r; setupPlayer(); }, libSave: libSave, has: function () { return !!result; } } };
 })();
 </script>
 </body>

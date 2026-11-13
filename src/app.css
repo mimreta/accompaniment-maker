@@ -326,3 +326,24 @@ body.is-stage { overflow: hidden; }
 .app-goal__bar[hidden] { display: none; }
 #goalTxt { margin-top: var(--space-2); }
 @media (prefers-reduced-motion: reduce) { .app-goal__bar i { transition: none; } }
+
+/* Waiting game «تکرار کن» (v4.0): four notes, repeat the growing sequence */
+:root, [data-theme="light"] { --pad-0: #0b7a7c; --pad-1: #14284b; --pad-2: #3e6fa8; --pad-3: #5b7088; }
+[data-theme="dark"] { --pad-0: #5fc9c4; --pad-1: #a9c2ea; --pad-2: #6f9fd8; --pad-3: #8fa3ba; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --pad-0: #5fc9c4; --pad-1: #a9c2ea; --pad-2: #6f9fd8; --pad-3: #8fa3ba; } }
+.app-game { margin-top: var(--space-4); }
+.app-game__box { display: grid; gap: var(--space-3); margin-top: var(--space-3); padding: var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface-sunken); }
+.app-game__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+.app-game__title { margin: 0; font-size: 16px; line-height: 24px; font-weight: 700; }
+.app-game__score { font-size: 14px; line-height: 24px; color: var(--ink-muted); }
+.app-game__msg { margin: 0; font-size: 14px; line-height: 24px; color: var(--ink-muted); min-height: 24px; }
+.app-game__pads { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); width: 100%; max-width: 360px; margin-inline: auto; direction: ltr; }
+.app-game__pad { min-height: 76px; border: 2px solid transparent; border-radius: var(--radius-md); font: inherit; font-size: 20px; font-weight: 700; color: var(--on-accent); cursor: pointer; opacity: .86; transition: opacity var(--motion-fast), transform var(--motion-fast); -webkit-tap-highlight-color: transparent; }
+.app-game__pad[data-n="0"] { background: var(--pad-0); } .app-game__pad[data-n="1"] { background: var(--pad-1); }
+.app-game__pad[data-n="2"] { background: var(--pad-2); } .app-game__pad[data-n="3"] { background: var(--pad-3); }
+.app-game__pad.is-on { opacity: 1; transform: scale(1.04); border-color: var(--ink); }
+.app-game__pad:disabled { cursor: default; }
+.app-game__pad:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+.app-game__acts { display: flex; flex-wrap: wrap; gap: var(--space-2); justify-content: center; }
+.app-game__acts .wk-btn { width: auto; min-width: 120px; }
+@media (prefers-reduced-motion: reduce) { .app-game__pad { transition: none; } .app-game__pad.is-on { transform: none; } }
