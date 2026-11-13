@@ -615,7 +615,12 @@ body.is-stage { overflow: hidden; }
 
       <div class="wk-card" id="cardKey" hidden>
         <h2 class="wk-card__title">کلید API سایت MVSEP</h2>
-        <p class="wk-card__text" style="margin-bottom:var(--space-4)">کلید را از <span dir="ltr">mvsep.com/user-api</span> بردارید. فقط یک بار لازم است.</p>
+        <p class="wk-card__text">برای جداسازی به یک حساب رایگان در سایت MVSEP و کلید API آن نیاز داری. فقط یک بار لازم است:</p>
+        <ol class="wk-notes" style="margin:var(--space-3) 0 var(--space-4)">
+          <li>در <span dir="ltr">mvsep.com</span> حساب رایگان بساز و وارد شو.</li>
+          <li>از منوی بالای سایت «API» را باز کن (<span dir="ltr">mvsep.com/user-api</span>) و کلید را کپی کن. اگر کلیدت قدیمی است، همان‌جا کلید تازه بساز.</li>
+          <li>کلید را در کادر زیر بچسبان و «ذخیره» را بزن.</li>
+        </ol>
         <div class="wk-block">
           <div id="keyAlert"></div>
           <div class="wk-field">
@@ -1256,7 +1261,7 @@ var AccCore = (function () {
     var share = function (i, f) { return 0.05 + 0.93 * (i + f) / n; };
 
     var payload = function (i) {
-      if (direct) return blobToB64(file).then(function (b) { return { b64: b, name: file.name, mime: file.type || 'audio/mpeg' }; });
+      if (direct) return blobToB64(file).then(function (b) { return { b64: b, name: 'audio' + ((file.name.match(/\.[A-Za-z0-9]{2,5}$/) || ['.mp3'])[0]).toLowerCase(), mime: file.type || 'audio/mpeg' }; });
       var c = chunks[i];
       return mp3(mix[0].subarray(c.start, c.end), mix[1].subarray(c.start, c.end), 192, function (p) {
         if (curStage === 'encode' && curIdx === i) setStatus(partLbl(i) + 'آماده‌سازی فایل… ' + fa(Math.round(p * 100)) + '٪', share(i, 0.15 * p));

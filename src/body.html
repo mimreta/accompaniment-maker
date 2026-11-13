@@ -1,0 +1,321 @@
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="i-wave" viewBox="0 0 24 24"><path d="M4 10v4M8 6v12M12 3v18M16 7v10M20 10v4"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5h.01"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V5M7.5 9.5L12 5l4.5 4.5M5 19h14"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19h14"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" stroke-width="2" d="M8.500 5.700v12.600L18.500 12z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect fill="currentColor" stroke-width="2" x="6.5" y="5" width="4" height="14" rx="1.2"/><rect fill="currentColor" stroke-width="2" x="13.5" y="5" width="4" height="14" rx="1.2"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M4.6 15.5A8 8 0 1 0 6.3 6.3L4 8.8M4 4v5h5"/></symbol>
+  <symbol id="i-fwd" viewBox="0 0 24 24"><path d="M19.4 15.5A8 8 0 1 1 17.7 6.3L20 8.800M20 4v5h-5"/></symbol>
+  <symbol id="app-icon" viewBox="0 0 96 96"><rect width="96" height="96" rx="22" fill="#14284B"/><g stroke="#FFFFFF" stroke-opacity=".6" stroke-width="4"><path d="M12 28H84M12 39H84M12 50H84M12 61H84M12 72H84"/></g><circle cx="74" cy="33.5" r="10.5" fill="#14284B"/><g fill="#FFFFFF"><circle cx="20" cy="55.5" r="5.5"/><circle cx="38" cy="44.5" r="5.5"/><circle cx="56" cy="66.5" r="5.5"/></g><circle cx="74" cy="33.5" r="5" fill="none" stroke="#5FC9C4" stroke-width="4.5"/></symbol>
+</svg>
+
+<header class="wk-appbar"><div class="wk-appbar__in">
+  <svg class="wk-appbar__mark" viewBox="0 0 96 96" aria-hidden="true"><use href="#app-icon"/></svg>
+  <p class="wk-appbar__name">همراهی‌ساز</p>
+</div></header>
+
+<main class="wk-screen" id="screen" tabindex="-1">
+
+  <section id="view-task" data-view="task" aria-labelledby="h-task">
+    <h1 class="wk-screen__title" id="h-task">ساخت همراهی</h1>
+    <p class="wk-screen__lead">اکامپانیمان بساز: ساز خودت را از ضبط حذف کن و جایش بنواز.</p>
+    <div class="wk-stack">
+      <div class="wk-card" id="cardInput">
+        <h2 class="wk-card__heading"><span class="wk-steps__n">۱</span>فایل و ساز تو</h2>
+        <div class="wk-block">
+          <div id="inputAlert"></div>
+          <div class="wk-drop" id="drop" tabindex="0" role="button" aria-describedby="dropInfo">
+            <svg class="wk-icon " aria-hidden="true"><use href="#i-upload"/></svg>
+            <div class="wk-drop__title" id="dropTitle">فایل را اینجا رها کنید یا بزنید</div>
+            <div class="wk-drop__hint" id="dropInfo" dir="ltr">MP3 · WAV · FLAC · M4A</div>
+            <input type="file" id="fileInput" accept="audio/*,.mp3,.wav,.flac,.m4a,.ogg,.aac" hidden>
+          </div>
+          <div class="wk-field">
+            <label class="wk-field__label" for="instSelect">سازی که می‌نوازی (برای حذف)</label>
+            <div class="wk-select-wrap"><select class="wk-field__input wk-select" id="instSelect"></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div>
+          </div>
+          <div>
+            <button class="wk-btn wk-btn--primary wk-btn--block" id="btnProcess" disabled>ساختن همراهی</button>
+            <p class="wk-note" id="processHint" style="margin-top:var(--space-2)"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="wk-card" id="cardProgress" hidden>
+        <h2 class="wk-card__heading"><span class="wk-steps__n">۲</span>پردازش</h2>
+        <p class="app-status" id="statusText" role="status" aria-live="polite">…</p>
+        <div class="wk-progress" id="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="barFill"></div></div>
+        <ul class="app-log" id="log"></ul>
+        <div id="progAlert" style="margin-top:var(--space-3)"></div>
+        <div class="wk-actions"><button class="wk-btn wk-btn--secondary" id="btnCancel">لغو پردازش</button></div>
+      </div>
+
+      <div class="wk-card" id="cardPlayer" hidden>
+        <h2 class="wk-card__heading"><span class="wk-steps__n">۳</span>تمرین</h2>
+        <p class="app-sub" id="playerSub"></p>
+        <canvas class="app-wave" id="wave" tabindex="0" aria-label="موج صدا؛ با کلیدهای چپ و راست جلو و عقب بروید"></canvas>
+        <div class="app-times"><span id="tCur">0:00</span><span id="tDur">0:00</span></div>
+        <div class="app-transport">
+          <button class="wk-btn wk-btn--secondary" id="btnBack" aria-label="۵ ثانیه عقب"><svg class="wk-icon " aria-hidden="true"><use href="#i-back"/></svg>۵<span class="app-sec"> ثانیه</span></button>
+          <button class="app-play" id="btnPlay" aria-label="پخش" title="پخش / توقف"><svg class="wk-icon " aria-hidden="true"><use href="#i-play"/></svg></button>
+          <button class="wk-btn wk-btn--secondary" id="btnFwd" aria-label="۵ ثانیه جلو">۵<span class="app-sec"> ثانیه</span><svg class="wk-icon " aria-hidden="true"><use href="#i-fwd"/></svg></button>
+        </div>
+        <div class="app-beat" id="beat" aria-live="polite"></div>
+
+        <div class="app-ctrls">
+          <div>
+            <div class="wk-slider__top"><label for="speed">سرعت پخش</label><b id="speedVal">۱۰۰٪</b></div>
+            <input class="wk-slider" type="range" id="speed" min="50" max="125" step="5" value="100">
+          </div>
+          <div>
+            <div class="wk-slider__top"><label for="guide">صدای راهنما</label><b id="guideVal">خاموش</b></div>
+            <input class="wk-slider" type="range" id="guide" min="0" max="100" step="5" value="0">
+          </div>
+          <div>
+            <div class="wk-slider__top"><span>تکرار یک بخش</span><span class="wk-chip" id="loopInfo">—</span></div>
+            <div class="app-loopbtns">
+              <button class="wk-btn wk-btn--secondary" id="btnA">شروع</button>
+              <button class="wk-btn wk-btn--secondary" id="btnB">پایان</button>
+              <button class="wk-btn wk-btn--secondary" id="btnClearLoop">حذف</button>
+            </div>
+            <p class="wk-note" style="margin-top:var(--space-2)">روی موج بکشید تا بخش انتخاب شود.</p>
+          </div>
+          <div class="wk-stack-sm">
+            <button class="wk-switch" id="trOn" role="switch" aria-checked="false"><span>افزایش تدریجی سرعت</span><span class="wk-switch__track"><span class="wk-switch__thumb"></span></span></button>
+            <div class="app-grid2">
+              <div class="wk-field"><label class="wk-field__label" for="trEvery">هر چند دور</label><input class="wk-field__input app-number" type="number" id="trEvery" min="1" max="10" value="3" inputmode="numeric" disabled></div>
+              <div class="wk-field"><label class="wk-field__label" for="trStep">پله‌ی سرعت</label><div class="wk-select-wrap"><select class="wk-field__input wk-select" id="trStep"></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div></div>
+            </div>
+            <p class="wk-note" id="trInfo" role="status" aria-live="polite"></p>
+          </div>
+          <div class="app-full">
+            <div class="wk-slider__top"><span>نشانه‌ها</span></div>
+            <div class="app-marks" id="marks"></div>
+            <div class="app-loopbtns app-loopbtns--2">
+              <button class="wk-btn wk-btn--secondary" id="btnMark">افزودن نشانه اینجا</button>
+              <button class="wk-btn wk-btn--secondary" id="btnMarksClear">حذف همه</button>
+            </div>
+            <p class="wk-note" style="margin-top:var(--space-2)">با یک ضربه به نشانه می‌روی؛ برای حذف یکی، روی آن نگه دار. نشانه‌ها برای همین ضبط در این دستگاه می‌مانند.</p>
+          </div>
+          <div class="app-full">
+            <div class="wk-slider__top"><span>کوک و گام</span><span class="wk-chip" id="tuneInfo">بدون تغییر</span></div>
+            <div class="app-grid2">
+              <div class="wk-field"><label class="wk-field__label" for="tuneRec">کوک ضبط (A)</label><div class="wk-select-wrap"><select class="wk-field__input wk-select" id="tuneRec"></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div></div>
+              <div class="wk-field"><label class="wk-field__label" for="tuneMine">کوک ساز تو (A)</label><div class="wk-select-wrap"><select class="wk-field__input wk-select" id="tuneMine"></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div></div>
+            </div>
+            <div class="wk-field" style="margin-top:var(--space-3)"><label class="wk-field__label" for="tuneSemi">انتقال گام</label><div class="wk-select-wrap"><select class="wk-field__input wk-select" id="tuneSemi"></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div></div>
+            <p class="wk-note" style="margin-top:var(--space-2)">فقط پخش را عوض می‌کند و سرعت همان می‌ماند. فایل‌های دانلود با کوک اصلی ضبط هستند.</p>
+          </div>
+          <div class="wk-stack-sm">
+            <button class="wk-switch" id="ciOn" role="switch" aria-checked="false"><span>شمارش قبل از شروع</span><span class="wk-switch__track"><span class="wk-switch__thumb"></span></span></button>
+            <div class="app-grid2">
+              <div class="wk-field"><label class="wk-field__label" for="ciBeats">تعداد ضرب</label><input class="wk-field__input app-number" type="number" id="ciBeats" min="1" max="8" value="4" inputmode="numeric" disabled></div>
+              <div class="wk-field"><label class="wk-field__label" for="ciBpm">تمپو (BPM)</label><input class="wk-field__input app-number" type="number" id="ciBpm" min="30" max="220" value="72" inputmode="numeric" disabled></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wk-divider">
+          <p class="wk-label">دانلود <span class="wk-note">(با صدای راهنمای فعلی و کوک اصلی)</span></p>
+          <div class="app-dl">
+            <button class="wk-btn wk-btn--secondary" id="dlMp3"><svg class="wk-icon " aria-hidden="true"><use href="#i-download"/></svg>همراهی MP3</button>
+            <button class="wk-btn wk-btn--secondary" id="dlWav"><svg class="wk-icon " aria-hidden="true"><use href="#i-download"/></svg>همراهی WAV</button>
+            <button class="wk-btn wk-btn--secondary" id="dlSolo"><svg class="wk-icon " aria-hidden="true"><use href="#i-download"/></svg>ساز جداشده MP3</button>
+          </div>
+          <p class="wk-note" id="dlMsg" role="status" aria-live="polite" style="margin-top:var(--space-2)"></p>
+          <div id="dlAlert" style="margin-top:var(--space-2)"></div>
+          <div class="wk-actions"><button class="wk-btn wk-btn--quiet" id="btnAnother"><svg class="wk-icon " aria-hidden="true"><use href="#i-upload"/></svg>فایل دیگر</button></div>
+        </div>
+      </div>
+
+      <div class="wk-card" id="cardTools" hidden>
+        <h2 class="wk-card__heading"><span class="wk-steps__n">۴</span>ضرب و کوک</h2>
+        <div class="app-ctrls">
+          <div class="app-full">
+            <div class="wk-slider__top"><span>مترونوم</span><span class="wk-chip" id="mtInfo">خاموش</span></div>
+            <div class="app-grid2">
+              <div class="wk-field"><label class="wk-field__label" for="mtBpm">تمپو (BPM)</label><input class="wk-field__input app-number" type="number" id="mtBpm" min="30" max="240" value="72" inputmode="numeric"></div>
+              <div class="wk-field"><label class="wk-field__label" for="mtBeats">ضرب در میزان</label><div class="wk-select-wrap"><select class="wk-field__input wk-select" id="mtBeats"><option value="1">۱</option><option value="2">۲</option><option value="3">۳</option><option value="4" selected>۴</option><option value="6">۶</option></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div></div>
+            </div>
+            <div class="app-dots" id="mtDots" aria-hidden="true"></div>
+            <div class="app-loopbtns app-loopbtns--2">
+              <button class="wk-btn wk-btn--secondary" id="btnMt">شروع مترونوم</button>
+              <button class="wk-btn wk-btn--secondary" id="btnTap">تمپو با ضربه</button>
+            </div>
+            <p class="wk-note" style="margin-top:var(--space-2)">مترونوم جدا از پخش ضبط کار می‌کند. برای تعیین تمپو چند بار پشت‌سرهم «تمپو با ضربه» را بزن.</p>
+          </div>
+          <div class="app-full">
+            <div class="wk-slider__top"><span>نت مرجع</span><span class="wk-chip" id="toneInfo">—</span></div>
+            <div class="app-grid2">
+              <div class="wk-field"><label class="wk-field__label" for="toneNote">نت</label><div class="wk-select-wrap"><select class="wk-field__input wk-select" id="toneNote"></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div></div>
+              <div class="wk-field"><label class="wk-field__label" for="toneOct">اکتاو</label><div class="wk-select-wrap"><select class="wk-field__input wk-select" id="toneOct"></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div></div>
+            </div>
+            <div class="wk-actions"><button class="wk-btn wk-btn--secondary" id="btnTone">پخش نت مرجع</button></div>
+            <p class="wk-note" style="margin-top:var(--space-2)">نت بر پایه‌ی «کوک ساز تو» ساخته می‌شود و تا دوباره نزنی ادامه دارد. برای کوک کردن سازت از آن استفاده کن.</p>
+          </div>
+          <div class="app-full">
+            <div class="wk-slider__top"><label for="toolVol">بلندی مترونوم و نت</label><b id="toolVolVal">۶۰٪</b></div>
+            <input class="wk-slider" type="range" id="toolVol" min="10" max="100" step="5" value="60">
+          </div>
+        </div>
+      </div>
+
+      <div class="wk-card" id="cardRec" hidden>
+        <h2 class="wk-card__heading"><span class="wk-steps__n">۵</span>ضبط خودت</h2>
+        <p class="wk-note" style="margin-top:calc(-1 * var(--space-2))">با اکامپانیمان بنواز و خودت را ضبط کن، بعد ضبط را هم‌زمان با همان اکامپانیمان گوش بده. با هدفون بنواز تا صدای پخش وارد میکروفون نشود. ضبط‌ها فقط تا بستن این صفحه در حافظه می‌مانند و جایی فرستاده نمی‌شوند.</p>
+        <div id="recAlert" style="margin-top:var(--space-2)"></div>
+        <div class="app-meter" id="recMeter" hidden aria-hidden="true"><i></i></div>
+        <div class="wk-actions" style="margin-top:var(--space-3)"><button class="wk-btn wk-btn--primary wk-btn--block" id="btnRec">شروع ضبط</button></div>
+        <p class="wk-note" id="recMsg" role="status" aria-live="polite" style="margin-top:var(--space-2)"></p>
+        <div id="takesWrap" hidden><ul class="app-takes" id="takes"></ul></div>
+        <div class="app-full" style="margin-top:var(--space-4)">
+          <div class="wk-slider__top"><label for="recLat">جبران تأخیر</label><b id="recLatVal">۱۲۰ میلی‌ثانیه</b></div>
+          <input class="wk-slider" type="range" id="recLat" min="0" max="400" step="10" value="120">
+          <p class="wk-note" style="margin-top:var(--space-2)">اگر هنگام گوش‌دادن، ضبط عقب‌تر یا جلوتر از اکامپانیمان بود، این را زیاد یا کم کن.</p>
+        </div>
+      </div>
+
+      <div class="wk-card" id="cardScore" hidden>
+        <h2 class="wk-card__heading app-hide-stage"><span class="wk-steps__n">۶</span>نت پارت تو</h2>
+        <p class="wk-note app-hide-stage" style="margin-top:calc(-1 * var(--space-2))">فایل PDF پارت خودت را باز کن تا هم‌زمان با تمرین ببینی. فایل فقط در همین صفحه باز می‌شود و جایی فرستاده یا ذخیره نمی‌شود.</p>
+        <input type="file" id="pdfInput" accept="application/pdf,.pdf" hidden>
+        <div class="wk-actions app-hide-stage"><button class="wk-btn wk-btn--secondary" id="btnPdf"><svg class="wk-icon " aria-hidden="true"><use href="#i-upload"/></svg><span id="btnPdfTxt">انتخاب PDF پارت</span></button></div>
+        <p class="wk-note app-hide-stage" id="pdfMsg" role="status" aria-live="polite" style="margin-top:var(--space-2)"></p>
+        <div id="pdfAlert" style="margin-top:var(--space-2)"></div>
+        <div id="scoreBox" hidden>
+          <div class="app-pagebar" dir="ltr">
+            <button class="wk-btn wk-btn--secondary" id="pgPrev"><svg class="wk-icon " aria-hidden="true"><use href="#i-left"/></svg>قبلی</button>
+            <span class="app-pageinfo" id="pgInfo" dir="rtl" aria-live="polite"></span>
+            <button class="wk-btn wk-btn--secondary" id="pgNext">بعدی<svg class="wk-icon " aria-hidden="true"><use href="#i-right"/></svg></button>
+          </div>
+          <div class="app-score" id="scoreWrap" tabindex="0" aria-label="صفحه‌ی نت"><div class="app-score__in" id="scoreIn"><canvas id="score"></canvas><canvas id="ink" aria-hidden="true"></canvas></div></div>
+          <div class="app-scorectl" dir="ltr">
+            <button class="app-play app-play--sm" id="btnPlay2" aria-label="پخش" title="پخش / توقف"><svg class="wk-icon " aria-hidden="true"><use href="#i-play"/></svg></button>
+            <span class="app-scoretime" id="tCur2">0:00</span>
+            <button class="wk-btn wk-btn--secondary app-stagebtn" id="btnStage" dir="rtl"><span id="btnStageTxt">تمام‌صفحه</span></button>
+            <div class="wk-select-wrap app-zoom" dir="rtl"><select class="wk-field__input wk-select" id="scoreZoom" aria-label="اندازه‌ی صفحه"><option value="page">کل صفحه</option><option value="100">عرض صفحه</option><option value="150">۱۵۰٪</option><option value="200">۲۰۰٪</option></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div>
+          </div>
+          <div class="app-ink" id="inkBar">
+            <button class="wk-switch" id="inkOn" role="switch" aria-checked="false"><span>یادداشت روی نت</span><span class="wk-switch__track"><span class="wk-switch__thumb"></span></span></button>
+            <div class="app-inktools" id="inkTools" hidden>
+              <div class="wk-seg" id="inkTool" role="radiogroup" aria-label="ابزار">
+                <button class="wk-seg__opt" role="radio" aria-checked="true" data-v="pen" tabindex="0">قلم</button>
+                <button class="wk-seg__opt" role="radio" aria-checked="false" data-v="hl" tabindex="-1">ماژیک</button>
+                <button class="wk-seg__opt" role="radio" aria-checked="false" data-v="er" tabindex="-1">پاک‌کن</button>
+              </div>
+              <div class="app-grid2">
+                <div class="wk-select-wrap"><select class="wk-field__input wk-select" id="inkColor" aria-label="رنگ"><option value="#14284B">سرمه‌ای</option><option value="#0B7A7C">فیروزه‌ای</option><option value="#B3261E">قرمز</option><option value="#E8C422">زرد</option></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div>
+                <button class="wk-btn wk-btn--secondary" id="inkUndo">واپس‌گرد</button>
+              </div>
+              <button class="wk-btn wk-btn--quiet" id="inkClear">پاک‌کردن این صفحه</button>
+            </div>
+          </div>
+          <div class="wk-stack-sm app-hide-stage" style="margin-top:var(--space-3)">
+            <button class="wk-switch" id="pgAuto" role="switch" aria-checked="true"><span>ورق‌زدن خودکار</span><span class="wk-switch__track"><span class="wk-switch__thumb"></span></span></button>
+            <p class="wk-note">با رسیدن پخش به هر نشانه، صفحه‌ی وصل‌شده به آن باز می‌شود.</p>
+            <div class="app-loopbtns app-loopbtns--2">
+              <button class="wk-btn wk-btn--secondary" id="btnLinkPage">وصل صفحه به نشانه</button>
+              <button class="wk-btn wk-btn--quiet" id="btnPdfClose">بستن PDF</button>
+            </div>
+            <p class="wk-note">نشانه‌ای که هنگام باز بودن PDF بسازی، خودکار به همان صفحه وصل می‌شود. «وصل صفحه به نشانه» صفحه‌ی فعلی را به آخرین نشانه‌ای که پخش از آن گذشته می‌بندد. PDF را هر بار که اپ را باز می‌کنی دوباره انتخاب کن؛ پیوند نشانه‌ها می‌ماند.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="view-settings" data-view="settings" aria-labelledby="h-settings" hidden>
+    <h1 class="wk-screen__title" id="h-settings">تنظیمات</h1>
+    <div class="wk-stack">
+      <div class="wk-card">
+        <h2 class="wk-card__title">ظاهر</h2>
+        <p class="wk-card__text" style="margin-bottom:var(--space-4)">«خودکار» یعنی مطابق تنظیم گوشی یا رایانه.</p>
+        <div class="wk-seg" id="themeSeg" role="radiogroup" aria-label="ظاهر">
+          <button class="wk-seg__opt" role="radio" aria-checked="true" data-v="auto" tabindex="0">خودکار</button>
+          <button class="wk-seg__opt" role="radio" aria-checked="false" data-v="light" tabindex="-1">روشن</button>
+          <button class="wk-seg__opt" role="radio" aria-checked="false" data-v="dark" tabindex="-1">تیره</button>
+        </div>
+      </div>
+
+      <div class="wk-card" id="cardKey" hidden>
+        <h2 class="wk-card__title">کلید API سایت MVSEP</h2>
+        <p class="wk-card__text">برای جداسازی به یک حساب رایگان در سایت MVSEP و کلید API آن نیاز داری. فقط یک بار لازم است:</p>
+        <ol class="wk-notes" style="margin:var(--space-3) 0 var(--space-4)">
+          <li>در <span dir="ltr">mvsep.com</span> حساب رایگان بساز و وارد شو.</li>
+          <li>از منوی بالای سایت «API» را باز کن (<span dir="ltr">mvsep.com/user-api</span>) و کلید را کپی کن. اگر کلیدت قدیمی است، همان‌جا کلید تازه بساز.</li>
+          <li>کلید را در کادر زیر بچسبان و «ذخیره» را بزن.</li>
+        </ol>
+        <div class="wk-block">
+          <div id="keyAlert"></div>
+          <div class="wk-field">
+            <label class="wk-field__label" for="keyInput">کلید API</label>
+            <input class="wk-field__input" type="text" id="keyInput" dir="ltr" autocomplete="off" spellcheck="false">
+            <p class="wk-field__hint" id="keyHint"></p>
+            <p class="wk-field__hint" id="keyNote" hidden>کلید فقط در همین مرورگر ذخیره می‌شود و برای هر درخواست از طریق سرور واسطِ بدون‌ذخیره به MVSEP می‌رسد.</p>
+          </div>
+          <button class="wk-btn wk-btn--primary wk-btn--block" id="btnSaveKey">ذخیره</button>
+        </div>
+      </div>
+
+      <div class="wk-card" id="cardLog">
+        <h2 class="wk-card__title">دفتر تمرین</h2>
+        <p class="wk-card__text" style="margin-bottom:var(--space-3)">زمانی که ضبط در حال پخش است حساب می‌شود. فقط روی همین دستگاه می‌ماند.</p>
+        <div class="app-logsum"><div><b id="logToday">۰</b><span>دقیقه‌ی امروز</span></div><div><b id="logWeek">۰</b><span>دقیقه در هفته</span></div><div><b id="logStreak">۰</b><span>روز پشت‌سرهم</span></div></div>
+        <div class="app-logbars" id="logBars" role="img" aria-label="تمرین هفت روز اخیر"></div>
+        <ul class="app-loglist" id="logList"></ul>
+        <div class="app-loopbtns app-loopbtns--2" style="margin-top:var(--space-3)">
+          <button class="wk-btn wk-btn--secondary" id="logCsv">خروجی CSV</button>
+          <button class="wk-btn wk-btn--secondary" id="logClear">پاک‌کردن دفتر</button>
+        </div>
+      </div>
+
+      <div class="wk-card">
+        <h2 class="wk-card__title">داده‌های این دستگاه</h2>
+        <p class="wk-card__text" style="margin-bottom:var(--space-4)">ساز انتخاب‌شده، سرعت، صدای راهنما، شمارش و ظاهر روی همین دستگاه یادت می‌ماند.</p>
+        <button class="wk-btn wk-btn--secondary wk-btn--block" id="btnReset">بازنشانی ترجیحات</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="view-about" data-view="about" aria-labelledby="h-about" hidden>
+    <h1 class="wk-screen__title" id="h-about">درباره</h1>
+    <div class="wk-aboutscreen">
+      <svg class="wk-about__mark" viewBox="0 0 96 96" aria-hidden="true"><use href="#app-icon"/></svg>
+      <p class="wk-about__name">همراهی‌ساز</p>
+      <p class="wk-about__version" dir="ltr">Solo Remover · v2.4</p>
+      <p class="wk-about__purpose">اکامپانیمان بساز: ساز خودت را از ضبط حذف کن و جایش بنواز.</p>
+      <div class="wk-aboutscreen__cards">
+        <div class="wk-card"><h2 class="wk-card__title">اکامپانیمان یعنی چه؟</h2><p class="wk-card__text">«اکامپانیمان» (accompaniment؛ در فارسی همراهی) یعنی بقیه‌ی موسیقی، بدون سازی که خودت می‌نوازی. ارکستر باشد یا گروه، پیانو یا هر ترکیب دیگر: همه‌ی سازها را می‌شنوی جز یکی، مثلاً همه‌ی ارکستر جز ویولنسل، و ویولنسل را خودت می‌نوازی. این روش از سال ۱۹۵۰ با نام Music Minus One (موسیقی منهای یک) برای تمرین به کار می‌رود.</p></div>
+        <div class="wk-card"><h2 class="wk-card__title">چه دردی را حل می‌کند؟</h2><ul class="wk-notes"><li><strong>اکامپانیمان همیشه در دسترس نیست:</strong> ارکستر، گروه یا پیانیست همراه وقت و هزینه می‌خواهد و تنها وقتی کنار آن‌ها می‌نوازی که جلسه‌ای هماهنگ شده باشد. بقیه‌ی روزها تنها تمرین می‌کنی، بی‌آنکه بقیه‌ی اثر را بشنوی.</li><li><strong>آلبوم‌های آماده محدودند:</strong> اکامپانیمان‌های آماده («منهای یک») فقط چند قطعه با یک اجرای مشخص و برای چند ساز دارند. قطعه، اجرا یا سازی که تو می‌خواهی معمولاً بینشان نیست.</li><li><strong>راهِ این اپ:</strong> هر ضبطی که داری، از کنسرتو و سمفونی تا کوارتت و ضبط یک گروه، به اکامپانیمان ساز تو تبدیل می‌شود، یعنی اثر منهای ساز تو. می‌توانی آهسته‌ترش کنی و یک بخش را تکرار کنی.</li></ul></div>
+        <div class="wk-card"><h2 class="wk-card__title">برای چه کسانی است؟</h2><ul class="wk-notes"><li><strong>هنرجوی ساز:</strong> ویولن، ویولنسل، فلوت، کلارینت، ترومپت و مانند آن، که قطعه‌ای از ارکستر یا گروه را کار می‌کند و می‌خواهد با بقیه‌ی اثر هم‌نوا شود.</li><li><strong>نوازنده‌ی ارکستر:</strong> که پارت خودش را پیش از تمرین جمعی با بقیه‌ی گروه می‌سازد.</li><li><strong>نوازنده‌ی آماتور و حرفه‌ای:</strong> که برای اجرا یا آزمون آماده می‌شود.</li><li><strong>معلم:</strong> که می‌خواهد هنرجو در خانه هم با بقیه‌ی اثر تمرین کند.</li><li><strong>هر کس که همراه‌نوازی در دسترس ندارد.</strong></li></ul></div>
+        <div class="wk-card"><h2 class="wk-card__title">چطور کار می‌کند</h2><ol class="wk-steps"><li><span class="wk-steps__n">۱</span><div><strong>فایل و ساز را انتخاب کن</strong><span>ضبط را بده و بگو کدام ساز حذف شود؛ همان که خودت می‌نوازی.</span></div></li><li><span class="wk-steps__n">۲</span><div><strong>اپ اکامپانیمان را می‌سازد</strong><span>ضبط به سرویس MVSEP فرستاده می‌شود و آن ساز از بقیه‌ی اثر جدا می‌شود. زمانش به شلوغی صف سرویس بستگی دارد.</span></div></li><li><span class="wk-steps__n">۳</span><div><strong>با اکامپانیمان تمرین کن</strong><span>آهسته، با تکرار بخش دلخواه و شمارش قبل از شروع، ساز خودت را در جای خالی می‌نوازی؛ هر وقت خواستی دانلودش می‌کنی.</span></div></li></ol></div>
+        <div class="wk-about__features"><h3>امکانات</h3><ul><li><strong>حذف ساز تو</strong><span>یکی از ۱۶ گزینه، از ویولنسل و ویولن تا فلوت و آواز؛ بقیه‌ی سازهای اثر می‌مانند.</span></li><li><strong>فایل بلند</strong><span>ضبط طولانی تکه‌تکه پردازش می‌شود و تکه‌ها با هم‌پوشانی به هم وصل می‌شوند تا درز شنیده نشود.</span></li><li><strong>سرعت دلخواه</strong><span>از ۵۰٪ تا ۱۲۵٪؛ سرعت عوض می‌شود، کوک عوض نمی‌شود.</span></li><li><strong>تکرار یک بخش</strong><span>روی موج بکش یا با «شروع» و «پایان» بخش را علامت بزن تا مدام تکرار شود.</span></li><li><strong>صدای راهنما</strong><span>ساز خودت را آرام زیر بقیه‌ی اثر می‌شنوی تا جایت را گم نکنی.</span></li><li><strong>نشانه‌های نام‌دار</strong><span>جاهای مهم قطعه را با حرف‌های تمرین (A، B، …) علامت بزن و با یک ضربه به آن‌جا برو.</span></li><li><strong>افزایش تدریجی سرعت</strong><span>بخش تکرارشونده را آهسته شروع کن و هر چند دور خودکار تندتر شود تا به سرعت اصلی برسد.</span></li><li><strong>کوک و گام</strong><span>ضبط ۴۴۲ هرتز و سازت ۴۴۰؟ کوک پخش را با سازت هماهنگ کن یا گام را نیم‌پرده جابه‌جا کن.</span></li><li><strong>مترونوم و نت مرجع</strong><span>ضرب با تمپوی دلخواه (با «تمپو با ضربه» هم می‌شود تعیینش کرد) و نتی که بر پایه‌ی کوک سازت ساخته می‌شود تا سازت را کوک کنی.</span></li><li><strong>ضبط خودت</strong><span>با اکامپانیمان بنواز و خودت را ضبط کن، بعد ضبط را هم‌زمان با اکامپانیمان گوش بده؛ تأخیر را هم می‌شود جبران کرد. فقط در نسخه‌ی وب اپ.</span></li>
+<li><strong>نت پارت تو</strong><span>PDF پارت خودت را کنار تمرین باز کن؛ با رسیدن پخش به هر نشانه، صفحه‌ی مربوط خودکار ورق می‌خورد؛ حالت تمام‌صفحه، ورق‌زدن با پدال بلوتوثی و یادداشت‌نویسی روی نت هم دارد.</span></li><li><strong>دفتر تمرین</strong><span>در تنظیمات می‌بینی هر روز و در هفته‌ی اخیر چقدر تمرین کرده‌ای و چند روز پشت‌سرهم بوده است.</span></li><li><strong>شمارش قبل از شروع</strong><span>چند ضرب با تمپوی دلخواه می‌شمارد و بعد پخش می‌شود.</span></li><li><strong>دانلود</strong><span>اکامپانیمان (اثر بدون ساز تو) به MP3 یا WAV (با صدای راهنمای فعلی) و ساز جداشده به MP3.</span></li><li><strong>ظاهر روشن و تیره</strong><span>خودکار مطابق گوشی، یا هر کدام را خودت انتخاب کن.</span></li><li><strong>موبایل و کامپیوتر</strong><span>روی گوشی با لمس و کشیدن، روی کامپیوتر با کلیدهای میان‌بر.</span></li></ul></div>
+        <div class="wk-card"><h2 class="wk-card__title">کلیدهای میان‌بر</h2><ul class="wk-keys"><li><span>پخش / توقف</span><span class="wk-keys__k"><kbd class="wk-kbd">Space</kbd></span></li><li><span>۵ ثانیه عقب / جلو</span><span class="wk-keys__k"><kbd class="wk-kbd">←</kbd><kbd class="wk-kbd">→</kbd></span></li><li><span>شروع / پایان تکرار</span><span class="wk-keys__k"><kbd class="wk-kbd">[</kbd><kbd class="wk-kbd">]</kbd></span></li><li><span>افزودن نشانه</span><span class="wk-keys__k"><kbd class="wk-kbd">M</kbd></span></li><li><span>صفحه‌ی قبل / بعد</span><span class="wk-keys__k"><kbd class="wk-kbd">PgUp</kbd><kbd class="wk-kbd">PgDn</kbd></span></li><li><span>خروج از تمام‌صفحه</span><span class="wk-keys__k"><kbd class="wk-kbd">Esc</kbd></span></li></ul></div>
+        <div class="wk-card"><h2 class="wk-card__title">نکته‌ها</h2><ul class="wk-notes"><li><strong>جای نوازندگان واقعی را نمی‌گیرد:</strong> اکامپانیمان همان اجرای ضبط است و با ریتم و بیان همان نوازندگان می‌رود، نه با تو. برای تمرین عالی است؛ برای اجرای زنده‌ی جدی با گروه یا همراه‌نواز واقعی هماهنگ شو.</li><li><strong>کیفیت جداسازی:</strong> بسته به ضبط، ممکن است ردی از ساز تو در اکامپانیمان بماند؛ هرچه سازهای هم‌صدا بیشترند (مثلاً چند ویولن در یک گروه)، جداکردن سخت‌تر است.</li><li><strong>حریم خصوصی:</strong> فایل تو از طریق یک سرور واسط که چیزی نگه نمی‌دارد به سرویس MVSEP فرستاده می‌شود (در نسخه‌ی وب، کلید API تو فقط در مرورگر خودت می‌ماند و همراه همین درخواست می‌رود). اپ جایی ذخیره‌اش نمی‌کند و نتیجه فقط در حافظه‌ی همین صفحه می‌ماند؛ با بستن صفحه از بین می‌رود. نگه‌داری فایل در MVSEP تابع قوانین خود آن سرویس است.</li><li><strong>ضبط با میکروفون:</strong> ضبط‌های تو فقط در حافظه‌ی همین صفحه می‌مانند و به هیچ سرویسی فرستاده نمی‌شوند؛ با بستن صفحه از بین می‌روند (اگر خواستی، دانلودشان کن).</li>
+<li><strong>PDF پارت و یادداشت‌ها:</strong> PDF فقط در مرورگر خودت باز می‌شود و به هیچ سرویسی فرستاده نمی‌شود. یادداشت‌های روی نت و دفتر تمرین فقط روی همین دستگاه می‌مانند و با پاک‌شدن داده‌های مرورگر از بین می‌روند.</li><li><strong>حق استفاده:</strong> فقط ضبط‌هایی را بده که حق استفاده‌شان را داری.</li><li><strong>محدودیت:</strong> سرویس رایگان MVSEP سقف خودش را دارد و وقتی صف شلوغ است باید صبر کنی.</li><li><strong>ساخته‌شده با:</strong> MVSEP برای جداسازی، lamejs برای MP3، PDF.js (Mozilla) برای نمایش PDF و فونت وزیرمتن.</li></ul></div>
+      </div>
+      <footer class="wk-signature">
+        <p class="wk-signature__line">ساخته‌شده توسط <span class="wk-signature__name">محمدرضا طیبی</span></p>
+        <ul class="wk-signature__links"><li><a class="wk-badge" href="https://github.com/mimreta" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/></svg></a></li><li><a class="wk-badge" href="https://instagram.com/mimreta" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/></svg></a></li><li><a class="wk-badge" href="https://linkedin.com/in/mimreta" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/></svg></a></li><li><a class="wk-badge" href="https://x.com/1mimreta" target="_blank" rel="noopener" aria-label="X" title="X"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/></svg></a></li><li><a class="wk-badge" href="https://t.me/wanderingkite" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.287 5.906q-1.168.486-4.666 2.01-.567.225-.595.442c-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294q.39.01.868-.32 3.269-2.206 3.374-2.23c.05-.012.12-.026.166.016s.042.12.037.141c-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8 8 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629q.14.092.27.187c.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.4 1.4 0 0 0-.013-.315.34.34 0 0 0-.114-.217.53.53 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09"/></svg></a></li></ul>
+      </footer>
+    </div>
+  </section>
+</main>
+
+<nav class="wk-tabbar" aria-label="بخش‌های اپ"><div class="wk-tabbar__in">
+  <button class="wk-tab" data-tab="task" aria-current="page"><span class="wk-tab__icon"><svg class="wk-icon " aria-hidden="true"><use href="#i-wave"/></svg></span>همراهی</button>
+  <button class="wk-tab" data-tab="settings"><span class="wk-tab__icon"><svg class="wk-icon " aria-hidden="true"><use href="#i-sliders"/></svg></span>تنظیمات</button>
+  <button class="wk-tab" data-tab="about"><span class="wk-tab__icon"><svg class="wk-icon " aria-hidden="true"><use href="#i-info"/></svg></span>درباره</button>
+</div></nav>
+<div class="wk-toasts" id="toasts" role="status" aria-live="polite"></div>
+<div id="dialogRoot"></div>

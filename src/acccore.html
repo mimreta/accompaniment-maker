@@ -1,0 +1,188 @@
+<script>
+/* Core audio logic shared by the browser app and the Node test.
+ * All audio is Float32Array per channel at a single sample rate (44100). */
+var AccCore = (function () {
+  'use strict';
+
+  // Split a long recording into overlapping chunks no longer than maxChunkSec.
+  function planChunks(totalSamples, sr, maxChunkSec, overlapSec) {
+    var maxLen = Math.floor(maxChunkSec * sr);
+    if (totalSamples <= maxLen) return [{ start: 0, end: totalSamples }];
+    var ov = Math.floor(overlapSec * sr);
+    var n = Math.ceil((totalSamples - ov) / (maxLen - ov));
+    var len = Math.ceil((totalSamples + (n - 1) * ov) / n);
+    var chunks = [];
+    for (var i = 0; i < n; i++) {
+      var s = i * (len - ov);
+      chunks.push({ start: s, end: Math.min(totalSamples, s + len) });
+    }
+    chunks[n - 1].end = totalSamples;
+    return chunks;
+  }
+
+  function toMono(chs) {
+    if (chs.length === 1) return chs[0];
+    var a = chs[0], b = chs[1], n = Math.min(a.length, b.length), m = new Float32Array(n);
+    for (var i = 0; i < n; i++) m[i] = 0.5 * (a[i] + b[i]);
+    return m;
+  }
+
+  function decimate(x, start, len, f) {
+    var n = Math.floor(len / f), out = new Float32Array(n);
+    for (var i = 0; i < n; i++) {
+      var s = 0, o = start + i * f;
+      for (var k = 0; k < f; k++) { var v = x[o + k]; s += v === undefined ? 0 : v; }
+      out[i] = s / f;
+    }
+    return out;
+  }
+
+  function ncc(a, b, lag) { // a[t] vs b[t+lag]
+    var s = 0, ea = 0, eb = 0, n = a.length;
+    for (var t = 0; t < n; t++) {
+      var j = t + lag; if (j < 0 || j >= b.length) continue;
+      var x = a[t], y = b[j]; s += x * y; ea += x * x; eb += y * y;
+    }
+    return ea > 0 && eb > 0 ? s / Math.sqrt(ea * eb) : 0;
+  }
+
+  // Find lag L so that sig[sigPos + L] best matches ref[refPos] over a window.
+  function findLag(ref, refPos, sig, sigPos, win, maxLag) {
+    var F = 4;
+    var pad = maxLag + 8;
+    var a = decimate(ref, refPos, win, F);
+    var b = decimate(sig, sigPos - pad, win + 2 * pad, F);
+    var off = Math.round(pad / F), m = Math.round(maxLag / F), best = 0, bestV = -2;
+    for (var l = -m; l <= m; l++) { var v = ncc(a, b, off + l); if (v > bestV) { bestV = v; best = l; } }
+    var coarse = best * F, fineBest = coarse, fineV = -2;
+    var a2 = ref.subarray(refPos, refPos + win);
+    for (var d = -F - 2; d <= F + 2; d++) {
+      var L = coarse + d, s = 0, ea = 0, eb = 0;
+      for (var t = 0; t < a2.length; t += 2) {
+        var j = sigPos + t + L; if (j < 0 || j >= sig.length) continue;
+        var x = a2[t], y = sig[j]; s += x * y; ea += x * x; eb += y * y;
+      }
+      var vv = ea > 0 && eb > 0 ? s / Math.sqrt(ea * eb) : 0;
+      if (vv > fineV) { fineV = vv; fineBest = L; }
+    }
+    return { lag: fineBest, score: fineV };
+  }
+
+  // Small mono slice of the original mix used to align a chunk's result in time.
+  function prepRef(mixChs, chunk, sr) {
+    var len = chunk.end - chunk.start;
+    var win = Math.min(Math.floor(8 * sr), Math.floor(len / 2));
+    var pos = Math.min(Math.floor(30 * sr), Math.floor(len / 3));
+    var a = mixChs[0], b = mixChs[1] || mixChs[0], r = new Float32Array(win), o = chunk.start + pos;
+    for (var i = 0; i < win; i++) r[i] = 0.5 * (a[o + i] + b[o + i]);
+    return { ref: r, pos: pos, win: win };
+  }
+
+  function newOutput(total) {
+    return { acc: [new Float32Array(total), new Float32Array(total)], solo: [new Float32Array(total)], lags: [] };
+  }
+
+  /* Add separated chunk i into out (incremental join with linear crossfades).
+   * result = { acc: [L,R], solo: [L,R] }; refInfo from prepRef. */
+  function addChunk(out, chunks, i, result, refInfo, sr, overlapSec) {
+    var c = chunks[i], len = c.end - c.start, ov = Math.floor(overlapSec * sr);
+    var A0 = result.acc[0], A1 = result.acc[1] || A0;
+    var S0 = result.solo ? result.solo[0] : null, S1 = result.solo ? (result.solo[1] || S0) : null;
+    var n = A0.length, sum = new Float32Array(n), solo = new Float32Array(n);
+    for (var t = 0; t < n; t++) {
+      var s = S0 ? 0.5 * (S0[t] + S1[t]) : 0;
+      solo[t] = s; sum[t] = 0.5 * (A0[t] + A1[t]) + s;
+    }
+    var fl = findLag(refInfo.ref, 0, sum, refInfo.pos, refInfo.win, Math.floor(0.25 * sr));
+    out.lags.push(fl);
+    var fadeIn = i > 0 ? Math.min(ov, len) : 0, fadeOut = i < chunks.length - 1 ? Math.min(ov, len) : 0;
+    var dL = out.acc[0], dR = out.acc[1], dS = out.solo[0];
+    for (var t2 = 0; t2 < len; t2++) {
+      var j = t2 + fl.lag; if (j < 0 || j >= n) continue;
+      var w = 1;
+      if (t2 < fadeIn) w = (t2 + 0.5) / fadeIn;
+      else if (t2 >= len - fadeOut) w = (len - t2 - 0.5) / fadeOut;
+      var o = c.start + t2;
+      dL[o] += w * A0[j]; dR[o] += w * A1[j]; dS[o] += w * solo[j];
+    }
+    return fl;
+  }
+
+  function joinChunks(mixChs, chunks, results, sr, overlapSec) {
+    var out = newOutput(mixChs[0].length);
+    for (var i = 0; i < chunks.length; i++) addChunk(out, chunks, i, results[i], prepRef(mixChs, chunks[i], sr), sr, overlapSec);
+    return out;
+  }
+
+  function mixGuide(acc, solo, g) {
+    if (!g) return acc;
+    return acc.map(function (a, k) {
+      var s = solo[k] || solo[0], m = new Float32Array(a.length);
+      for (var i = 0; i < a.length; i++) m[i] = a[i] + g * s[i];
+      return m;
+    });
+  }
+
+  // Pitch shift by resampling (also changes duration by 1/ratio). ratio > 1 raises pitch.
+  // Catmull-Rom cubic interpolation; the player compensates the tempo with playbackRate.
+  function resample(chs, ratio) {
+    return chs.map(function (x) {
+      var n = x.length, m = Math.max(1, Math.floor(n / ratio)), out = new Float32Array(m);
+      for (var i = 0; i < m; i++) {
+        var p = i * ratio, i0 = Math.floor(p), f = p - i0;
+        var y0 = i0 > 0 ? x[i0 - 1] : 0, y1 = i0 < n ? x[i0] : 0, y2 = i0 + 1 < n ? x[i0 + 1] : 0, y3 = i0 + 2 < n ? x[i0 + 2] : 0;
+        out[i] = y1 + 0.5 * f * (y2 - y0 + f * (2 * y0 - 5 * y1 + 4 * y2 - y3 + f * (3 * (y1 - y2) + y3 - y0)));
+      }
+      return out;
+    });
+  }
+
+  function toInt16(x) {
+    var o = new Int16Array(x.length);
+    for (var i = 0; i < x.length; i++) {
+      var v = Math.max(-1, Math.min(1, x[i])); o[i] = v < 0 ? v * 32768 : v * 32767;
+    }
+    return o;
+  }
+
+  function encodeWav(chs, sr) {
+    var n = chs[0].length, nc = chs.length, buf = new ArrayBuffer(44 + n * nc * 2), v = new DataView(buf);
+    function str(o, s) { for (var i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); }
+    str(0, 'RIFF'); v.setUint32(4, 36 + n * nc * 2, true); str(8, 'WAVE'); str(12, 'fmt ');
+    v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, nc, true);
+    v.setUint32(24, sr, true); v.setUint32(28, sr * nc * 2, true); v.setUint16(32, nc * 2, true);
+    v.setUint16(34, 16, true); str(36, 'data'); v.setUint32(40, n * nc * 2, true);
+    var out = new Int16Array(buf, 44, n * nc);
+    for (var c = 0; c < nc; c++) {
+      var x = chs[c];
+      for (var i = 0, p = c; i < n; i++, p += nc) {
+        var s = x[i]; s = s > 1 ? 1 : s < -1 ? -1 : s; out[p] = s < 0 ? s * 32768 : s * 32767;
+      }
+    }
+    return buf;
+  }
+
+  // MP3 encode with lamejs; onProgress(fraction). Returns Promise<Uint8Array[] parts>.
+  function encodeMp3(lame, chs, sr, kbps, onProgress) {
+    var L = toInt16(chs[0]), R = toInt16(chs[1] || chs[0]);
+    var enc = new lame.Mp3Encoder(2, sr, kbps), parts = [], block = 1152 * 200, i = 0;
+    return new Promise(function (resolve) {
+      (function step() {
+        var stop = Math.min(L.length, i + block * 5);
+        for (; i < stop; i += block) {
+          var b = enc.encodeBuffer(L.subarray(i, i + block), R.subarray(i, i + block));
+          if (b.length) parts.push(new Uint8Array(b));
+        }
+        if (onProgress) onProgress(i / L.length);
+        if (i < L.length) setTimeout(step, 0);
+        else { var e = enc.flush(); if (e.length) parts.push(new Uint8Array(e)); resolve(parts); }
+      })();
+    });
+  }
+
+  return { planChunks: planChunks, toMono: toMono, findLag: findLag, joinChunks: joinChunks, prepRef: prepRef, newOutput: newOutput, addChunk: addChunk,
+           mixGuide: mixGuide, resample: resample, encodeWav: encodeWav, encodeMp3: encodeMp3 };
+})();
+
+
+</script>

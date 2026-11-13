@@ -1,0 +1,2007 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="color-scheme" content="light dark">
+<!-- Copyright (c) 2026 MohammadReza Tayebi. MIT License. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+<script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<style>
+:root, [data-theme="light"] {
+  --surface: #f4f8fa;
+  --surface-raised: #ffffff;
+  --surface-sunken: #e9f0f4;
+  --ink: #14284b;
+  --ink-muted: #4f6179;
+  --line: #d9e3ea;
+  --border-strong: #6f849b;
+  --brand: #14284b;
+  --accent: #0b7a7c;
+  --accent-hover: #096466;
+  --on-accent: #ffffff;
+  --accent-soft: #d5edea;
+  --focus-ring: #0b7a7c;
+  --danger: #b3261e;
+  --scrim: rgba(8, 20, 42, 0.45);
+  --font-sans: "Vazirmatn", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+  --shadow-card: 0 1px 2px rgba(20, 40, 75, 0.06), 0 6px 18px rgba(20, 40, 75, 0.07);
+  --shadow-lift: 0 12px 32px rgba(20, 40, 75, 0.22);
+  --motion-fast: 150ms;
+  --motion-base: 220ms;
+}
+[data-theme="dark"] {
+  --surface: #0c1b33;
+  --surface-raised: #132647;
+  --surface-sunken: #08142a;
+  --ink: #eaf2f8;
+  --ink-muted: #a7b6c9;
+  --line: #223a5e;
+  --border-strong: #6f87a6;
+  --brand: #a9c2ea;
+  --accent: #5fc9c4;
+  --accent-hover: #7fd8d3;
+  --on-accent: #0c1b33;
+  --accent-soft: #12383f;
+  --focus-ring: #7fd8d3;
+  --danger: #ff9a8f;
+  --scrim: rgba(2, 8, 20, 0.62);
+  --shadow-card: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --surface: #0c1b33;
+    --surface-raised: #132647;
+    --surface-sunken: #08142a;
+    --ink: #eaf2f8;
+    --ink-muted: #a7b6c9;
+    --line: #223a5e;
+    --border-strong: #6f87a6;
+    --brand: #a9c2ea;
+    --accent: #5fc9c4;
+    --accent-hover: #7fd8d3;
+    --on-accent: #0c1b33;
+    --accent-soft: #12383f;
+    --focus-ring: #7fd8d3;
+    --danger: #ff9a8f;
+    --scrim: rgba(2, 8, 20, 0.62);
+    --shadow-card: none;
+  }
+}
+
+/* Plain-CSS components. Needs tokens.css (the --name variables) loaded first. */
+.wk-root { background: var(--surface); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 28px; }
+
+/* Button */
+.wk-btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: 44px; padding: 0 var(--space-5); border: 1px solid transparent; border-radius: var(--radius-md); background: transparent; color: var(--ink); font-family: var(--font-sans); font-size: 14px; line-height: 20px; font-weight: 500; white-space: nowrap; cursor: pointer; transition: background-color 150ms, border-color 150ms, color 150ms; }
+.wk-btn--primary { background: var(--accent); color: var(--on-accent); }
+.wk-btn--primary:hover { background: var(--accent-hover); }
+.wk-btn--secondary { border-color: var(--border-strong); background: var(--surface-raised); }
+.wk-btn--secondary:hover { border-color: var(--accent); color: var(--accent); }
+.wk-btn--quiet { color: var(--accent); padding: 0 var(--space-3); }
+.wk-btn--quiet:hover { background: var(--accent-soft); color: var(--ink); }
+.wk-btn:disabled, .wk-btn--primary:disabled, .wk-btn--primary:disabled:hover { cursor: default; color: var(--ink-muted); background: var(--surface-sunken); border: 1px solid var(--line); }
+.wk-btn:focus-visible, .wk-field__input:focus-visible, .wk-badge:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+
+/* Card */
+.wk-card { background: var(--surface-raised); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: var(--space-5); box-shadow: var(--shadow-card); }
+.wk-card__title { margin: 0 0 var(--space-2); font-size: 20px; line-height: 32px; font-weight: 600; color: var(--ink); }
+.wk-card__text { margin: 0; font-size: 14px; line-height: 24px; color: var(--ink-muted); }
+[data-theme="dark"] .wk-card { box-shadow: none; }
+
+/* Field */
+.wk-field { display: flex; flex-direction: column; gap: var(--space-2); }
+.wk-field__label { font-size: 14px; line-height: 20px; font-weight: 500; color: var(--ink); }
+.wk-field__input { min-height: 44px; padding: 0 var(--space-4); border: 1px solid var(--border-strong); border-radius: var(--radius-md); background: var(--surface-sunken); color: var(--ink); font-family: var(--font-sans); font-size: 16px; }
+.wk-field__hint { margin: 0; font-size: 14px; line-height: 24px; color: var(--ink-muted); }
+.wk-field--error .wk-field__input { border-color: var(--danger); }
+.wk-field--error .wk-field__hint { color: var(--danger); }
+
+/* Signature */
+.wk-signature { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); padding: var(--space-6) var(--space-4); border-top: 1px solid var(--line); text-align: center; }
+.wk-signature__line { margin: 0; font-size: 12px; line-height: 20px; letter-spacing: 0.2px; color: var(--ink-muted); white-space: nowrap; }
+.wk-signature__name { color: var(--ink); font-weight: 500; }
+.wk-signature__links { display: flex; justify-content: center; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.wk-badge { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: var(--radius-pill); background: var(--accent-soft); color: var(--ink); text-decoration: none; transition: background-color 150ms, color 150ms; }
+.wk-badge svg { width: 20px; height: 20px; fill: currentColor; }
+.wk-badge:hover { background: var(--accent); color: var(--on-accent); }
+
+
+/* About */
+.wk-about { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); padding: var(--space-7) var(--space-5) 0; text-align: center; }
+.wk-about__mark { width: 88px; height: auto; border-radius: 20px; }
+.wk-about__name { margin: 0; font-size: 40px; line-height: 48px; font-weight: 700; color: var(--ink); }
+.wk-about__version { margin: 0; font-size: 12px; line-height: 20px; letter-spacing: 0.2px; color: var(--ink-muted); }
+.wk-about__purpose { margin: var(--space-2) 0 0; font-size: 16px; line-height: 28px; color: var(--ink); }
+.wk-about__features { width: 100%; box-sizing: border-box; margin-top: var(--space-4); padding: var(--space-5); border-radius: var(--radius-lg); background: var(--surface-raised); border: 1px solid var(--line); text-align: start; }
+.wk-about__features h3 { margin: 0 0 var(--space-3); font-size: 16px; line-height: 24px; font-weight: 600; color: var(--accent); }
+.wk-about__features ul { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-2); }
+.wk-about__features li { position: relative; padding-inline-start: 20px; font-size: 14px; line-height: 24px; color: var(--ink); }
+.wk-about__features li::before { content: ""; position: absolute; inset-inline-start: 0; top: 9px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+
+/* ---------- Patterns added in v2: shell, theme, overlays, messages, controls ---------- */
+:root { --motion-fast: 150ms; --motion-base: 220ms; }
+@keyframes wk-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes wk-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .wk-scrim, .wk-dialog, .wk-toast { animation: none !important; } .wk-switch__thumb, .wk-progress > div { transition: none !important; } }
+
+/* Icons: 24px line icons, 1.75 stroke, round ends. Media glyphs (play, pause) are solid: the fill is set on the shape inside the symbol. */
+.wk-icon { width: 24px; height: 24px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.wk-icon--sm { width: 20px; height: 20px; }
+.wk-btn .wk-icon { width: 20px; height: 20px; }
+.wk-btn--danger { border-color: var(--danger); background: var(--surface-raised); color: var(--danger); }
+.wk-btn--danger:hover { background: var(--surface-sunken); }
+.wk-btn--block { width: 100%; }
+.wk-btn:focus-visible, .wk-tab:focus-visible, .wk-seg__opt:focus-visible, .wk-switch:focus-visible, .wk-drop:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+
+/* Shell: app bar on top, one column, tab bar at the bottom */
+.wk-appbar { position: sticky; top: 0; z-index: 20; background: var(--surface); border-bottom: 1px solid var(--line); }
+.wk-appbar__in { display: flex; align-items: center; gap: var(--space-3); max-width: 640px; height: 56px; margin: 0 auto; padding: 0 var(--space-4); }
+.wk-appbar__mark { width: 32px; height: 32px; flex: none; border-radius: 22%; box-shadow: 0 0 0 1px var(--line); }
+.wk-appbar__name { margin: 0; font-size: 18px; line-height: 28px; font-weight: 700; white-space: nowrap; }
+.wk-screen { width: 100%; max-width: 640px; margin: 0 auto; padding: var(--space-5) var(--space-4) calc(var(--space-8) + 56px + env(safe-area-inset-bottom, 0px)); box-sizing: border-box; }
+.wk-screen:focus { outline: none; }
+.wk-screen__title { margin: 0 0 var(--space-5); font-size: 28px; line-height: 36px; font-weight: 700; }
+.wk-screen__title + .wk-screen__lead { margin: calc(-1 * var(--space-3)) 0 var(--space-5); font-size: 16px; line-height: 28px; color: var(--ink-muted); }
+.wk-stack { display: grid; gap: var(--space-5); }
+.wk-tabbar { position: fixed; inset-inline: 0; bottom: 0; z-index: 20; background: var(--surface-raised); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.wk-tabbar__in { display: grid; grid-template-columns: repeat(3, 1fr); max-width: 640px; margin: 0 auto; }
+.wk-tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 56px; padding: 4px 0; border: 0; border-radius: 0; background: transparent; color: var(--ink-muted); font-family: var(--font-sans); font-size: 12px; line-height: 16px; font-weight: 500; cursor: pointer; transition: color var(--motion-fast); }
+.wk-tab__icon { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 28px; border-radius: var(--radius-pill); transition: background-color var(--motion-fast); }
+.wk-tab:hover { color: var(--ink); }
+.wk-tab[aria-current="page"] { color: var(--accent); }
+.wk-tab[aria-current="page"] .wk-tab__icon { background: var(--accent-soft); color: var(--ink); }
+.wk-tab:focus-visible { outline-offset: -4px; }
+
+/* Segmented control: 2 to 4 exclusive choices (theme) */
+.wk-seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; padding: 4px; border: 1px solid var(--border-strong); border-radius: var(--radius-pill); background: var(--surface-sunken); }
+.wk-seg__opt { min-height: 40px; padding: 0 var(--space-3); border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--ink); font-family: var(--font-sans); font-size: 14px; line-height: 20px; font-weight: 500; white-space: nowrap; cursor: pointer; transition: background-color var(--motion-fast), color var(--motion-fast); }
+.wk-seg__opt:hover { color: var(--accent); }
+.wk-seg__opt[aria-checked="true"] { background: var(--accent); color: var(--on-accent); }
+
+/* Select, switch, slider, progress, file drop */
+.wk-select-wrap { position: relative; }
+.wk-select-wrap .wk-icon { position: absolute; inset-inline-end: var(--space-3); top: 50%; margin-top: -10px; width: 20px; height: 20px; color: var(--ink-muted); pointer-events: none; }
+.wk-select { appearance: none; -webkit-appearance: none; width: 100%; padding-inline-end: 44px; cursor: pointer; }
+.wk-select:focus-visible, .wk-field__input:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.wk-switch { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); width: 100%; min-height: 44px; padding: 0; border: 0; background: transparent; color: var(--ink); font-family: var(--font-sans); font-size: 14px; line-height: 20px; font-weight: 500; cursor: pointer; text-align: start; }
+.wk-switch__track { position: relative; width: 44px; height: 26px; flex: none; border: 1px solid var(--border-strong); border-radius: var(--radius-pill); background: var(--surface-sunken); transition: background-color var(--motion-fast), border-color var(--motion-fast); }
+.wk-switch__thumb { position: absolute; top: 2px; inset-inline-start: 2px; width: 20px; height: 20px; border-radius: 50%; background: var(--ink-muted); transition: inset-inline-start var(--motion-fast), background-color var(--motion-fast); }
+.wk-switch[aria-checked="true"] .wk-switch__track { background: var(--accent); border-color: var(--accent); }
+.wk-switch[aria-checked="true"] .wk-switch__thumb { inset-inline-start: 20px; background: var(--on-accent); }
+.wk-slider__top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); font-size: 14px; line-height: 24px; color: var(--ink-muted); white-space: nowrap; }
+.wk-slider__top b { color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
+.wk-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 28px; margin: 0; background: transparent; direction: ltr; --p: 0%; }
+.wk-slider::-webkit-slider-runnable-track { height: 4px; border-radius: 99px; background: linear-gradient(to right, var(--accent) var(--p), var(--line) var(--p)); }
+.wk-slider::-moz-range-track { height: 4px; border-radius: 99px; background: var(--line); }
+.wk-slider::-moz-range-progress { height: 4px; border-radius: 99px; background: var(--accent); }
+.wk-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; margin-top: -8px; border-radius: 50%; background: var(--accent); border: 2px solid var(--surface-raised); box-shadow: 0 0 0 1px var(--accent); }
+.wk-slider::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--accent); border: 2px solid var(--surface-raised); }
+.wk-slider:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.wk-progress { height: 6px; margin: var(--space-3) 0 var(--space-2); border: 1px solid var(--line); border-radius: 99px; background: var(--surface-sunken); overflow: hidden; }
+.wk-progress > div { height: 100%; width: 0; background: var(--accent); transition: width 300ms; }
+.wk-drop { display: flex; flex-direction: column; align-items: center; gap: var(--space-1); padding: var(--space-5) var(--space-4); border: 1px dashed var(--border-strong); border-radius: var(--radius-lg); text-align: center; cursor: pointer; transition: border-color var(--motion-fast), background-color var(--motion-fast); }
+.wk-drop:hover, .wk-drop.is-over { border-color: var(--accent); background: var(--surface-sunken); }
+.wk-drop__title { max-width: 100%; font-size: 16px; line-height: 28px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wk-drop__hint { max-width: 100%; font-size: 14px; line-height: 24px; color: var(--ink-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wk-drop .wk-icon { color: var(--accent); }
+.wk-chip { display: inline-block; padding: 0 var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--surface-sunken); color: var(--ink); font-size: 12px; line-height: 20px; direction: ltr; }
+.wk-kbd { font-family: inherit; font-size: 12px; line-height: 20px; padding: 0 6px; border: 1px solid var(--border-strong); border-bottom-width: 2px; border-radius: var(--radius-sm); background: var(--surface-sunken); color: var(--ink); }
+
+/* Messages: inline alert (errors, notes) and toast (quiet confirmation) */
+.wk-alert { display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-3) var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface-sunken); color: var(--ink); font-size: 14px; line-height: 24px; }
+.wk-alert .wk-icon { width: 20px; height: 20px; margin-top: 2px; }
+.wk-alert__label { font-weight: 600; }
+.wk-alert--error { border-color: var(--danger); }
+.wk-alert--error .wk-icon, .wk-alert--error .wk-alert__label { color: var(--danger); }
+.wk-toasts { position: fixed; inset-inline: 0; bottom: calc(56px + env(safe-area-inset-bottom, 0px) + var(--space-3)); z-index: 60; display: flex; justify-content: center; padding: 0 var(--space-4); pointer-events: none; }
+.wk-toast { display: flex; align-items: center; gap: var(--space-2); max-width: 420px; padding: 10px var(--space-4); border-radius: var(--radius-md); background: var(--ink); color: var(--surface); font-size: 14px; line-height: 24px; font-weight: 500; box-shadow: var(--shadow-lift); animation: wk-rise var(--motion-base) ease-out; }
+.wk-toast .wk-icon { width: 20px; height: 20px; }
+
+/* Dialog: bottom sheet on phones, centered from 640px up */
+.wk-scrim { position: fixed; inset: 0; z-index: 50; display: flex; align-items: flex-end; justify-content: center; background: var(--scrim); animation: wk-fade var(--motion-base) ease-out; }
+.wk-dialog { box-sizing: border-box; width: 100%; max-width: 420px; padding: var(--space-5); padding-bottom: calc(var(--space-5) + env(safe-area-inset-bottom, 0px)); border: 1px solid var(--line); border-radius: var(--radius-lg) var(--radius-lg) 0 0; background: var(--surface-raised); box-shadow: var(--shadow-lift); animation: wk-rise var(--motion-base) ease-out; }
+.wk-dialog__title { margin: 0 0 var(--space-2); font-size: 20px; line-height: 32px; font-weight: 600; }
+.wk-dialog__text { margin: 0 0 var(--space-5); font-size: 14px; line-height: 24px; color: var(--ink-muted); }
+.wk-dialog__actions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+@media (min-width: 640px) { .wk-scrim { align-items: center; } .wk-dialog { border-radius: var(--radius-lg); } }
+
+/* About: feature items carry a name and one short explanation; steps and shortcuts */
+.wk-about__features li strong { display: block; font-weight: 600; }
+.wk-about__features li span { display: block; color: var(--ink-muted); }
+.wk-steps { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-4); }
+.wk-steps li { display: flex; align-items: flex-start; gap: var(--space-3); font-size: 14px; line-height: 24px; }
+.wk-steps__n { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex: none; border: 1px solid var(--accent); border-radius: 50%; color: var(--accent); font-size: 14px; font-weight: 500; }
+.wk-steps li > div > strong { display: block; font-weight: 600; }
+.wk-steps li > div > span { display: block; color: var(--ink-muted); }
+.wk-keys { display: grid; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.wk-keys li { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); font-size: 14px; line-height: 24px; }
+.wk-keys .wk-keys__k { direction: ltr; display: inline-flex; gap: 4px; }
+
+/* ---------- Generic layout helpers (v2) ---------- */
+.wk-card__heading { display: flex; align-items: center; gap: var(--space-3); margin: 0 0 var(--space-4); font-size: 20px; line-height: 32px; font-weight: 600; }
+.wk-note { margin: 0; font-size: 14px; line-height: 24px; color: var(--ink-muted); }
+.wk-block { display: grid; gap: var(--space-4); }
+.wk-stack-sm { display: grid; gap: var(--space-2); }
+.wk-actions { display: grid; gap: var(--space-2); margin-top: var(--space-4); }
+.wk-actions .wk-btn { width: 100%; }
+.wk-divider { margin: var(--space-5) 0 0; padding-top: var(--space-5); border-top: 1px solid var(--line); }
+.wk-label { margin: 0 0 var(--space-1); font-size: 14px; line-height: 24px; font-weight: 500; }
+.wk-aboutscreen { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); padding: 0; text-align: center; }
+.wk-aboutscreen .wk-about__mark { width: 88px; height: 88px; border-radius: 22%; box-shadow: 0 0 0 1px var(--line); }
+.wk-aboutscreen__cards { display: grid; gap: var(--space-5); width: 100%; margin-top: var(--space-3); text-align: start; }
+.wk-aboutscreen__cards .wk-about__features { margin-top: 0; }
+.wk-aboutscreen .wk-signature { width: 100%; box-sizing: border-box; margin-top: var(--space-4); padding-bottom: 0; }
+.wk-aboutscreen .wk-signature__links { direction: ltr; }
+.wk-aboutscreen .wk-card__title { color: var(--accent); font-size: 16px; line-height: 24px; margin-bottom: var(--space-3); }
+.wk-notes { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-3); font-size: 14px; line-height: 24px; }
+.wk-notes li { position: relative; padding-inline-start: 20px; }
+.wk-notes li::before { content: ''; position: absolute; inset-inline-start: 0; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+.wk-notes strong { font-weight: 600; }
+
+/* Solo Remover: only what the design system does not already provide */
+[hidden] { display: none !important; }
+:root { color-scheme: light; }
+[data-theme="dark"] { color-scheme: dark; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark; } }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--surface); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 28px; }
+button, input, select { font-family: inherit; }
+.app-sub { margin: calc(-1 * var(--space-3)) 0 var(--space-4); font-size: 14px; line-height: 24px; color: var(--ink-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app-row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+.app-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+.app-status { margin: 0; font-weight: 600; }
+.app-log { margin: var(--space-2) 0 0; padding: 0; list-style: none; max-height: 160px; overflow: auto; font-size: 14px; line-height: 24px; color: var(--ink-muted); }
+.app-log li { position: relative; padding-inline-start: 16px; }
+.app-log li::before { content: ''; position: absolute; inset-inline-start: 0; top: 10px; width: 6px; height: 6px; border-radius: 50%; background: var(--border-strong); }
+.app-number { width: 100%; text-align: center; padding: 0 var(--space-2); }
+.app-wave { display: block; width: 100%; height: 120px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface-sunken); cursor: pointer; direction: ltr; touch-action: pan-y; }
+.app-wave:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.app-times { display: flex; justify-content: space-between; direction: ltr; margin-top: var(--space-1); font-size: 12px; line-height: 20px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.app-transport { display: flex; align-items: center; justify-content: center; gap: var(--space-3); margin: var(--space-3) 0 var(--space-2); direction: ltr; }
+.app-play { display: inline-flex; align-items: center; justify-content: center; width: 60px; height: 60px; padding: 0; border: 1px solid var(--accent); border-radius: 50%; background: transparent; color: var(--accent); cursor: pointer; transition: background-color var(--motion-fast), color var(--motion-fast); }
+.app-play:hover:not(:disabled) { background: var(--accent); color: var(--on-accent); }
+.app-play:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.app-play .wk-icon { width: 24px; height: 24px; }
+.app-beat { min-height: 28px; text-align: center; font-size: 18px; font-weight: 600; color: var(--accent); }
+.app-ctrls { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5) var(--space-6); margin-top: var(--space-4); }
+.app-loopbtns { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); margin-top: var(--space-2); }
+.app-loopbtns .wk-btn { padding: 0 var(--space-2); }
+.app-dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--space-2); margin-top: var(--space-2); }
+.app-dl .wk-btn { padding: 0 var(--space-3); }
+@media (max-width: 480px) { .app-ctrls { grid-template-columns: 1fr; } }
+@media (max-width: 360px) { .wk-screen__title { font-size: 24px; line-height: 32px; } }
+
+.wk-stack > * { min-width: 0; }
+@media (max-width: 360px) { .app-sec { display: none; } .app-transport { gap: var(--space-2); } }
+.wk-card { scroll-margin-top: 72px; }
+
+.app-full { grid-column: 1 / -1; }
+.app-loopbtns--2 { grid-template-columns: 1fr 1fr; }
+.app-marks { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-2); min-height: 8px; }
+.app-mark { gap: var(--space-2); padding: 0 var(--space-3); min-width: 76px; touch-action: manipulation; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.app-mark b { color: var(--accent); }
+.app-mark span { direction: ltr; font-variant-numeric: tabular-nums; font-size: 14px; }
+
+.app-pagebar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin: var(--space-3) 0 var(--space-2); }
+.app-pagebar .wk-btn { padding: 0 var(--space-3); }
+.app-pageinfo { font-size: 14px; line-height: 24px; color: var(--ink-muted); text-align: center; flex: 1; min-width: 0; }
+.app-score { overflow: auto; max-height: min(75vh, 760px); border: 1px solid var(--line); border-radius: var(--radius-md); background: #fff; direction: ltr; -webkit-overflow-scrolling: touch; }
+.app-score:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.app-score canvas { display: block; }
+.app-scorectl { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-3); }
+.app-play--sm { width: 48px; height: 48px; flex: none; }
+.app-scoretime { font-size: 14px; color: var(--ink-muted); font-variant-numeric: tabular-nums; min-width: 40px; }
+.app-zoom { margin-inline-start: auto; width: 150px; max-width: 100%; flex: 0 1 150px; min-width: 0; }
+.app-scorectl .wk-select { min-width: 0; }
+.app-mark em { font-style: normal; font-size: 12px; color: var(--ink-muted); }
+
+/* ---- metronome / tone */
+.app-dots { display: flex; justify-content: center; gap: var(--space-2); margin: var(--space-3) 0; min-height: 14px; direction: ltr; }
+.app-dots i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--border-strong); background: transparent; transition: background-color 80ms; }
+.app-dots i.on { background: var(--accent); border-color: var(--accent); }
+.app-dots i.on.first { background: var(--brand); border-color: var(--brand); }
+
+/* ---- score: ink + stage */
+.app-score__in { position: relative; width: max-content; min-width: 100%; }
+.app-score__in canvas { display: block; }
+#ink { position: absolute; inset: 0; pointer-events: none; touch-action: none; }
+#ink.is-on { pointer-events: auto; cursor: crosshair; }
+.app-ink { margin-top: var(--space-3); display: grid; gap: var(--space-3); }
+.app-inktools { display: grid; gap: var(--space-2); }
+.app-inktools[hidden] { display: none; }
+.app-stagebtn { padding: 0 var(--space-3); margin-inline-start: auto; }
+.app-zoom { margin-inline-start: 0; }
+body.is-stage { overflow: hidden; }
+.wk-card.is-stage { position: fixed; inset: 0; z-index: 40; margin: 0; border-radius: 0; border: 0; max-width: none; overflow: auto; display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3); background: var(--surface); box-shadow: none; }
+.wk-card.is-stage .app-hide-stage { display: none; }
+.wk-card.is-stage #scoreBox { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.wk-card.is-stage .app-score { flex: 1; max-height: none; min-height: 0; cursor: pointer; }
+.wk-card.is-stage .app-pagebar { margin: 0 0 var(--space-2); }
+.wk-card.is-stage .app-scorectl { margin-top: var(--space-2); }
+.wk-card.is-stage .app-ink { margin-top: var(--space-2); }
+
+/* ---- practice log */
+.app-logsum { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); text-align: center; }
+.app-logsum div { background: var(--surface-sunken); border-radius: var(--radius-md); padding: var(--space-3) var(--space-1); min-width: 0; }
+.app-logsum b { display: block; font-size: 18px; line-height: 28px; color: var(--ink); }
+.app-logsum span { display: block; font-size: 12px; line-height: 20px; color: var(--ink-muted); }
+.app-logbars { display: grid; grid-template-columns: repeat(7, 1fr); gap: var(--space-2); align-items: end; height: 96px; margin-top: var(--space-4); direction: ltr; }
+.app-logbars div { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 4px; min-width: 0; }
+.app-logbars i { display: block; width: 100%; max-width: 28px; min-height: 3px; border-radius: 6px 6px 2px 2px; background: var(--accent); }
+.app-logbars span { font-size: 11px; line-height: 16px; color: var(--ink-muted); white-space: nowrap; }
+.app-loglist { list-style: none; margin: var(--space-3) 0 0; padding: 0; display: grid; gap: var(--space-1); }
+.app-loglist li { display: flex; justify-content: space-between; gap: var(--space-3); font-size: 14px; line-height: 24px; }
+.app-loglist li span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app-loglist li span:last-child { color: var(--ink-muted); flex: none; }
+
+/* ---- record */
+.app-meter { height: 8px; border-radius: 999px; background: var(--surface-sunken); overflow: hidden; margin-top: var(--space-3); direction: ltr; }
+.app-meter i { display: block; height: 100%; width: 0; background: var(--accent); transition: width 60ms linear; }
+.app-takes { list-style: none; margin: var(--space-3) 0 0; padding: 0; display: grid; gap: var(--space-2); }
+.app-takes li { display: grid; gap: var(--space-2); padding: var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-md); }
+.app-takes li > span:first-child { font-size: 14px; line-height: 24px; color: var(--ink); }
+.app-takebtns { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
+.app-takebtns .wk-btn { padding: 0 var(--space-2); }
+
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="i-wave" viewBox="0 0 24 24"><path d="M4 10v4M8 6v12M12 3v18M16 7v10M20 10v4"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5h.01"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V5M7.5 9.5L12 5l4.5 4.5M5 19h14"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19h14"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" stroke-width="2" d="M8.500 5.700v12.600L18.500 12z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect fill="currentColor" stroke-width="2" x="6.5" y="5" width="4" height="14" rx="1.2"/><rect fill="currentColor" stroke-width="2" x="13.5" y="5" width="4" height="14" rx="1.2"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M4.6 15.5A8 8 0 1 0 6.3 6.3L4 8.8M4 4v5h5"/></symbol>
+  <symbol id="i-fwd" viewBox="0 0 24 24"><path d="M19.4 15.5A8 8 0 1 1 17.7 6.3L20 8.800M20 4v5h-5"/></symbol>
+  <symbol id="app-icon" viewBox="0 0 96 96"><rect width="96" height="96" rx="22" fill="#14284B"/><g stroke="#FFFFFF" stroke-opacity=".6" stroke-width="4"><path d="M12 28H84M12 39H84M12 50H84M12 61H84M12 72H84"/></g><circle cx="74" cy="33.5" r="10.5" fill="#14284B"/><g fill="#FFFFFF"><circle cx="20" cy="55.5" r="5.5"/><circle cx="38" cy="44.5" r="5.5"/><circle cx="56" cy="66.5" r="5.5"/></g><circle cx="74" cy="33.5" r="5" fill="none" stroke="#5FC9C4" stroke-width="4.5"/></symbol>
+</svg>
+
+<header class="wk-appbar"><div class="wk-appbar__in">
+  <svg class="wk-appbar__mark" viewBox="0 0 96 96" aria-hidden="true"><use href="#app-icon"/></svg>
+  <p class="wk-appbar__name">همراهی‌ساز</p>
+</div></header>
+
+<main class="wk-screen" id="screen" tabindex="-1">
+
+  <section id="view-task" data-view="task" aria-labelledby="h-task">
+    <h1 class="wk-screen__title" id="h-task">ساخت همراهی</h1>
+    <p class="wk-screen__lead">اکامپانیمان بساز: ساز خودت را از ضبط حذف کن و جایش بنواز.</p>
+    <div class="wk-stack">
+      <div class="wk-card" id="cardInput">
+        <h2 class="wk-card__heading"><span class="wk-steps__n">۱</span>فایل و ساز تو</h2>
+        <div class="wk-block">
+          <div id="inputAlert"></div>
+          <div class="wk-drop" id="drop" tabindex="0" role="button" aria-describedby="dropInfo">
+            <svg class="wk-icon " aria-hidden="true"><use href="#i-upload"/></svg>
+            <div class="wk-drop__title" id="dropTitle">فایل را اینجا رها کنید یا بزنید</div>
+            <div class="wk-drop__hint" id="dropInfo" dir="ltr">MP3 · WAV · FLAC · M4A</div>
+            <input type="file" id="fileInput" accept="audio/*,.mp3,.wav,.flac,.m4a,.ogg,.aac" hidden>
+          </div>
+          <div class="wk-field">
+            <label class="wk-field__label" for="instSelect">سازی که می‌نوازی (برای حذف)</label>
+            <div class="wk-select-wrap"><select class="wk-field__input wk-select" id="instSelect"></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div>
+          </div>
+          <div>
+            <button class="wk-btn wk-btn--primary wk-btn--block" id="btnProcess" disabled>ساختن همراهی</button>
+            <p class="wk-note" id="processHint" style="margin-top:var(--space-2)"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="wk-card" id="cardProgress" hidden>
+        <h2 class="wk-card__heading"><span class="wk-steps__n">۲</span>پردازش</h2>
+        <p class="app-status" id="statusText" role="status" aria-live="polite">…</p>
+        <div class="wk-progress" id="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="barFill"></div></div>
+        <ul class="app-log" id="log"></ul>
+        <div id="progAlert" style="margin-top:var(--space-3)"></div>
+        <div class="wk-actions"><button class="wk-btn wk-btn--secondary" id="btnCancel">لغو پردازش</button></div>
+      </div>
+
+      <div class="wk-card" id="cardPlayer" hidden>
+        <h2 class="wk-card__heading"><span class="wk-steps__n">۳</span>تمرین</h2>
+        <p class="app-sub" id="playerSub"></p>
+        <canvas class="app-wave" id="wave" tabindex="0" aria-label="موج صدا؛ با کلیدهای چپ و راست جلو و عقب بروید"></canvas>
+        <div class="app-times"><span id="tCur">0:00</span><span id="tDur">0:00</span></div>
+        <div class="app-transport">
+          <button class="wk-btn wk-btn--secondary" id="btnBack" aria-label="۵ ثانیه عقب"><svg class="wk-icon " aria-hidden="true"><use href="#i-back"/></svg>۵<span class="app-sec"> ثانیه</span></button>
+          <button class="app-play" id="btnPlay" aria-label="پخش" title="پخش / توقف"><svg class="wk-icon " aria-hidden="true"><use href="#i-play"/></svg></button>
+          <button class="wk-btn wk-btn--secondary" id="btnFwd" aria-label="۵ ثانیه جلو">۵<span class="app-sec"> ثانیه</span><svg class="wk-icon " aria-hidden="true"><use href="#i-fwd"/></svg></button>
+        </div>
+        <div class="app-beat" id="beat" aria-live="polite"></div>
+
+        <div class="app-ctrls">
+          <div>
+            <div class="wk-slider__top"><label for="speed">سرعت پخش</label><b id="speedVal">۱۰۰٪</b></div>
+            <input class="wk-slider" type="range" id="speed" min="50" max="125" step="5" value="100">
+          </div>
+          <div>
+            <div class="wk-slider__top"><label for="guide">صدای راهنما</label><b id="guideVal">خاموش</b></div>
+            <input class="wk-slider" type="range" id="guide" min="0" max="100" step="5" value="0">
+          </div>
+          <div>
+            <div class="wk-slider__top"><span>تکرار یک بخش</span><span class="wk-chip" id="loopInfo">—</span></div>
+            <div class="app-loopbtns">
+              <button class="wk-btn wk-btn--secondary" id="btnA">شروع</button>
+              <button class="wk-btn wk-btn--secondary" id="btnB">پایان</button>
+              <button class="wk-btn wk-btn--secondary" id="btnClearLoop">حذف</button>
+            </div>
+            <p class="wk-note" style="margin-top:var(--space-2)">روی موج بکشید تا بخش انتخاب شود.</p>
+          </div>
+          <div class="wk-stack-sm">
+            <button class="wk-switch" id="trOn" role="switch" aria-checked="false"><span>افزایش تدریجی سرعت</span><span class="wk-switch__track"><span class="wk-switch__thumb"></span></span></button>
+            <div class="app-grid2">
+              <div class="wk-field"><label class="wk-field__label" for="trEvery">هر چند دور</label><input class="wk-field__input app-number" type="number" id="trEvery" min="1" max="10" value="3" inputmode="numeric" disabled></div>
+              <div class="wk-field"><label class="wk-field__label" for="trStep">پله‌ی سرعت</label><div class="wk-select-wrap"><select class="wk-field__input wk-select" id="trStep"></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div></div>
+            </div>
+            <p class="wk-note" id="trInfo" role="status" aria-live="polite"></p>
+          </div>
+          <div class="app-full">
+            <div class="wk-slider__top"><span>نشانه‌ها</span></div>
+            <div class="app-marks" id="marks"></div>
+            <div class="app-loopbtns app-loopbtns--2">
+              <button class="wk-btn wk-btn--secondary" id="btnMark">افزودن نشانه اینجا</button>
+              <button class="wk-btn wk-btn--secondary" id="btnMarksClear">حذف همه</button>
+            </div>
+            <p class="wk-note" style="margin-top:var(--space-2)">با یک ضربه به نشانه می‌روی؛ برای حذف یکی، روی آن نگه دار. نشانه‌ها برای همین ضبط در این دستگاه می‌مانند.</p>
+          </div>
+          <div class="app-full">
+            <div class="wk-slider__top"><span>کوک و گام</span><span class="wk-chip" id="tuneInfo">بدون تغییر</span></div>
+            <div class="app-grid2">
+              <div class="wk-field"><label class="wk-field__label" for="tuneRec">کوک ضبط (A)</label><div class="wk-select-wrap"><select class="wk-field__input wk-select" id="tuneRec"></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div></div>
+              <div class="wk-field"><label class="wk-field__label" for="tuneMine">کوک ساز تو (A)</label><div class="wk-select-wrap"><select class="wk-field__input wk-select" id="tuneMine"></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div></div>
+            </div>
+            <div class="wk-field" style="margin-top:var(--space-3)"><label class="wk-field__label" for="tuneSemi">انتقال گام</label><div class="wk-select-wrap"><select class="wk-field__input wk-select" id="tuneSemi"></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div></div>
+            <p class="wk-note" style="margin-top:var(--space-2)">فقط پخش را عوض می‌کند و سرعت همان می‌ماند. فایل‌های دانلود با کوک اصلی ضبط هستند.</p>
+          </div>
+          <div class="wk-stack-sm">
+            <button class="wk-switch" id="ciOn" role="switch" aria-checked="false"><span>شمارش قبل از شروع</span><span class="wk-switch__track"><span class="wk-switch__thumb"></span></span></button>
+            <div class="app-grid2">
+              <div class="wk-field"><label class="wk-field__label" for="ciBeats">تعداد ضرب</label><input class="wk-field__input app-number" type="number" id="ciBeats" min="1" max="8" value="4" inputmode="numeric" disabled></div>
+              <div class="wk-field"><label class="wk-field__label" for="ciBpm">تمپو (BPM)</label><input class="wk-field__input app-number" type="number" id="ciBpm" min="30" max="220" value="72" inputmode="numeric" disabled></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wk-divider">
+          <p class="wk-label">دانلود <span class="wk-note">(با صدای راهنمای فعلی و کوک اصلی)</span></p>
+          <div class="app-dl">
+            <button class="wk-btn wk-btn--secondary" id="dlMp3"><svg class="wk-icon " aria-hidden="true"><use href="#i-download"/></svg>همراهی MP3</button>
+            <button class="wk-btn wk-btn--secondary" id="dlWav"><svg class="wk-icon " aria-hidden="true"><use href="#i-download"/></svg>همراهی WAV</button>
+            <button class="wk-btn wk-btn--secondary" id="dlSolo"><svg class="wk-icon " aria-hidden="true"><use href="#i-download"/></svg>ساز جداشده MP3</button>
+          </div>
+          <p class="wk-note" id="dlMsg" role="status" aria-live="polite" style="margin-top:var(--space-2)"></p>
+          <div id="dlAlert" style="margin-top:var(--space-2)"></div>
+          <div class="wk-actions"><button class="wk-btn wk-btn--quiet" id="btnAnother"><svg class="wk-icon " aria-hidden="true"><use href="#i-upload"/></svg>فایل دیگر</button></div>
+        </div>
+      </div>
+
+      <div class="wk-card" id="cardTools" hidden>
+        <h2 class="wk-card__heading"><span class="wk-steps__n">۴</span>ضرب و کوک</h2>
+        <div class="app-ctrls">
+          <div class="app-full">
+            <div class="wk-slider__top"><span>مترونوم</span><span class="wk-chip" id="mtInfo">خاموش</span></div>
+            <div class="app-grid2">
+              <div class="wk-field"><label class="wk-field__label" for="mtBpm">تمپو (BPM)</label><input class="wk-field__input app-number" type="number" id="mtBpm" min="30" max="240" value="72" inputmode="numeric"></div>
+              <div class="wk-field"><label class="wk-field__label" for="mtBeats">ضرب در میزان</label><div class="wk-select-wrap"><select class="wk-field__input wk-select" id="mtBeats"><option value="1">۱</option><option value="2">۲</option><option value="3">۳</option><option value="4" selected>۴</option><option value="6">۶</option></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div></div>
+            </div>
+            <div class="app-dots" id="mtDots" aria-hidden="true"></div>
+            <div class="app-loopbtns app-loopbtns--2">
+              <button class="wk-btn wk-btn--secondary" id="btnMt">شروع مترونوم</button>
+              <button class="wk-btn wk-btn--secondary" id="btnTap">تمپو با ضربه</button>
+            </div>
+            <p class="wk-note" style="margin-top:var(--space-2)">مترونوم جدا از پخش ضبط کار می‌کند. برای تعیین تمپو چند بار پشت‌سرهم «تمپو با ضربه» را بزن.</p>
+          </div>
+          <div class="app-full">
+            <div class="wk-slider__top"><span>نت مرجع</span><span class="wk-chip" id="toneInfo">—</span></div>
+            <div class="app-grid2">
+              <div class="wk-field"><label class="wk-field__label" for="toneNote">نت</label><div class="wk-select-wrap"><select class="wk-field__input wk-select" id="toneNote"></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div></div>
+              <div class="wk-field"><label class="wk-field__label" for="toneOct">اکتاو</label><div class="wk-select-wrap"><select class="wk-field__input wk-select" id="toneOct"></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div></div>
+            </div>
+            <div class="wk-actions"><button class="wk-btn wk-btn--secondary" id="btnTone">پخش نت مرجع</button></div>
+            <p class="wk-note" style="margin-top:var(--space-2)">نت بر پایه‌ی «کوک ساز تو» ساخته می‌شود و تا دوباره نزنی ادامه دارد. برای کوک کردن سازت از آن استفاده کن.</p>
+          </div>
+          <div class="app-full">
+            <div class="wk-slider__top"><label for="toolVol">بلندی مترونوم و نت</label><b id="toolVolVal">۶۰٪</b></div>
+            <input class="wk-slider" type="range" id="toolVol" min="10" max="100" step="5" value="60">
+          </div>
+        </div>
+      </div>
+
+      <div class="wk-card" id="cardRec" hidden>
+        <h2 class="wk-card__heading"><span class="wk-steps__n">۵</span>ضبط خودت</h2>
+        <p class="wk-note" style="margin-top:calc(-1 * var(--space-2))">با اکامپانیمان بنواز و خودت را ضبط کن، بعد ضبط را هم‌زمان با همان اکامپانیمان گوش بده. با هدفون بنواز تا صدای پخش وارد میکروفون نشود. ضبط‌ها فقط تا بستن این صفحه در حافظه می‌مانند و جایی فرستاده نمی‌شوند.</p>
+        <div id="recAlert" style="margin-top:var(--space-2)"></div>
+        <div class="app-meter" id="recMeter" hidden aria-hidden="true"><i></i></div>
+        <div class="wk-actions" style="margin-top:var(--space-3)"><button class="wk-btn wk-btn--primary wk-btn--block" id="btnRec">شروع ضبط</button></div>
+        <p class="wk-note" id="recMsg" role="status" aria-live="polite" style="margin-top:var(--space-2)"></p>
+        <div id="takesWrap" hidden><ul class="app-takes" id="takes"></ul></div>
+        <div class="app-full" style="margin-top:var(--space-4)">
+          <div class="wk-slider__top"><label for="recLat">جبران تأخیر</label><b id="recLatVal">۱۲۰ میلی‌ثانیه</b></div>
+          <input class="wk-slider" type="range" id="recLat" min="0" max="400" step="10" value="120">
+          <p class="wk-note" style="margin-top:var(--space-2)">اگر هنگام گوش‌دادن، ضبط عقب‌تر یا جلوتر از اکامپانیمان بود، این را زیاد یا کم کن.</p>
+        </div>
+      </div>
+
+      <div class="wk-card" id="cardScore" hidden>
+        <h2 class="wk-card__heading app-hide-stage"><span class="wk-steps__n">۶</span>نت پارت تو</h2>
+        <p class="wk-note app-hide-stage" style="margin-top:calc(-1 * var(--space-2))">فایل PDF پارت خودت را باز کن تا هم‌زمان با تمرین ببینی. فایل فقط در همین صفحه باز می‌شود و جایی فرستاده یا ذخیره نمی‌شود.</p>
+        <input type="file" id="pdfInput" accept="application/pdf,.pdf" hidden>
+        <div class="wk-actions app-hide-stage"><button class="wk-btn wk-btn--secondary" id="btnPdf"><svg class="wk-icon " aria-hidden="true"><use href="#i-upload"/></svg><span id="btnPdfTxt">انتخاب PDF پارت</span></button></div>
+        <p class="wk-note app-hide-stage" id="pdfMsg" role="status" aria-live="polite" style="margin-top:var(--space-2)"></p>
+        <div id="pdfAlert" style="margin-top:var(--space-2)"></div>
+        <div id="scoreBox" hidden>
+          <div class="app-pagebar" dir="ltr">
+            <button class="wk-btn wk-btn--secondary" id="pgPrev"><svg class="wk-icon " aria-hidden="true"><use href="#i-left"/></svg>قبلی</button>
+            <span class="app-pageinfo" id="pgInfo" dir="rtl" aria-live="polite"></span>
+            <button class="wk-btn wk-btn--secondary" id="pgNext">بعدی<svg class="wk-icon " aria-hidden="true"><use href="#i-right"/></svg></button>
+          </div>
+          <div class="app-score" id="scoreWrap" tabindex="0" aria-label="صفحه‌ی نت"><div class="app-score__in" id="scoreIn"><canvas id="score"></canvas><canvas id="ink" aria-hidden="true"></canvas></div></div>
+          <div class="app-scorectl" dir="ltr">
+            <button class="app-play app-play--sm" id="btnPlay2" aria-label="پخش" title="پخش / توقف"><svg class="wk-icon " aria-hidden="true"><use href="#i-play"/></svg></button>
+            <span class="app-scoretime" id="tCur2">0:00</span>
+            <button class="wk-btn wk-btn--secondary app-stagebtn" id="btnStage" dir="rtl"><span id="btnStageTxt">تمام‌صفحه</span></button>
+            <div class="wk-select-wrap app-zoom" dir="rtl"><select class="wk-field__input wk-select" id="scoreZoom" aria-label="اندازه‌ی صفحه"><option value="page">کل صفحه</option><option value="100">عرض صفحه</option><option value="150">۱۵۰٪</option><option value="200">۲۰۰٪</option></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div>
+          </div>
+          <div class="app-ink" id="inkBar">
+            <button class="wk-switch" id="inkOn" role="switch" aria-checked="false"><span>یادداشت روی نت</span><span class="wk-switch__track"><span class="wk-switch__thumb"></span></span></button>
+            <div class="app-inktools" id="inkTools" hidden>
+              <div class="wk-seg" id="inkTool" role="radiogroup" aria-label="ابزار">
+                <button class="wk-seg__opt" role="radio" aria-checked="true" data-v="pen" tabindex="0">قلم</button>
+                <button class="wk-seg__opt" role="radio" aria-checked="false" data-v="hl" tabindex="-1">ماژیک</button>
+                <button class="wk-seg__opt" role="radio" aria-checked="false" data-v="er" tabindex="-1">پاک‌کن</button>
+              </div>
+              <div class="app-grid2">
+                <div class="wk-select-wrap"><select class="wk-field__input wk-select" id="inkColor" aria-label="رنگ"><option value="#14284B">سرمه‌ای</option><option value="#0B7A7C">فیروزه‌ای</option><option value="#B3261E">قرمز</option><option value="#E8C422">زرد</option></select><svg class="wk-icon " aria-hidden="true"><use href="#i-chevron"/></svg></div>
+                <button class="wk-btn wk-btn--secondary" id="inkUndo">واپس‌گرد</button>
+              </div>
+              <button class="wk-btn wk-btn--quiet" id="inkClear">پاک‌کردن این صفحه</button>
+            </div>
+          </div>
+          <div class="wk-stack-sm app-hide-stage" style="margin-top:var(--space-3)">
+            <button class="wk-switch" id="pgAuto" role="switch" aria-checked="true"><span>ورق‌زدن خودکار</span><span class="wk-switch__track"><span class="wk-switch__thumb"></span></span></button>
+            <p class="wk-note">با رسیدن پخش به هر نشانه، صفحه‌ی وصل‌شده به آن باز می‌شود.</p>
+            <div class="app-loopbtns app-loopbtns--2">
+              <button class="wk-btn wk-btn--secondary" id="btnLinkPage">وصل صفحه به نشانه</button>
+              <button class="wk-btn wk-btn--quiet" id="btnPdfClose">بستن PDF</button>
+            </div>
+            <p class="wk-note">نشانه‌ای که هنگام باز بودن PDF بسازی، خودکار به همان صفحه وصل می‌شود. «وصل صفحه به نشانه» صفحه‌ی فعلی را به آخرین نشانه‌ای که پخش از آن گذشته می‌بندد. PDF را هر بار که اپ را باز می‌کنی دوباره انتخاب کن؛ پیوند نشانه‌ها می‌ماند.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="view-settings" data-view="settings" aria-labelledby="h-settings" hidden>
+    <h1 class="wk-screen__title" id="h-settings">تنظیمات</h1>
+    <div class="wk-stack">
+      <div class="wk-card">
+        <h2 class="wk-card__title">ظاهر</h2>
+        <p class="wk-card__text" style="margin-bottom:var(--space-4)">«خودکار» یعنی مطابق تنظیم گوشی یا رایانه.</p>
+        <div class="wk-seg" id="themeSeg" role="radiogroup" aria-label="ظاهر">
+          <button class="wk-seg__opt" role="radio" aria-checked="true" data-v="auto" tabindex="0">خودکار</button>
+          <button class="wk-seg__opt" role="radio" aria-checked="false" data-v="light" tabindex="-1">روشن</button>
+          <button class="wk-seg__opt" role="radio" aria-checked="false" data-v="dark" tabindex="-1">تیره</button>
+        </div>
+      </div>
+
+      <div class="wk-card" id="cardKey" hidden>
+        <h2 class="wk-card__title">کلید API سایت MVSEP</h2>
+        <p class="wk-card__text">برای جداسازی به یک حساب رایگان در سایت MVSEP و کلید API آن نیاز داری. فقط یک بار لازم است:</p>
+        <ol class="wk-notes" style="margin:var(--space-3) 0 var(--space-4)">
+          <li>در <span dir="ltr">mvsep.com</span> حساب رایگان بساز و وارد شو.</li>
+          <li>از منوی بالای سایت «API» را باز کن (<span dir="ltr">mvsep.com/user-api</span>) و کلید را کپی کن. اگر کلیدت قدیمی است، همان‌جا کلید تازه بساز.</li>
+          <li>کلید را در کادر زیر بچسبان و «ذخیره» را بزن.</li>
+        </ol>
+        <div class="wk-block">
+          <div id="keyAlert"></div>
+          <div class="wk-field">
+            <label class="wk-field__label" for="keyInput">کلید API</label>
+            <input class="wk-field__input" type="text" id="keyInput" dir="ltr" autocomplete="off" spellcheck="false">
+            <p class="wk-field__hint" id="keyHint"></p>
+            <p class="wk-field__hint" id="keyNote" hidden>کلید فقط در همین مرورگر ذخیره می‌شود و برای هر درخواست از طریق سرور واسطِ بدون‌ذخیره به MVSEP می‌رسد.</p>
+          </div>
+          <button class="wk-btn wk-btn--primary wk-btn--block" id="btnSaveKey">ذخیره</button>
+        </div>
+      </div>
+
+      <div class="wk-card" id="cardLog">
+        <h2 class="wk-card__title">دفتر تمرین</h2>
+        <p class="wk-card__text" style="margin-bottom:var(--space-3)">زمانی که ضبط در حال پخش است حساب می‌شود. فقط روی همین دستگاه می‌ماند.</p>
+        <div class="app-logsum"><div><b id="logToday">۰</b><span>دقیقه‌ی امروز</span></div><div><b id="logWeek">۰</b><span>دقیقه در هفته</span></div><div><b id="logStreak">۰</b><span>روز پشت‌سرهم</span></div></div>
+        <div class="app-logbars" id="logBars" role="img" aria-label="تمرین هفت روز اخیر"></div>
+        <ul class="app-loglist" id="logList"></ul>
+        <div class="app-loopbtns app-loopbtns--2" style="margin-top:var(--space-3)">
+          <button class="wk-btn wk-btn--secondary" id="logCsv">خروجی CSV</button>
+          <button class="wk-btn wk-btn--secondary" id="logClear">پاک‌کردن دفتر</button>
+        </div>
+      </div>
+
+      <div class="wk-card">
+        <h2 class="wk-card__title">داده‌های این دستگاه</h2>
+        <p class="wk-card__text" style="margin-bottom:var(--space-4)">ساز انتخاب‌شده، سرعت، صدای راهنما، شمارش و ظاهر روی همین دستگاه یادت می‌ماند.</p>
+        <button class="wk-btn wk-btn--secondary wk-btn--block" id="btnReset">بازنشانی ترجیحات</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="view-about" data-view="about" aria-labelledby="h-about" hidden>
+    <h1 class="wk-screen__title" id="h-about">درباره</h1>
+    <div class="wk-aboutscreen">
+      <svg class="wk-about__mark" viewBox="0 0 96 96" aria-hidden="true"><use href="#app-icon"/></svg>
+      <p class="wk-about__name">همراهی‌ساز</p>
+      <p class="wk-about__version" dir="ltr">Solo Remover · v2.4</p>
+      <p class="wk-about__purpose">اکامپانیمان بساز: ساز خودت را از ضبط حذف کن و جایش بنواز.</p>
+      <div class="wk-aboutscreen__cards">
+        <div class="wk-card"><h2 class="wk-card__title">اکامپانیمان یعنی چه؟</h2><p class="wk-card__text">«اکامپانیمان» (accompaniment؛ در فارسی همراهی) یعنی بقیه‌ی موسیقی، بدون سازی که خودت می‌نوازی. ارکستر باشد یا گروه، پیانو یا هر ترکیب دیگر: همه‌ی سازها را می‌شنوی جز یکی، مثلاً همه‌ی ارکستر جز ویولنسل، و ویولنسل را خودت می‌نوازی. این روش از سال ۱۹۵۰ با نام Music Minus One (موسیقی منهای یک) برای تمرین به کار می‌رود.</p></div>
+        <div class="wk-card"><h2 class="wk-card__title">چه دردی را حل می‌کند؟</h2><ul class="wk-notes"><li><strong>اکامپانیمان همیشه در دسترس نیست:</strong> ارکستر، گروه یا پیانیست همراه وقت و هزینه می‌خواهد و تنها وقتی کنار آن‌ها می‌نوازی که جلسه‌ای هماهنگ شده باشد. بقیه‌ی روزها تنها تمرین می‌کنی، بی‌آنکه بقیه‌ی اثر را بشنوی.</li><li><strong>آلبوم‌های آماده محدودند:</strong> اکامپانیمان‌های آماده («منهای یک») فقط چند قطعه با یک اجرای مشخص و برای چند ساز دارند. قطعه، اجرا یا سازی که تو می‌خواهی معمولاً بینشان نیست.</li><li><strong>راهِ این اپ:</strong> هر ضبطی که داری، از کنسرتو و سمفونی تا کوارتت و ضبط یک گروه، به اکامپانیمان ساز تو تبدیل می‌شود، یعنی اثر منهای ساز تو. می‌توانی آهسته‌ترش کنی و یک بخش را تکرار کنی.</li></ul></div>
+        <div class="wk-card"><h2 class="wk-card__title">برای چه کسانی است؟</h2><ul class="wk-notes"><li><strong>هنرجوی ساز:</strong> ویولن، ویولنسل، فلوت، کلارینت، ترومپت و مانند آن، که قطعه‌ای از ارکستر یا گروه را کار می‌کند و می‌خواهد با بقیه‌ی اثر هم‌نوا شود.</li><li><strong>نوازنده‌ی ارکستر:</strong> که پارت خودش را پیش از تمرین جمعی با بقیه‌ی گروه می‌سازد.</li><li><strong>نوازنده‌ی آماتور و حرفه‌ای:</strong> که برای اجرا یا آزمون آماده می‌شود.</li><li><strong>معلم:</strong> که می‌خواهد هنرجو در خانه هم با بقیه‌ی اثر تمرین کند.</li><li><strong>هر کس که همراه‌نوازی در دسترس ندارد.</strong></li></ul></div>
+        <div class="wk-card"><h2 class="wk-card__title">چطور کار می‌کند</h2><ol class="wk-steps"><li><span class="wk-steps__n">۱</span><div><strong>فایل و ساز را انتخاب کن</strong><span>ضبط را بده و بگو کدام ساز حذف شود؛ همان که خودت می‌نوازی.</span></div></li><li><span class="wk-steps__n">۲</span><div><strong>اپ اکامپانیمان را می‌سازد</strong><span>ضبط به سرویس MVSEP فرستاده می‌شود و آن ساز از بقیه‌ی اثر جدا می‌شود. زمانش به شلوغی صف سرویس بستگی دارد.</span></div></li><li><span class="wk-steps__n">۳</span><div><strong>با اکامپانیمان تمرین کن</strong><span>آهسته، با تکرار بخش دلخواه و شمارش قبل از شروع، ساز خودت را در جای خالی می‌نوازی؛ هر وقت خواستی دانلودش می‌کنی.</span></div></li></ol></div>
+        <div class="wk-about__features"><h3>امکانات</h3><ul><li><strong>حذف ساز تو</strong><span>یکی از ۱۶ گزینه، از ویولنسل و ویولن تا فلوت و آواز؛ بقیه‌ی سازهای اثر می‌مانند.</span></li><li><strong>فایل بلند</strong><span>ضبط طولانی تکه‌تکه پردازش می‌شود و تکه‌ها با هم‌پوشانی به هم وصل می‌شوند تا درز شنیده نشود.</span></li><li><strong>سرعت دلخواه</strong><span>از ۵۰٪ تا ۱۲۵٪؛ سرعت عوض می‌شود، کوک عوض نمی‌شود.</span></li><li><strong>تکرار یک بخش</strong><span>روی موج بکش یا با «شروع» و «پایان» بخش را علامت بزن تا مدام تکرار شود.</span></li><li><strong>صدای راهنما</strong><span>ساز خودت را آرام زیر بقیه‌ی اثر می‌شنوی تا جایت را گم نکنی.</span></li><li><strong>نشانه‌های نام‌دار</strong><span>جاهای مهم قطعه را با حرف‌های تمرین (A، B، …) علامت بزن و با یک ضربه به آن‌جا برو.</span></li><li><strong>افزایش تدریجی سرعت</strong><span>بخش تکرارشونده را آهسته شروع کن و هر چند دور خودکار تندتر شود تا به سرعت اصلی برسد.</span></li><li><strong>کوک و گام</strong><span>ضبط ۴۴۲ هرتز و سازت ۴۴۰؟ کوک پخش را با سازت هماهنگ کن یا گام را نیم‌پرده جابه‌جا کن.</span></li><li><strong>مترونوم و نت مرجع</strong><span>ضرب با تمپوی دلخواه (با «تمپو با ضربه» هم می‌شود تعیینش کرد) و نتی که بر پایه‌ی کوک سازت ساخته می‌شود تا سازت را کوک کنی.</span></li><li><strong>ضبط خودت</strong><span>با اکامپانیمان بنواز و خودت را ضبط کن، بعد ضبط را هم‌زمان با اکامپانیمان گوش بده؛ تأخیر را هم می‌شود جبران کرد. فقط در نسخه‌ی وب اپ.</span></li>
+<li><strong>نت پارت تو</strong><span>PDF پارت خودت را کنار تمرین باز کن؛ با رسیدن پخش به هر نشانه، صفحه‌ی مربوط خودکار ورق می‌خورد؛ حالت تمام‌صفحه، ورق‌زدن با پدال بلوتوثی و یادداشت‌نویسی روی نت هم دارد.</span></li><li><strong>دفتر تمرین</strong><span>در تنظیمات می‌بینی هر روز و در هفته‌ی اخیر چقدر تمرین کرده‌ای و چند روز پشت‌سرهم بوده است.</span></li><li><strong>شمارش قبل از شروع</strong><span>چند ضرب با تمپوی دلخواه می‌شمارد و بعد پخش می‌شود.</span></li><li><strong>دانلود</strong><span>اکامپانیمان (اثر بدون ساز تو) به MP3 یا WAV (با صدای راهنمای فعلی) و ساز جداشده به MP3.</span></li><li><strong>ظاهر روشن و تیره</strong><span>خودکار مطابق گوشی، یا هر کدام را خودت انتخاب کن.</span></li><li><strong>موبایل و کامپیوتر</strong><span>روی گوشی با لمس و کشیدن، روی کامپیوتر با کلیدهای میان‌بر.</span></li></ul></div>
+        <div class="wk-card"><h2 class="wk-card__title">کلیدهای میان‌بر</h2><ul class="wk-keys"><li><span>پخش / توقف</span><span class="wk-keys__k"><kbd class="wk-kbd">Space</kbd></span></li><li><span>۵ ثانیه عقب / جلو</span><span class="wk-keys__k"><kbd class="wk-kbd">←</kbd><kbd class="wk-kbd">→</kbd></span></li><li><span>شروع / پایان تکرار</span><span class="wk-keys__k"><kbd class="wk-kbd">[</kbd><kbd class="wk-kbd">]</kbd></span></li><li><span>افزودن نشانه</span><span class="wk-keys__k"><kbd class="wk-kbd">M</kbd></span></li><li><span>صفحه‌ی قبل / بعد</span><span class="wk-keys__k"><kbd class="wk-kbd">PgUp</kbd><kbd class="wk-kbd">PgDn</kbd></span></li><li><span>خروج از تمام‌صفحه</span><span class="wk-keys__k"><kbd class="wk-kbd">Esc</kbd></span></li></ul></div>
+        <div class="wk-card"><h2 class="wk-card__title">نکته‌ها</h2><ul class="wk-notes"><li><strong>جای نوازندگان واقعی را نمی‌گیرد:</strong> اکامپانیمان همان اجرای ضبط است و با ریتم و بیان همان نوازندگان می‌رود، نه با تو. برای تمرین عالی است؛ برای اجرای زنده‌ی جدی با گروه یا همراه‌نواز واقعی هماهنگ شو.</li><li><strong>کیفیت جداسازی:</strong> بسته به ضبط، ممکن است ردی از ساز تو در اکامپانیمان بماند؛ هرچه سازهای هم‌صدا بیشترند (مثلاً چند ویولن در یک گروه)، جداکردن سخت‌تر است.</li><li><strong>حریم خصوصی:</strong> فایل تو از طریق یک سرور واسط که چیزی نگه نمی‌دارد به سرویس MVSEP فرستاده می‌شود (در نسخه‌ی وب، کلید API تو فقط در مرورگر خودت می‌ماند و همراه همین درخواست می‌رود). اپ جایی ذخیره‌اش نمی‌کند و نتیجه فقط در حافظه‌ی همین صفحه می‌ماند؛ با بستن صفحه از بین می‌رود. نگه‌داری فایل در MVSEP تابع قوانین خود آن سرویس است.</li><li><strong>ضبط با میکروفون:</strong> ضبط‌های تو فقط در حافظه‌ی همین صفحه می‌مانند و به هیچ سرویسی فرستاده نمی‌شوند؛ با بستن صفحه از بین می‌روند (اگر خواستی، دانلودشان کن).</li>
+<li><strong>PDF پارت و یادداشت‌ها:</strong> PDF فقط در مرورگر خودت باز می‌شود و به هیچ سرویسی فرستاده نمی‌شود. یادداشت‌های روی نت و دفتر تمرین فقط روی همین دستگاه می‌مانند و با پاک‌شدن داده‌های مرورگر از بین می‌روند.</li><li><strong>حق استفاده:</strong> فقط ضبط‌هایی را بده که حق استفاده‌شان را داری.</li><li><strong>محدودیت:</strong> سرویس رایگان MVSEP سقف خودش را دارد و وقتی صف شلوغ است باید صبر کنی.</li><li><strong>ساخته‌شده با:</strong> MVSEP برای جداسازی، lamejs برای MP3، PDF.js (Mozilla) برای نمایش PDF و فونت وزیرمتن.</li></ul></div>
+      </div>
+      <footer class="wk-signature">
+        <p class="wk-signature__line">ساخته‌شده توسط <span class="wk-signature__name">محمدرضا طیبی</span></p>
+        <ul class="wk-signature__links"><li><a class="wk-badge" href="https://github.com/mimreta" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/></svg></a></li><li><a class="wk-badge" href="https://instagram.com/mimreta" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/></svg></a></li><li><a class="wk-badge" href="https://linkedin.com/in/mimreta" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/></svg></a></li><li><a class="wk-badge" href="https://x.com/1mimreta" target="_blank" rel="noopener" aria-label="X" title="X"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/></svg></a></li><li><a class="wk-badge" href="https://t.me/wanderingkite" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.287 5.906q-1.168.486-4.666 2.01-.567.225-.595.442c-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294q.39.01.868-.32 3.269-2.206 3.374-2.23c.05-.012.12-.026.166.016s.042.12.037.141c-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8 8 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629q.14.092.27.187c.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.4 1.4 0 0 0-.013-.315.34.34 0 0 0-.114-.217.53.53 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09"/></svg></a></li></ul>
+      </footer>
+    </div>
+  </section>
+</main>
+
+<nav class="wk-tabbar" aria-label="بخش‌های اپ"><div class="wk-tabbar__in">
+  <button class="wk-tab" data-tab="task" aria-current="page"><span class="wk-tab__icon"><svg class="wk-icon " aria-hidden="true"><use href="#i-wave"/></svg></span>همراهی</button>
+  <button class="wk-tab" data-tab="settings"><span class="wk-tab__icon"><svg class="wk-icon " aria-hidden="true"><use href="#i-sliders"/></svg></span>تنظیمات</button>
+  <button class="wk-tab" data-tab="about"><span class="wk-tab__icon"><svg class="wk-icon " aria-hidden="true"><use href="#i-info"/></svg></span>درباره</button>
+</div></nav>
+<div class="wk-toasts" id="toasts" role="status" aria-live="polite"></div>
+<div id="dialogRoot"></div>
+
+<script>
+/* Core audio logic shared by the browser app and the Node test.
+ * All audio is Float32Array per channel at a single sample rate (44100). */
+var AccCore = (function () {
+  'use strict';
+
+  // Split a long recording into overlapping chunks no longer than maxChunkSec.
+  function planChunks(totalSamples, sr, maxChunkSec, overlapSec) {
+    var maxLen = Math.floor(maxChunkSec * sr);
+    if (totalSamples <= maxLen) return [{ start: 0, end: totalSamples }];
+    var ov = Math.floor(overlapSec * sr);
+    var n = Math.ceil((totalSamples - ov) / (maxLen - ov));
+    var len = Math.ceil((totalSamples + (n - 1) * ov) / n);
+    var chunks = [];
+    for (var i = 0; i < n; i++) {
+      var s = i * (len - ov);
+      chunks.push({ start: s, end: Math.min(totalSamples, s + len) });
+    }
+    chunks[n - 1].end = totalSamples;
+    return chunks;
+  }
+
+  function toMono(chs) {
+    if (chs.length === 1) return chs[0];
+    var a = chs[0], b = chs[1], n = Math.min(a.length, b.length), m = new Float32Array(n);
+    for (var i = 0; i < n; i++) m[i] = 0.5 * (a[i] + b[i]);
+    return m;
+  }
+
+  function decimate(x, start, len, f) {
+    var n = Math.floor(len / f), out = new Float32Array(n);
+    for (var i = 0; i < n; i++) {
+      var s = 0, o = start + i * f;
+      for (var k = 0; k < f; k++) { var v = x[o + k]; s += v === undefined ? 0 : v; }
+      out[i] = s / f;
+    }
+    return out;
+  }
+
+  function ncc(a, b, lag) { // a[t] vs b[t+lag]
+    var s = 0, ea = 0, eb = 0, n = a.length;
+    for (var t = 0; t < n; t++) {
+      var j = t + lag; if (j < 0 || j >= b.length) continue;
+      var x = a[t], y = b[j]; s += x * y; ea += x * x; eb += y * y;
+    }
+    return ea > 0 && eb > 0 ? s / Math.sqrt(ea * eb) : 0;
+  }
+
+  // Find lag L so that sig[sigPos + L] best matches ref[refPos] over a window.
+  function findLag(ref, refPos, sig, sigPos, win, maxLag) {
+    var F = 4;
+    var pad = maxLag + 8;
+    var a = decimate(ref, refPos, win, F);
+    var b = decimate(sig, sigPos - pad, win + 2 * pad, F);
+    var off = Math.round(pad / F), m = Math.round(maxLag / F), best = 0, bestV = -2;
+    for (var l = -m; l <= m; l++) { var v = ncc(a, b, off + l); if (v > bestV) { bestV = v; best = l; } }
+    var coarse = best * F, fineBest = coarse, fineV = -2;
+    var a2 = ref.subarray(refPos, refPos + win);
+    for (var d = -F - 2; d <= F + 2; d++) {
+      var L = coarse + d, s = 0, ea = 0, eb = 0;
+      for (var t = 0; t < a2.length; t += 2) {
+        var j = sigPos + t + L; if (j < 0 || j >= sig.length) continue;
+        var x = a2[t], y = sig[j]; s += x * y; ea += x * x; eb += y * y;
+      }
+      var vv = ea > 0 && eb > 0 ? s / Math.sqrt(ea * eb) : 0;
+      if (vv > fineV) { fineV = vv; fineBest = L; }
+    }
+    return { lag: fineBest, score: fineV };
+  }
+
+  // Small mono slice of the original mix used to align a chunk's result in time.
+  function prepRef(mixChs, chunk, sr) {
+    var len = chunk.end - chunk.start;
+    var win = Math.min(Math.floor(8 * sr), Math.floor(len / 2));
+    var pos = Math.min(Math.floor(30 * sr), Math.floor(len / 3));
+    var a = mixChs[0], b = mixChs[1] || mixChs[0], r = new Float32Array(win), o = chunk.start + pos;
+    for (var i = 0; i < win; i++) r[i] = 0.5 * (a[o + i] + b[o + i]);
+    return { ref: r, pos: pos, win: win };
+  }
+
+  function newOutput(total) {
+    return { acc: [new Float32Array(total), new Float32Array(total)], solo: [new Float32Array(total)], lags: [] };
+  }
+
+  /* Add separated chunk i into out (incremental join with linear crossfades).
+   * result = { acc: [L,R], solo: [L,R] }; refInfo from prepRef. */
+  function addChunk(out, chunks, i, result, refInfo, sr, overlapSec) {
+    var c = chunks[i], len = c.end - c.start, ov = Math.floor(overlapSec * sr);
+    var A0 = result.acc[0], A1 = result.acc[1] || A0;
+    var S0 = result.solo ? result.solo[0] : null, S1 = result.solo ? (result.solo[1] || S0) : null;
+    var n = A0.length, sum = new Float32Array(n), solo = new Float32Array(n);
+    for (var t = 0; t < n; t++) {
+      var s = S0 ? 0.5 * (S0[t] + S1[t]) : 0;
+      solo[t] = s; sum[t] = 0.5 * (A0[t] + A1[t]) + s;
+    }
+    var fl = findLag(refInfo.ref, 0, sum, refInfo.pos, refInfo.win, Math.floor(0.25 * sr));
+    out.lags.push(fl);
+    var fadeIn = i > 0 ? Math.min(ov, len) : 0, fadeOut = i < chunks.length - 1 ? Math.min(ov, len) : 0;
+    var dL = out.acc[0], dR = out.acc[1], dS = out.solo[0];
+    for (var t2 = 0; t2 < len; t2++) {
+      var j = t2 + fl.lag; if (j < 0 || j >= n) continue;
+      var w = 1;
+      if (t2 < fadeIn) w = (t2 + 0.5) / fadeIn;
+      else if (t2 >= len - fadeOut) w = (len - t2 - 0.5) / fadeOut;
+      var o = c.start + t2;
+      dL[o] += w * A0[j]; dR[o] += w * A1[j]; dS[o] += w * solo[j];
+    }
+    return fl;
+  }
+
+  function joinChunks(mixChs, chunks, results, sr, overlapSec) {
+    var out = newOutput(mixChs[0].length);
+    for (var i = 0; i < chunks.length; i++) addChunk(out, chunks, i, results[i], prepRef(mixChs, chunks[i], sr), sr, overlapSec);
+    return out;
+  }
+
+  function mixGuide(acc, solo, g) {
+    if (!g) return acc;
+    return acc.map(function (a, k) {
+      var s = solo[k] || solo[0], m = new Float32Array(a.length);
+      for (var i = 0; i < a.length; i++) m[i] = a[i] + g * s[i];
+      return m;
+    });
+  }
+
+  // Pitch shift by resampling (also changes duration by 1/ratio). ratio > 1 raises pitch.
+  // Catmull-Rom cubic interpolation; the player compensates the tempo with playbackRate.
+  function resample(chs, ratio) {
+    return chs.map(function (x) {
+      var n = x.length, m = Math.max(1, Math.floor(n / ratio)), out = new Float32Array(m);
+      for (var i = 0; i < m; i++) {
+        var p = i * ratio, i0 = Math.floor(p), f = p - i0;
+        var y0 = i0 > 0 ? x[i0 - 1] : 0, y1 = i0 < n ? x[i0] : 0, y2 = i0 + 1 < n ? x[i0 + 1] : 0, y3 = i0 + 2 < n ? x[i0 + 2] : 0;
+        out[i] = y1 + 0.5 * f * (y2 - y0 + f * (2 * y0 - 5 * y1 + 4 * y2 - y3 + f * (3 * (y1 - y2) + y3 - y0)));
+      }
+      return out;
+    });
+  }
+
+  function toInt16(x) {
+    var o = new Int16Array(x.length);
+    for (var i = 0; i < x.length; i++) {
+      var v = Math.max(-1, Math.min(1, x[i])); o[i] = v < 0 ? v * 32768 : v * 32767;
+    }
+    return o;
+  }
+
+  function encodeWav(chs, sr) {
+    var n = chs[0].length, nc = chs.length, buf = new ArrayBuffer(44 + n * nc * 2), v = new DataView(buf);
+    function str(o, s) { for (var i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); }
+    str(0, 'RIFF'); v.setUint32(4, 36 + n * nc * 2, true); str(8, 'WAVE'); str(12, 'fmt ');
+    v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, nc, true);
+    v.setUint32(24, sr, true); v.setUint32(28, sr * nc * 2, true); v.setUint16(32, nc * 2, true);
+    v.setUint16(34, 16, true); str(36, 'data'); v.setUint32(40, n * nc * 2, true);
+    var out = new Int16Array(buf, 44, n * nc);
+    for (var c = 0; c < nc; c++) {
+      var x = chs[c];
+      for (var i = 0, p = c; i < n; i++, p += nc) {
+        var s = x[i]; s = s > 1 ? 1 : s < -1 ? -1 : s; out[p] = s < 0 ? s * 32768 : s * 32767;
+      }
+    }
+    return buf;
+  }
+
+  // MP3 encode with lamejs; onProgress(fraction). Returns Promise<Uint8Array[] parts>.
+  function encodeMp3(lame, chs, sr, kbps, onProgress) {
+    var L = toInt16(chs[0]), R = toInt16(chs[1] || chs[0]);
+    var enc = new lame.Mp3Encoder(2, sr, kbps), parts = [], block = 1152 * 200, i = 0;
+    return new Promise(function (resolve) {
+      (function step() {
+        var stop = Math.min(L.length, i + block * 5);
+        for (; i < stop; i += block) {
+          var b = enc.encodeBuffer(L.subarray(i, i + block), R.subarray(i, i + block));
+          if (b.length) parts.push(new Uint8Array(b));
+        }
+        if (onProgress) onProgress(i / L.length);
+        if (i < L.length) setTimeout(step, 0);
+        else { var e = enc.flush(); if (e.length) parts.push(new Uint8Array(e)); resolve(parts); }
+      })();
+    });
+  }
+
+  return { planChunks: planChunks, toMono: toMono, findLag: findLag, joinChunks: joinChunks, prepRef: prepRef, newOutput: newOutput, addChunk: addChunk,
+           mixGuide: mixGuide, resample: resample, encodeWav: encodeWav, encodeMp3: encodeMp3 };
+})();
+
+
+</script>
+<script>
+(function () {
+  'use strict';
+  var APP_VERSION = '2.4';
+  var SR = 44100, MAX_CHUNK = 480, OVERLAP = 10, DIRECT_MAX_BYTES = 15e6, DIRECT_MAX_SEC = 590;
+  var $ = function (id) { return document.getElementById(id); };
+  var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
+  var CFG = null, file = null, cancelled = false, busy = false;
+  var result = null; // { acc:[L,R], solo:[M], name, instLabel }
+  var audio = new Audio(), audioUrl = null, loopA = null, loopB = null, builtKey = '', K = 1, marks = [], markPages = {};
+  var ICON = function (n) { return '<svg class="wk-icon" aria-hidden="true"><use href="#i-' + n + '"/></svg>'; };
+
+  // ---------- small helpers ----------
+  function getPref(k, def) { try { var v = localStorage.getItem(k); return v == null ? def : v; } catch (e) { return def; } }
+  function setPref(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  function delPref(k) { try { localStorage.removeItem(k); } catch (e) {} }
+  // Backend: inside Apps Script we call google.script.run; as a plain web page we call a stateless relay
+  // (MVSEP does not allow direct browser calls) and keep the MVSEP key in this browser only.
+  var WEB = typeof google === 'undefined' || !google.script || !google.script.run;
+  var CDN = {
+    lame: ['https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', 'https://fastly.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', 'https://unpkg.com/lamejs@1.2.1/lame.min.js'],
+    pdfLib: ['https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js', 'https://fastly.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js', 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js'],
+    pdfWorker: ['https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js', 'https://fastly.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js', 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js']
+  };
+  var cdnCache = {};
+  async function cdnText(key) {
+    if (cdnCache[key]) return cdnCache[key];
+    var list = CDN[key], err;
+    for (var i = 0; i < list.length; i++) {
+      try { var r = await fetch(list[i]); if (r.ok) { var t = await r.text(); if (t.length > 1000) return (cdnCache[key] = t); } } catch (e) { err = e; }
+    }
+    throw new Error('دریافت کتابخانه ممکن نشد. اینترنت را بررسی کن و دوباره امتحان کن.');
+  }
+  async function relay(body) {
+    if (!window.SOLO_RELAY) throw new Error('سرور واسط تنظیم نشده است.');
+    var r;
+    try { r = await fetch(window.SOLO_RELAY, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) }); }
+    catch (e) { throw new Error('به سرور واسط وصل نشد. اینترنت را بررسی کن.'); }
+    var j; try { j = await r.json(); } catch (e) { throw new Error('پاسخ نامعتبر از سرور واسط.'); }
+    if (j.error) throw new Error(j.error);
+    return j.result;
+  }
+  var webBackend = {
+    getConfig: async function () { return { hasKey: !!getPref('mvsep_key', ''), canSetKey: true, instruments: window.SOLO_INSTRUMENTS || [] }; },
+    setApiKey: async function (key) {
+      key = String(key || '').trim();
+      if (!/^[A-Za-z0-9]{10,}$/.test(key)) throw new Error('کلید API معتبر نیست.');
+      setPref('mvsep_key', key); return true;
+    },
+    createJob: function (b64, name, mime, inst) { return relay({ op: 'create', key: getPref('mvsep_key', ''), b64: b64, name: name, mime: mime, inst: inst }); },
+    getJob: function (hash) { return relay({ op: 'get', hash: hash }); },
+    getLame: function () { return cdnText('lame'); },
+    getPdfLib: function () { return cdnText('pdfLib'); },
+    getPdfWorker: function () { return cdnText('pdfWorker'); }
+  };
+  function gs(name) {
+    var args = [].slice.call(arguments, 1);
+    if (WEB) return webBackend[name].apply(null, args);
+    return new Promise(function (res, rej) {
+      var r = google.script.run.withSuccessHandler(res).withFailureHandler(function (e) { rej(e && e.message ? new Error(e.message) : new Error(String(e))); });
+      r[name].apply(r, args);
+    });
+  }
+  var sleep = function (ms) { return new Promise(function (r) { setTimeout(r, ms); }); };
+  function fmt(sec) { sec = Math.max(0, sec || 0); var m = Math.floor(sec / 60), s = Math.floor(sec % 60); return m + ':' + (s < 10 ? '0' : '') + s; }
+  function checkCancel() { if (cancelled) throw new Error('لغو شد.'); }
+
+  // ---------- messages: alert (inline), toast, dialog ----------
+  function showAlert(id, kind, label, msg) {
+    var box = $(id); box.innerHTML = '';
+    var a = document.createElement('div'); a.className = 'wk-alert' + (kind === 'error' ? ' wk-alert--error' : '');
+    a.setAttribute('role', kind === 'error' ? 'alert' : 'note');
+    a.innerHTML = ICON(kind === 'error' ? 'alert' : 'info') + '<p style="margin:0"><span class="wk-alert__label"></span> <span class="wk-alert__msg"></span></p>';
+    a.querySelector('.wk-alert__label').textContent = label;
+    a.querySelector('.wk-alert__msg').textContent = msg;
+    box.appendChild(a);
+  }
+  function clearAlert(id) { $(id).innerHTML = ''; }
+  var toastTimer = null;
+  function toast(msg) {
+    var box = $('toasts'); box.innerHTML = '';
+    var t = document.createElement('div'); t.className = 'wk-toast'; t.innerHTML = ICON('check') + '<span></span>';
+    t.lastChild.textContent = msg; box.appendChild(t);
+    clearTimeout(toastTimer); toastTimer = setTimeout(function () { box.innerHTML = ''; }, 3500);
+  }
+  // One question, two buttons. opts: {title, text, confirm, cancel, danger}. Resolves true/false.
+  function confirmDialog(opts) {
+    return new Promise(function (resolve) {
+      var opener = document.activeElement, root = $('dialogRoot');
+      var scrim = document.createElement('div'); scrim.className = 'wk-scrim';
+      var d = document.createElement('div'); d.className = 'wk-dialog';
+      d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true'); d.setAttribute('aria-labelledby', 'dlgTitle');
+      d.innerHTML = '<h2 class="wk-dialog__title" id="dlgTitle"></h2><p class="wk-dialog__text"></p><div class="wk-dialog__actions"><button class="wk-btn" data-yes></button><button class="wk-btn wk-btn--secondary" data-no></button></div>';
+      d.querySelector('h2').textContent = opts.title; d.querySelector('p').textContent = opts.text;
+      var yes = d.querySelector('[data-yes]'), no = d.querySelector('[data-no]');
+      yes.textContent = opts.confirm; no.textContent = opts.cancel;
+      yes.className = 'wk-btn ' + (opts.danger ? 'wk-btn--danger' : 'wk-btn--primary');
+      scrim.appendChild(d); root.appendChild(scrim);
+      var bg = [$('screen'), document.querySelector('.wk-tabbar'), document.querySelector('.wk-appbar')];
+      bg.forEach(function (n) { if (n) n.setAttribute('inert', ''); });
+      function close(v) {
+        document.removeEventListener('keydown', onKey, true);
+        bg.forEach(function (n) { if (n) n.removeAttribute('inert'); });
+        scrim.remove(); if (opener && opener.focus) opener.focus(); resolve(v);
+      }
+      function onKey(e) {
+        if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); if (!opts.danger) close(false); else no.focus(); }
+        else if (e.key === 'Tab') {
+          var f = [yes, no], i = f.indexOf(document.activeElement);
+          e.preventDefault(); f[(i + (e.shiftKey ? f.length - 1 : 1)) % f.length].focus();
+        }
+      }
+      document.addEventListener('keydown', onKey, true);
+      yes.onclick = function () { close(true); };
+      no.onclick = function () { close(false); };
+      scrim.addEventListener('mousedown', function (e) { if (e.target === scrim && !opts.danger) close(false); });
+      (opts.danger ? no : yes).focus();
+    });
+  }
+  function dialogOpen() { return !!$('dialogRoot').firstChild; }
+
+  // ---------- theme ----------
+  var cssCache = {};
+  function getCss(v) { return cssCache[v] || (cssCache[v] = getComputedStyle(document.documentElement).getPropertyValue(v).trim()); }
+  function applyTheme(mode) {
+    var el = document.documentElement;
+    if (mode === 'light' || mode === 'dark') el.setAttribute('data-theme', mode); else el.removeAttribute('data-theme');
+    cssCache = {}; if (result) draw();
+  }
+  function initSeg(seg, value, onChange) {
+    var opts = [].slice.call(seg.querySelectorAll('[role=radio]'));
+    function set(v, focus) {
+      opts.forEach(function (o) { var on = o.getAttribute('data-v') === v; o.setAttribute('aria-checked', on); o.tabIndex = on ? 0 : -1; if (on && focus) o.focus(); });
+    }
+    set(value);
+    opts.forEach(function (o, i) {
+      o.onclick = function () { set(o.getAttribute('data-v')); onChange(o.getAttribute('data-v')); };
+      o.onkeydown = function (e) {
+        var step = e.key === 'ArrowLeft' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowRight' || e.key === 'ArrowUp' ? -1 : 0;
+        if (!step) return; e.preventDefault();
+        var n = opts[(i + step + opts.length) % opts.length]; set(n.getAttribute('data-v'), true); onChange(n.getAttribute('data-v'));
+      };
+    });
+    return set;
+  }
+  var themeMode = getPref('theme', 'auto');
+  var setThemeSeg = initSeg($('themeSeg'), themeMode, function (v) { themeMode = v; setPref('theme', v); applyTheme(v); });
+  try { window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () { cssCache = {}; if (result) draw(); }); } catch (e) {}
+
+  // ---------- tabs ----------
+  var views = ['task', 'settings', 'about'];
+  function showView(name, noFocus) {
+    views.forEach(function (v) { $('view-' + v).hidden = v !== name; });
+    [].forEach.call(document.querySelectorAll('.wk-tab'), function (t) {
+      if (t.getAttribute('data-tab') === name) t.setAttribute('aria-current', 'page'); else t.removeAttribute('aria-current');
+    });
+    window.scrollTo(0, 0);
+    if (!noFocus) $('screen').focus({ preventScroll: true });
+    if (name === 'task' && result) { sizeCanvas(); draw(); }
+    if (name === 'settings') renderLog();
+  }
+  [].forEach.call(document.querySelectorAll('.wk-tab'), function (t) { t.onclick = function () { showView(t.getAttribute('data-tab')); }; });
+
+  // ---------- switch + prefs ----------
+  function setSwitch(btn, on) { btn.setAttribute('aria-checked', on ? 'true' : 'false'); }
+  function isOn(btn) { return btn.getAttribute('aria-checked') === 'true'; }
+  function upd(r) { r.style.setProperty('--p', ((r.value - r.min) / (r.max - r.min) * 100) + '%'); }
+  function syncCtrls() {
+    $('speedVal').textContent = fa($('speed').value) + '٪';
+    $('guideVal').textContent = $('guide').value == 0 ? 'خاموش' : fa($('guide').value) + '٪';
+    upd($('speed')); upd($('guide'));
+    var on = isOn($('ciOn')); $('ciBeats').disabled = !on; $('ciBpm').disabled = !on;
+    var tr = isOn($('trOn')); $('trEvery').disabled = !tr; $('trStep').disabled = !tr;
+  }
+  function savePrefs() {
+    setPref('acc_prefs', JSON.stringify({ speed: +$('speed').value, guide: +$('guide').value, ci: isOn($('ciOn')), beats: +$('ciBeats').value, bpm: +$('ciBpm').value, tuneMine: +$('tuneMine').value, tuneRec: +$('tuneRec').value, trEvery: +$('trEvery').value, trStep: +$('trStep').value }));
+  }
+  function loadPrefs() {
+    try {
+      var p = JSON.parse(getPref('acc_prefs', 'null')); if (!p) return;
+      if (p.speed >= 50 && p.speed <= 125) $('speed').value = p.speed;
+      if (p.guide >= 0 && p.guide <= 100) $('guide').value = p.guide;
+      setSwitch($('ciOn'), !!p.ci);
+      if (p.beats >= 1 && p.beats <= 8) $('ciBeats').value = p.beats;
+      if (p.bpm >= 30 && p.bpm <= 220) $('ciBpm').value = p.bpm;
+      if (p.tuneMine >= 400 && p.tuneMine <= 460) $('tuneMine').value = p.tuneMine;
+      if (p.tuneRec >= 400 && p.tuneRec <= 460) $('tuneRec').value = p.tuneRec;
+      if (p.trEvery >= 1 && p.trEvery <= 10) $('trEvery').value = p.trEvery;
+      if (p.trStep === 5 || p.trStep === 10) $('trStep').value = p.trStep;
+    } catch (e) {}
+  }
+  // tuning, semitone and step options
+  function addOpt(sel, v, label) { var o = document.createElement('option'); o.value = v; o.textContent = label; sel.appendChild(o); }
+  [415, 430, 432, 435, 438, 440, 442, 443, 444, 445].forEach(function (hz) { addOpt($('tuneRec'), hz, fa(hz) + ' هرتز'); addOpt($('tuneMine'), hz, fa(hz) + ' هرتز'); });
+  $('tuneRec').value = 440; $('tuneMine').value = 440;
+  for (var sm = -6; sm <= 6; sm++) addOpt($('tuneSemi'), sm, sm === 0 ? 'بدون انتقال' : fa(Math.abs(sm)) + ' نیم‌پرده ' + (sm > 0 ? 'بالاتر' : 'پایین‌تر'));
+  $('tuneSemi').value = 0;
+  addOpt($('trStep'), 5, '۵٪'); addOpt($('trStep'), 10, '۱۰٪'); $('trStep').value = 5;
+  loadPrefs(); syncCtrls();
+  $('ciOn').onclick = function () { setSwitch(this, !isOn(this)); syncCtrls(); savePrefs(); };
+  $('ciBeats').onchange = $('ciBpm').onchange = savePrefs;
+
+  // ---------- init ----------
+  gs('getConfig').then(function (cfg) {
+    CFG = cfg;
+    cfg.instruments.forEach(function (i) { var o = document.createElement('option'); o.value = i.id; o.textContent = i.label; $('instSelect').appendChild(o); });
+    var last = getPref('acc_inst', ''); if (last) $('instSelect').value = last;
+    if (cfg.canSetKey) {
+      $('cardKey').hidden = false;
+      $('keyHint').textContent = cfg.hasKey ? 'یک کلید ذخیره شده است. برای تغییر، کلید تازه را وارد کنید.' : 'هنوز کلیدی ذخیره نشده است.';
+      if (WEB) $('keyNote').hidden = false;
+    }
+    keyNotice(); updateProcessBtn();
+  }).catch(function (e) { showAlert('inputAlert', 'error', 'خطا:', 'اپ بارگذاری نشد (' + e.message + '). صفحه را دوباره باز کنید.'); });
+
+  function keyNotice() {
+    if (!CFG || CFG.hasKey) { return; }
+    showAlert('inputAlert', 'note', 'توجه:', CFG.canSetKey ? 'کلید API هنوز ثبت نشده است. از «تنظیمات» ثبتش کنید.' : 'صاحب اپ هنوز کلید API را ثبت نکرده است.');
+  }
+  $('btnSaveKey').onclick = function () {
+    clearAlert('keyAlert');
+    gs('setApiKey', $('keyInput').value).then(function () {
+      CFG.hasKey = true; $('keyInput').value = '';
+      $('keyHint').textContent = 'یک کلید ذخیره شده است. برای تغییر، کلید تازه را وارد کنید.';
+      clearAlert('inputAlert'); toast('کلید ذخیره شد'); updateProcessBtn();
+    }).catch(function (e) { showAlert('keyAlert', 'error', 'خطا:', e.message); });
+  };
+  $('instSelect').onchange = function () { setPref('acc_inst', this.value); };
+
+  $('btnReset').onclick = function () {
+    confirmDialog({ title: 'ترجیحات این دستگاه پاک شود؟', text: 'ساز، سرعت، صدای راهنما، شمارش و ظاهر به حالت اول برمی‌گردد.', confirm: 'بازنشانی', cancel: 'نگه دار', danger: true }).then(function (yes) {
+      if (!yes) return;
+      ['theme', 'acc_inst', 'acc_prefs'].forEach(delPref);
+      themeMode = 'auto'; setThemeSeg('auto'); applyTheme('auto');
+      $('speed').value = 100; $('guide').value = 0; setSwitch($('ciOn'), false); $('ciBeats').value = 4; $('ciBpm').value = 72;
+      $('tuneRec').value = 440; $('tuneMine').value = 440; $('tuneSemi').value = 0; setSwitch($('trOn'), false); $('trEvery').value = 3; $('trStep').value = 5;
+      if ($('instSelect').options.length) $('instSelect').selectedIndex = 0;
+      syncCtrls(); updateTune(); updateTr(); if (result) buildAudio(); else audio.playbackRate = rate();
+      toast('ترجیحات بازنشانی شد');
+    });
+  };
+
+  // ---------- file pick ----------
+  var drop = $('drop');
+  function openPicker() { if (!busy) $('fileInput').click(); }
+  drop.onclick = openPicker;
+  drop.onkeydown = function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPicker(); } };
+  $('fileInput').onchange = function () { if (this.files[0]) pickFile(this.files[0]); this.value = ''; };
+  drop.ondragover = function (e) { e.preventDefault(); drop.classList.add('is-over'); };
+  drop.ondragleave = function () { drop.classList.remove('is-over'); };
+  drop.ondrop = function (e) { e.preventDefault(); drop.classList.remove('is-over'); if (!busy && e.dataTransfer.files[0]) pickFile(e.dataTransfer.files[0]); };
+  function pickFile(f) {
+    var isAudio = /^audio\//.test(f.type) || /\.(mp3|wav|flac|m4a|ogg|opus|aac)$/i.test(f.name);
+    if (!isAudio) { showAlert('inputAlert', 'error', 'خطا:', 'این فایل صوتی نیست. یک فایل MP3، WAV، FLAC یا M4A انتخاب کنید.'); return; }
+    if (!f.size) { showAlert('inputAlert', 'error', 'خطا:', 'این فایل خالی است. فایل دیگری انتخاب کنید.'); return; }
+    clearAlert('inputAlert'); keyNotice();
+    file = f; $('dropTitle').textContent = f.name;
+    $('dropInfo').textContent = fa((f.size / 1e6).toFixed(1)) + ' مگابایت · برای تغییر بزنید';
+    $('dropInfo').removeAttribute('dir');
+    updateProcessBtn();
+  }
+  function updateProcessBtn() {
+    var reason = '';
+    if (!CFG) reason = 'در حال بارگذاری…';
+    else if (!CFG.hasKey) reason = CFG.canSetKey ? 'اول کلید API را در «تنظیمات» ثبت کنید.' : 'اپ هنوز آماده نیست.';
+    else if (!file) reason = 'اول یک فایل انتخاب کنید.';
+    $('btnProcess').disabled = !!reason || busy;
+    $('processHint').textContent = busy ? '' : reason;
+  }
+  drop.setAttribute('aria-disabled', 'false');
+
+  // ---------- keep the screen on and warn before leaving while work is at stake ----------
+  var wake = null;
+  function lockScreen() { try { if (navigator.wakeLock) navigator.wakeLock.request('screen').then(function (w) { wake = w; }, function () {}); } catch (e) {} }
+  function unlockScreen() { try { if (wake) wake.release(); } catch (e) {} wake = null; }
+  document.addEventListener('visibilitychange', function () { if (busy && document.visibilityState === 'visible') lockScreen(); });
+  window.addEventListener('beforeunload', function (e) { if (busy || result) { e.preventDefault(); e.returnValue = ''; } });
+
+  // ---------- audio helpers ----------
+  function decode(arrayBuf) {
+    var ctx = new OfflineAudioContext(2, 1, SR);
+    return new Promise(function (res, rej) { ctx.decodeAudioData(arrayBuf, res, function () { rej(new Error('فایل صوتی قابل خواندن نیست.')); }); });
+  }
+  function channels(ab) { var L = ab.getChannelData(0); return [L, ab.numberOfChannels > 1 ? ab.getChannelData(1) : L]; }
+  function blobToB64(blob) {
+    return new Promise(function (res, rej) {
+      var r = new FileReader(); r.onload = function () { res(String(r.result).split(',')[1]); }; r.onerror = rej; r.readAsDataURL(blob);
+    });
+  }
+  var LAME_SRC = null;
+  function ensureLame() {
+    if (LAME_SRC) return Promise.resolve();
+    return gs('getLame').then(function (src) {
+      LAME_SRC = src;
+      var el = document.createElement('script'); el.textContent = src; document.head.appendChild(el);
+    });
+  }
+  var WORKER_TAIL = ";" +
+    "onmessage=function(e){var d=e.data,L=d.L,R=d.R,n=L.length;" +
+    "function i16(x){var o=new Int16Array(x.length);for(var i=0;i<x.length;i++){var v=x[i];v=v>1?1:v<-1?-1:v;o[i]=v<0?v*32768:v*32767;}return o;}" +
+    "var l=i16(L),r=i16(R),enc=new lamejs.Mp3Encoder(2,d.sr,d.kbps),parts=[],B=1152*100,k=0;" +
+    "for(var i=0;i<n;i+=B){var b=enc.encodeBuffer(l.subarray(i,i+B),r.subarray(i,i+B));if(b.length)parts.push(new Uint8Array(b));if(++k%10==0)postMessage({p:i/n});}" +
+    "var f=enc.flush();if(f.length)parts.push(new Uint8Array(f));postMessage({done:true,parts:parts});};";
+  var workerUrl = null;
+  function mp3(L, R, kbps, onP) { return ensureLame().then(function () { return mp3_(L, R, kbps, onP); }); }
+  function mp3_(L, R, kbps, onP) {
+    return new Promise(function (resolve, reject) {
+      var w;
+      try {
+        if (!workerUrl) workerUrl = URL.createObjectURL(new Blob([LAME_SRC, WORKER_TAIL], { type: 'text/javascript' }));
+        w = new Worker(workerUrl);
+      } catch (e) { w = null; }
+      var fallback = function () {
+        if (!window.lamejs) return reject(new Error('کتابخانه‌ی MP3 بارگذاری نشد.'));
+        AccCore.encodeMp3(window.lamejs, [L, R], SR, kbps, onP).then(function (parts) { resolve(new Blob(parts, { type: 'audio/mpeg' })); }, reject);
+      };
+      if (!w) return fallback();
+      var Lc = new Float32Array(L), Rc = R === L ? Lc.slice() : new Float32Array(R);
+      w.onmessage = function (e) {
+        if (e.data.done) { w.terminate(); resolve(new Blob(e.data.parts, { type: 'audio/mpeg' })); }
+        else if (onP) onP(e.data.p);
+      };
+      w.onerror = function (ev) { ev.preventDefault(); w.terminate(); fallback(); };
+      w.postMessage({ L: Lc, R: Rc, sr: SR, kbps: kbps }, [Lc.buffer, Rc.buffer]);
+    });
+  }
+  function fetchWithProgress(url, onP) {
+    return fetch(url).then(function (resp) {
+      if (!resp.ok) throw new Error('دانلود نتیجه ناموفق بود (' + resp.status + ')');
+      var total = +resp.headers.get('content-length') || 0;
+      if (!resp.body || !total) return resp.arrayBuffer();
+      var reader = resp.body.getReader(), got = 0, chunks = [];
+      return (function pump() {
+        return reader.read().then(function (r) {
+          if (r.done) { var out = new Uint8Array(got), p = 0; chunks.forEach(function (c) { out.set(c, p); p += c.length; }); return out.buffer; }
+          chunks.push(r.value); got += r.value.length; if (onP) onP(got / total); return pump();
+        });
+      })();
+    });
+  }
+  var norm = function (s) { return String(s || '').toLowerCase().replace(/[^a-z]/g, ''); };
+
+  // ---------- processing ----------
+  function setStatus(t, frac) {
+    $('statusText').textContent = t;
+    if (frac != null) { var p = Math.round(frac * 100); $('barFill').style.width = p + '%'; $('bar').setAttribute('aria-valuenow', p); }
+  }
+  function log(t) { var li = document.createElement('li'); li.textContent = t; $('log').appendChild(li); $('log').scrollTop = 1e9; }
+
+  $('btnCancel').onclick = function () {
+    confirmDialog({ title: 'پردازش لغو شود؟', text: 'کارهایی که تمام شده ذخیره نمی‌شود؛ از اول شروع می‌کنید.', confirm: 'لغو پردازش', cancel: 'ادامه بده', danger: true }).then(function (yes) {
+      if (yes && busy) { cancelled = true; setStatus('در حال لغو…'); }
+    });
+  };
+  $('btnProcess').onclick = function () {
+    var go = function () {
+      run().catch(function (e) {
+        if (e.message === 'لغو شد.') { setStatus('لغو شد'); showAlert('progAlert', 'note', 'توجه:', 'پردازش لغو شد. هر وقت خواستید دوباره شروع کنید.'); }
+        else { setStatus('متوقف شد'); showAlert('progAlert', 'error', 'خطا:', e.message + ' دوباره امتحان کنید.'); }
+      }).then(function () { busy = false; unlockScreen(); updateProcessBtn(); $('btnCancel').hidden = true; });
+    };
+    if (result) {
+      confirmDialog({ title: 'نتیجه‌ی فعلی عوض شود؟', text: 'همراهی‌ای که الان داری با نتیجه‌ی تازه جایگزین می‌شود. اگر لازمش داری، اول دانلودش کن.', confirm: 'جایگزین کن', cancel: 'برگرد', danger: true }).then(function (yes) { if (yes) go(); });
+    } else go();
+  };
+
+  async function run() {
+    busy = true; cancelled = false; lockScreen(); updateProcessBtn();
+    audio.pause(); result = null; $('cardPlayer').hidden = true; $('cardTools').hidden = true; $('cardRec').hidden = true; $('cardScore').hidden = true; closePdf(); stopTools(); if (recS) stopRec(); clearTakes(); peaks = peaksSolo = null;
+    var instId = $('instSelect').value, inst = CFG.instruments.filter(function (i) { return i.id === instId; })[0];
+    $('cardProgress').hidden = false; $('btnCancel').hidden = false; $('log').innerHTML = ''; clearAlert('progAlert');
+    $('cardProgress').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setStatus('در حال خواندن فایل…', 0.02);
+    var buf = await file.arrayBuffer();
+    var ab = await decode(buf.slice(0)); checkCancel();
+    var mix = channels(ab), total = ab.length, dur = total / SR;
+    var direct = dur <= DIRECT_MAX_SEC && file.size <= DIRECT_MAX_BYTES && /\.(mp3|m4a|aac|ogg|opus|flac)$/i.test(file.name);
+    var chunks = direct ? [{ start: 0, end: total }] : AccCore.planChunks(total, SR, MAX_CHUNK, OVERLAP);
+    var refs = chunks.map(function (c) { return AccCore.prepRef(mix, c, SR); });
+    var out = AccCore.newOutput(total), n = chunks.length;
+    log('مدت فایل ' + fa(fmt(dur)) + (n > 1 ? ' — در ' + fa(n) + ' بخش با هم‌پوشانی پردازش می‌شود' : ''));
+    var share = function (i, f) { return 0.05 + 0.93 * (i + f) / n; };
+
+    var payload = function (i) {
+      if (direct) return blobToB64(file).then(function (b) { return { b64: b, name: 'audio' + ((file.name.match(/\.[A-Za-z0-9]{2,5}$/) || ['.mp3'])[0]).toLowerCase(), mime: file.type || 'audio/mpeg' }; });
+      var c = chunks[i];
+      return mp3(mix[0].subarray(c.start, c.end), mix[1].subarray(c.start, c.end), 192, function (p) {
+        if (curStage === 'encode' && curIdx === i) setStatus(partLbl(i) + 'آماده‌سازی فایل… ' + fa(Math.round(p * 100)) + '٪', share(i, 0.15 * p));
+      }).then(blobToB64).then(function (b) { return { b64: b, name: 'part' + (i + 1) + '.mp3', mime: 'audio/mpeg' }; });
+    };
+    var partLbl = function (i) { return n > 1 ? 'بخش ' + fa(i + 1) + ' از ' + fa(n) + ': ' : ''; };
+    var curStage = 'encode', curIdx = 0;
+    var next = payload(0);
+
+    for (var i = 0; i < n; i++) {
+      curStage = 'encode'; curIdx = i;
+      setStatus(partLbl(i) + 'آماده‌سازی فایل…', share(i, 0));
+      var p = await next; checkCancel();
+      curStage = 'upload';
+      setStatus(partLbl(i) + 'ارسال به MVSEP…', share(i, 0.18));
+      var hash = await gs('createJob', p.b64, p.name, p.mime, instId);
+      p = null;
+      if (i + 1 < n) next = payload(i + 1);
+      log(partLbl(i) + 'ارسال شد');
+
+      var st, fails = 0;
+      while (true) {
+        await sleep(window.__POLL_MS || 5000); checkCancel();
+        try { st = await gs('getJob', hash); fails = 0; } catch (e) { if (++fails > 4) throw e; continue; }
+        if (st.status === 'done') break;
+        if (st.status === 'failed' || st.status === 'error') throw new Error('MVSEP: ' + (st.message || 'پردازش ناموفق بود.'));
+        if (st.status === 'waiting') setStatus(partLbl(i) + 'در صف MVSEP' + (st.eta ? ' — حدود ' + fa(Math.ceil(st.eta / 60)) + ' دقیقه' : ''), share(i, 0.25));
+        else setStatus(partLbl(i) + 'جداسازی ساز تو از بقیه‌ی اثر…', share(i, 0.45));
+      }
+      var solo = null, acc = null;
+      st.files.forEach(function (f) { var t = norm(f.type); if (t === inst.solo || t.indexOf(inst.solo) >= 0) solo = f; });
+      var rest = st.files.filter(function (f) { return f !== solo; });
+      acc = rest.filter(function (f) { return /other|instrum|music/.test(norm(f.type)); })[0] || rest[0];
+      if (!acc) throw new Error('فایل همراهی در خروجی پیدا نشد.');
+      var dl = function (f, a, b) {
+        return fetchWithProgress(f.url, function (q) { setStatus(partLbl(i) + 'دریافت نتیجه… ' + fa(Math.round(q * 100)) + '٪', share(i, a + (b - a) * q)); })
+          .then(decode).then(channels);
+      };
+      var accCh = await dl(acc, 0.6, 0.78); checkCancel();
+      var soloCh = solo ? await dl(solo, 0.78, 0.95) : null; checkCancel();
+      setStatus(partLbl(i) + 'اتصال…', share(i, 0.97));
+      var fl = AccCore.addChunk(out, chunks, i, { acc: accCh, solo: soloCh }, refs[i], SR, OVERLAP);
+      if (fl.score < 0.6) showAlert('progAlert', 'note', 'توجه:', partLbl(i) + 'هم‌ترازی زمانی مطمئن نیست؛ نتیجه را یک بار گوش کنید.');
+      log(partLbl(i) + 'تمام شد');
+    }
+    mix = null; ab = null; buf = null;
+    setStatus('آماده است', 1);
+    result = { acc: out.acc, solo: out.solo, name: file.name.replace(/\.[^.]+$/, ''), instLabel: inst.label };
+    setupPlayer();
+    toast('همراهی آماده است');
+  }
+
+  // ---------- player ----------
+  audio.preservesPitch = true; audio.mozPreservesPitch = true; audio.webkitPreservesPitch = true;
+  function rate() { return ($('speed').value / 100) / K; }
+  function cur() { return audio.currentTime * K; }
+  function setCur(t) { audio.currentTime = t / K; }
+  function dur() { return (audio.duration || 0) * K; }
+  function tuneRatio() { var r = (+$('tuneMine').value / +$('tuneRec').value) * Math.pow(2, +$('tuneSemi').value / 12); return Math.abs(r - 1) < 1e-6 ? 1 : r; }
+  function updateTune() {
+    var r = tuneRatio(), c = Math.round(1200 * Math.log(r) / Math.LN2);
+    $('tuneInfo').textContent = c === 0 ? 'بدون تغییر' : (c > 0 ? '+' : '−') + Math.abs(c) + ' cent';
+  }
+  var canvas = $('wave'), cctx = canvas.getContext('2d'), peaks = null, peaksSolo = null;
+
+  function computePeaks(chs, bins) {
+    var x = chs[0], y = chs[1] || chs[0], n = x.length, step = n / bins, out = new Float32Array(bins);
+    for (var b = 0; b < bins; b++) {
+      var s = Math.floor(b * step), e = Math.min(n, Math.floor((b + 1) * step)), m = 0;
+      for (var i = s; i < e; i += 7) { var v = Math.abs(x[i]) + Math.abs(y[i]); if (v > m) m = v; }
+      out[b] = m / 2;
+    }
+    return out;
+  }
+  function sizeCanvas() {
+    var r = canvas.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+    if (!r.width) return;
+    canvas.width = Math.max(300, Math.round(r.width * dpr)); canvas.height = Math.round(120 * dpr);
+    if (result) { var bins = Math.floor(canvas.width / (2 * dpr)); peaks = computePeaks(result.acc, bins); peaksSolo = computePeaks(result.solo, bins); }
+  }
+  function draw() {
+    if (!peaks) return;
+    var W = canvas.width, H = canvas.height, dur = audio.duration ? audio.duration * K : (result.acc[0].length / SR);
+    cctx.clearRect(0, 0, W, H);
+    var max = 0.0001; for (var i = 0; i < peaks.length; i++) max = Math.max(max, peaks[i], peaksSolo[i]);
+    var bw = W / peaks.length, mid = H / 2, accent = getCss('--accent');
+    if (loopA != null && loopB != null) { cctx.globalAlpha = 0.18; cctx.fillStyle = accent; cctx.fillRect(loopA / dur * W, 0, (loopB - loopA) / dur * W, H); cctx.globalAlpha = 1; }
+    cctx.globalAlpha = 0.45; cctx.fillStyle = accent;
+    for (i = 0; i < peaks.length; i++) { var hs = peaksSolo[i] / max * (H * 0.46); cctx.fillRect(i * bw, mid - hs, Math.max(1, bw - 1), hs * 2); }
+    cctx.globalAlpha = 1; cctx.fillStyle = getCss('--ink-muted');
+    for (i = 0; i < peaks.length; i++) { var h = Math.max(1, peaks[i] / max * (H * 0.46)); cctx.fillRect(i * bw, mid - h, Math.max(1, bw - 1), h * 2); }
+    cctx.fillStyle = accent;
+    [loopA, loopB].forEach(function (t) { if (t != null) cctx.fillRect(t / dur * W - 1, 0, 2, H); });
+    var dpr = window.devicePixelRatio || 1;
+    cctx.font = '600 ' + Math.round(11 * dpr) + 'px sans-serif'; cctx.textBaseline = 'top';
+    marks.forEach(function (t, i) {
+      var x = t / dur * W; cctx.fillStyle = getCss('--ink-muted'); cctx.fillRect(x - 0.5 * dpr, 0, dpr, H);
+      cctx.fillStyle = getCss('--ink'); cctx.fillText(markLabel(i), x + 3 * dpr, 2 * dpr);
+    });
+    cctx.fillStyle = getCss('--ink'); cctx.fillRect(cur() / dur * W - 1, 0, 2, H);
+  }
+
+  function buildAudio(fresh) {
+    var g = $('guide').value / 100, r = tuneRatio(), key = g + '|' + r;
+    if (!fresh && key === builtKey) return;
+    var t = fresh ? 0 : cur(), playing = fresh ? false : !audio.paused;
+    var mixed = AccCore.mixGuide(result.acc, result.solo, g);
+    if (r !== 1) mixed = AccCore.resample(mixed, r);
+    var url = URL.createObjectURL(new Blob([AccCore.encodeWav(mixed, SR)], { type: 'audio/wav' }));
+    audio.pause(); K = r; audio.src = url; if (audioUrl) URL.revokeObjectURL(audioUrl); audioUrl = url; builtKey = key;
+    audio.playbackRate = rate();
+    audio.addEventListener('loadedmetadata', function once() { audio.removeEventListener('loadedmetadata', once); audio.currentTime = t / K; audio.playbackRate = rate(); if (playing) audio.play(); });
+  }
+  function setupPlayer() {
+    $('cardPlayer').hidden = false; $('cardTools').hidden = false; $('cardRec').hidden = false; $('cardScore').hidden = false; clearTakes();
+    $('playerSub').textContent = '«' + result.name + '» · بدون ' + result.instLabel;
+    loopA = loopB = null; trCount = 0; $('tuneSemi').value = 0; $('tuneRec').value = 440; updateTune(); loadMarks(); renderMarks(); updateLoopInfo(); clearAlert('dlAlert'); $('dlMsg').textContent = '';
+    sizeCanvas(); buildAudio(true); draw();
+    $('cardPlayer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  window.addEventListener('resize', function () { if (result) { sizeCanvas(); draw(); } });
+
+  var counting = false;
+  async function togglePlay() {
+    if (!result || counting) return;
+    if (!audio.paused) { audio.pause(); return; }
+    if (loopA != null && loopB != null && (cur() < loopA || cur() >= loopB)) setCur(loopA);
+    if (isOn($('ciOn'))) await countIn();
+    audio.play();
+  }
+  async function countIn() {
+    counting = true;
+    var beats = Math.max(1, Math.min(8, +$('ciBeats').value || 4)), bpm = Math.max(30, Math.min(220, +$('ciBpm').value || 72));
+    var ac = new (window.AudioContext || window.webkitAudioContext)(), spb = 60 / bpm, t0 = ac.currentTime + 0.1;
+    for (var b = 0; b < beats; b++) {
+      var o = ac.createOscillator(), g = ac.createGain();
+      o.frequency.value = b === 0 ? 1500 : 1000; o.connect(g); g.connect(ac.destination);
+      g.gain.setValueAtTime(0.0001, t0 + b * spb); g.gain.exponentialRampToValueAtTime(0.5, t0 + b * spb + 0.005);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + b * spb + 0.08); o.start(t0 + b * spb); o.stop(t0 + b * spb + 0.1);
+    }
+    for (b = 0; b < beats; b++) { $('beat').textContent = fa(b + 1); await sleep(spb * 1000); }
+    $('beat').textContent = ''; counting = false; setTimeout(function () { ac.close(); }, 300);
+  }
+  $('btnPlay').onclick = togglePlay;
+  function setPlayIcon(p) { ['btnPlay', 'btnPlay2'].forEach(function (id) { $(id).innerHTML = ICON(p ? 'pause' : 'play'); $(id).setAttribute('aria-label', p ? 'توقف' : 'پخش'); }); }
+  $('btnPlay2').onclick = togglePlay;
+  audio.onplay = function () { setPlayIcon(true); };
+  audio.onpause = function () { setPlayIcon(false); };
+  audio.onloadedmetadata = function () { $('tDur').textContent = fmt(dur()); };
+  function seek(d) { if (result) setCur(Math.max(0, Math.min(dur(), cur() + d))); }
+  $('btnBack').onclick = function () { seek(-5); };
+  $('btnFwd').onclick = function () { seek(5); };
+
+  $('speed').oninput = function () { audio.playbackRate = rate(); syncCtrls(); updateTr(); };
+  $('speed').onchange = savePrefs;
+  $('guide').oninput = syncCtrls;
+  $('guide').onchange = function () { savePrefs(); if (result) buildAudio(); };
+  ['tuneRec', 'tuneMine', 'tuneSemi'].forEach(function (id) { $(id).onchange = function () { updateTune(); savePrefs(); if (result) buildAudio(); }; });
+
+  function updateLoopInfo() {
+    $('loopInfo').textContent = loopA != null && loopB != null ? fmt(loopA) + ' → ' + fmt(loopB) : loopA != null ? fmt(loopA) + ' → …' : '—';
+    updateTr(); draw();
+  }
+  function setA() { if (!result) return; loopA = cur(); if (loopB != null && loopB <= loopA) loopB = null; trCount = 0; updateLoopInfo(); }
+  function setB() { if (!result) return; var t = cur(); if (loopA == null || t <= loopA) return; loopB = t; trCount = 0; updateLoopInfo(); }
+  $('btnA').onclick = setA; $('btnB').onclick = setB;
+  $('btnClearLoop').onclick = function () { loopA = loopB = null; trCount = 0; updateLoopInfo(); };
+
+  // pointer events: tap to seek, drag to choose a loop (works with mouse and touch)
+  var dragX = null, dragT0 = 0;
+  function xToTime(e) { var r = canvas.getBoundingClientRect(); return Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * dur(); }
+  canvas.addEventListener('pointerdown', function (e) { if (!result) return; try { canvas.setPointerCapture(e.pointerId); } catch (x) {} dragX = e.clientX; dragT0 = xToTime(e); });
+  canvas.addEventListener('pointermove', function (e) {
+    if (dragX == null || Math.abs(e.clientX - dragX) < 6) return;
+    var t = xToTime(e); loopA = Math.min(dragT0, t); loopB = Math.max(dragT0, t); trCount = 0; updateLoopInfo();
+  });
+  canvas.addEventListener('pointerup', function (e) {
+    if (dragX == null) return;
+    if (Math.abs(e.clientX - dragX) < 6) setCur(xToTime(e)); else setCur(loopA);
+    dragX = null; draw();
+  });
+  canvas.addEventListener('pointercancel', function () { dragX = null; });
+
+  // ---------- gradual speed ----------
+  var trCount = 0;
+  function trActive() { return isOn($('trOn')) && loopA != null && loopB != null; }
+  function updateTr() {
+    var el = $('trInfo'); if (!isOn($('trOn'))) { el.textContent = ''; return; }
+    if (loopA == null || loopB == null) { el.textContent = 'اول بخشی را برای تکرار انتخاب کن.'; return; }
+    var sp = +$('speed').value, every = Math.max(1, Math.min(10, +$('trEvery').value || 3));
+    el.textContent = sp >= 100 ? 'به سرعت اصلی رسیده‌ای. برای شروع دوباره، سرعت را کمتر کن.' : 'دور ' + fa(trCount + 1) + ' از ' + fa(every) + ' · سرعت ' + fa(sp) + '٪';
+  }
+  function onLoopWrap() {
+    if (!trActive()) return;
+    var every = Math.max(1, Math.min(10, +$('trEvery').value || 3)), step = +$('trStep').value === 10 ? 10 : 5, sp = +$('speed').value;
+    if (sp >= 100) return;
+    trCount++;
+    if (trCount >= every) {
+      trCount = 0; sp = Math.min(100, sp + step); $('speed').value = sp; audio.playbackRate = rate(); syncCtrls();
+      if (sp >= 100) toast('به سرعت اصلی رسیدی');
+    }
+    updateTr();
+  }
+  $('trOn').onclick = function () { setSwitch(this, !isOn(this)); trCount = 0; syncCtrls(); updateTr(); };
+  $('trEvery').onchange = function () { trCount = 0; updateTr(); savePrefs(); };
+  $('trStep').onchange = function () { updateTr(); savePrefs(); };
+
+  // ---------- named markers ----------
+  function markLabel(i) { return i < 26 ? String.fromCharCode(65 + i) : String(i - 25); }
+  function markKey() { return 'acc_marks_' + result.name + '_' + Math.round(result.acc[0].length / SR); }
+  function loadMarks() {
+    marks = [];
+    try { var a = JSON.parse(getPref(markKey(), '[]')); if (Array.isArray(a)) marks = a.filter(function (x) { return typeof x === 'number' && isFinite(x) && x >= 0; }).sort(function (x, y) { return x - y; }).slice(0, 26); } catch (e) {}
+    markPages = {};
+    try { var p = JSON.parse(getPref(markKey() + '_p', '{}')); if (p && typeof p === 'object') marks.forEach(function (t) { var n = p[mk(t)]; if (n > 0 && n < 5000) markPages[mk(t)] = Math.floor(n); }); } catch (e) {}
+  }
+  function mk(t) { return t.toFixed(2); }
+  function saveMarks() {
+    if (marks.length) setPref(markKey(), JSON.stringify(marks)); else delPref(markKey());
+    var keep = {}, any = false; marks.forEach(function (t) { if (markPages[mk(t)]) { keep[mk(t)] = markPages[mk(t)]; any = true; } });
+    markPages = keep; if (any) setPref(markKey() + '_p', JSON.stringify(keep)); else delPref(markKey() + '_p');
+  }
+  function renderMarks() {
+    var box = $('marks'); box.innerHTML = '';
+    marks.forEach(function (t, i) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'wk-btn wk-btn--secondary app-mark';
+      var pg = markPages[mk(t)];
+      b.setAttribute('aria-label', 'نشانه ' + markLabel(i) + '، ' + fmt(t) + (pg ? '، صفحه‌ی ' + fa(pg) : '') + '. برای حذف نگه دارید.');
+      b.innerHTML = '<b>' + markLabel(i) + '</b><span>' + fmt(t) + '</span>' + (pg ? '<em>ص ' + fa(pg) + '</em>' : '');
+      var timer = null, held = false;
+      b.addEventListener('pointerdown', function () { held = false; timer = setTimeout(function () { held = true; removeMark(i); }, 650); });
+      ['pointerup', 'pointerleave', 'pointercancel'].forEach(function (ev) { b.addEventListener(ev, function () { clearTimeout(timer); }); });
+      b.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+      b.addEventListener('click', function () { if (held) { held = false; return; } if (result) { setCur(t); if (pdfDoc && markPages[mk(t)]) showPage(markPages[mk(t)]); } });
+      b.addEventListener('keydown', function (e) { if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); removeMark(i); } });
+      box.appendChild(b);
+    });
+    $('btnMarksClear').disabled = !marks.length; draw();
+  }
+  function addMark() {
+    if (!result) return;
+    var t = cur();
+    if (marks.length >= 26) { toast('حداکثر ۲۶ نشانه'); return; }
+    if (marks.some(function (m) { return Math.abs(m - t) < 0.5; })) { toast('این‌جا نشانه‌ای هست'); return; }
+    marks.push(t); marks.sort(function (x, y) { return x - y; }); if (pdfDoc) markPages[mk(t)] = pageNum; saveMarks(); renderMarks();
+    toast('نشانه ' + markLabel(marks.indexOf(t)) + ' افزوده شد');
+  }
+  function removeMark(i) { var l = markLabel(i); marks.splice(i, 1); saveMarks(); renderMarks(); toast('نشانه ' + l + ' حذف شد'); }
+  $('btnMark').onclick = addMark;
+  $('btnMarksClear').onclick = function () {
+    if (!marks.length) return;
+    confirmDialog({ title: 'همه‌ی نشانه‌ها حذف شود؟', text: 'نشانه‌های این ضبط پاک می‌شوند.', confirm: 'حذف همه', cancel: 'نگه دار', danger: true }).then(function (yes) { if (!yes) return; marks = []; saveMarks(); renderMarks(); toast('نشانه‌ها حذف شد'); });
+  };
+  updateTune();
+
+
+  // ---------- record yourself (needs the microphone; works in the web build) ----------
+  var recS = null, takes = [], takeAudio = null, recTimer = 0, recRaf = 0, recCtx = null;
+  function micMsg(e) {
+    if (!WEB) return 'ضبط با میکروفون فقط در نسخه‌ی وب اپ کار می‌کند؛ گوگل میکروفون را در اپ‌اسکریپت می‌بندد.';
+    var n = e && e.name;
+    if (n === 'NotAllowedError' || n === 'SecurityError') return 'اجازه‌ی میکروفون داده نشد. در تنظیمات مرورگر برای این سایت میکروفون را مجاز کن.';
+    if (n === 'NotFoundError' || n === 'OverconstrainedError') return 'میکروفونی پیدا نشد. یکی را وصل کن و دوباره امتحان کن.';
+    return 'میکروفون باز نشد. دوباره امتحان کن.';
+  }
+  function recMime() {
+    var c = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg;codecs=opus'];
+    for (var i = 0; i < c.length; i++) if (window.MediaRecorder && MediaRecorder.isTypeSupported(c[i])) return c[i];
+    return '';
+  }
+  function latSec() { return (+$('recLat').value || 0) / 1000; }
+  $('recLat').oninput = function () { $('recLatVal').textContent = fa(this.value) + ' میلی‌ثانیه'; };
+  $('recLat').onchange = function () { setPref('acc_lat', this.value); };
+  (function () { var v = +getPref('acc_lat', '120'); if (v >= 0 && v <= 400) $('recLat').value = v; $('recLatVal').textContent = fa($('recLat').value) + ' میلی‌ثانیه'; })();
+  if (!WEB) { $('btnRec').disabled = true; $('recMsg').textContent = micMsg(); }
+  function meterLoop() {
+    if (!recS) return;
+    var a = recS.an, d = recS.buf; a.getFloatTimeDomainData(d);
+    var s = 0, i; for (i = 0; i < d.length; i++) s += d[i] * d[i];
+    var lv = Math.min(1, Math.sqrt(s / d.length) * 4);
+    $('recMeter').firstElementChild.style.width = Math.round(lv * 100) + '%';
+    recRaf = requestAnimationFrame(meterLoop);
+  }
+  async function startRec() {
+    if (!result || recS || counting) return;
+    stopTake(); clearAlert('recAlert'); audio.pause();
+    var stream;
+    try { stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } }); }
+    catch (e) { showAlert('recAlert', 'error', 'خطا:', micMsg(e)); return; }
+    var mime = recMime(), mr;
+    try { mr = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined); } catch (e) { stream.getTracks().forEach(function (t) { t.stop(); }); showAlert('recAlert', 'error', 'خطا:', 'این مرورگر ضبط صدا را پشتیبانی نمی‌کند.'); return; }
+    recCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var src = recCtx.createMediaStreamSource(stream), an = recCtx.createAnalyser(); an.fftSize = 1024; src.connect(an);
+    recS = { stream: stream, mr: mr, chunks: [], an: an, buf: new Float32Array(an.fftSize), mime: mr.mimeType || mime || 'audio/webm', wall0: performance.now(), lead: 0, snap: null };
+    mr.ondataavailable = function (e) { if (e.data && e.data.size) recS.chunks.push(e.data); };
+    mr.onstop = finishRec;
+    mr.start(250);
+    $('recMeter').hidden = false; meterLoop();
+    $('btnRec').textContent = 'پایان ضبط'; $('btnRec').classList.remove('wk-btn--primary'); $('btnRec').classList.add('wk-btn--secondary');
+    var t0 = Date.now(); recTimer = setInterval(function () { $('recMsg').textContent = 'در حال ضبط… ' + fmt((Date.now() - t0) / 1000); }, 500); $('recMsg').textContent = 'در حال ضبط… ۰:۰۰';
+    audio.addEventListener('play', function once() {
+      audio.removeEventListener('play', once);
+      if (recS) { recS.lead = (performance.now() - recS.wall0) / 1000; recS.snap = { t: audio.currentTime, speed: +$('speed').value, key: builtKey, loopA: loopA, loopB: loopB }; }
+    });
+    await togglePlay();
+    if (!recS) return;
+  }
+  function stopRec() {
+    if (!recS) return;
+    audio.pause();
+    try { recS.mr.stop(); } catch (e) { finishRec(); }
+  }
+  function finishRec() {
+    var s = recS; if (!s) return; recS = null;
+    clearInterval(recTimer); cancelAnimationFrame(recRaf); $('recMeter').hidden = true; $('recMeter').firstElementChild.style.width = '0';
+    s.stream.getTracks().forEach(function (t) { t.stop(); }); try { recCtx.close(); } catch (e) {} recCtx = null;
+    $('btnRec').textContent = 'شروع ضبط'; $('btnRec').classList.add('wk-btn--primary'); $('btnRec').classList.remove('wk-btn--secondary');
+    if (!s.snap || !s.chunks.length) { $('recMsg').textContent = ''; showAlert('recAlert', 'note', 'توجه:', 'چیزی ضبط نشد.'); return; }
+    var blob = new Blob(s.chunks, { type: s.mime });
+    if (takes.length >= 5) { var old = takes.shift(); URL.revokeObjectURL(old.url); }
+    var n = (takes.length ? takes[takes.length - 1].n : 0) + 1;
+    takes.push({ n: n, blob: blob, url: URL.createObjectURL(blob), lead: s.lead, snap: s.snap, mime: s.mime, secs: Math.max(0, (performance.now() - s.wall0) / 1000 - s.lead) });
+    $('recMsg').textContent = ''; renderTakes(); toast('ضبط ذخیره شد');
+  }
+  $('btnRec').onclick = function () { if (recS) stopRec(); else startRec(); };
+  audio.addEventListener('ended', function () { if (recS) stopRec(); });
+  function stopTake() {
+    if (takeAudio) { try { takeAudio.pause(); } catch (e) {} takeAudio = null; }
+    [].forEach.call($('takes').querySelectorAll('[data-act=play]'), function (b) { b.textContent = 'گوش کن'; });
+  }
+  audio.addEventListener('pause', function () { if (takeAudio) stopTake(); });
+  function playTake(t, btn) {
+    if (recS || counting) return;
+    if (takeAudio) { stopTake(); audio.pause(); return; }
+    audio.pause();
+    var sn = t.snap;
+    if (sn.key !== builtKey) toast('کوک یا ترکیب صدا عوض شده؛ ممکن است هم‌زمان نباشد');
+    $('speed').value = sn.speed; $('speed').dispatchEvent(new Event('input'));
+    loopA = sn.loopA; loopB = sn.loopB;
+    audio.currentTime = sn.t;
+    var ta = new Audio(t.url); takeAudio = ta; ta.preload = 'auto';
+    ta.onended = function () { if (takeAudio === ta) { audio.pause(); stopTake(); } };
+    var go = function () {
+      if (takeAudio !== ta) return;
+      try { ta.currentTime = Math.max(0, t.lead + latSec()); } catch (e) {}
+      btn.textContent = 'توقف'; audio.play(); ta.play();
+    };
+    if (ta.readyState >= 1) go(); else ta.onloadedmetadata = go;
+  }
+  function renderTakes() {
+    var ul = $('takes'); ul.innerHTML = '';
+    takes.forEach(function (t, i) {
+      var li = document.createElement('li');
+      var nm = document.createElement('span'); nm.textContent = 'ضبط ' + fa(t.n) + ' · ' + fa(fmt(t.secs));
+      var bx = document.createElement('span'); bx.className = 'app-takebtns';
+      function mk(act, txt, fn) { var b = document.createElement('button'); b.className = 'wk-btn wk-btn--secondary'; b.dataset.act = act; b.textContent = txt; b.onclick = function () { fn(b); }; bx.appendChild(b); }
+      mk('play', 'گوش کن', function (b) { playTake(t, b); });
+      mk('dl', 'دانلود', function () { save(t.blob, 'take-' + t.n + (/mp4/.test(t.mime) ? '.m4a' : /ogg/.test(t.mime) ? '.ogg' : '.webm')); });
+      mk('rm', 'حذف', function () { stopTake(); URL.revokeObjectURL(t.url); takes.splice(takes.indexOf(t), 1); renderTakes(); });
+      li.appendChild(nm); li.appendChild(bx); ul.appendChild(li);
+    });
+    $('takesWrap').hidden = !takes.length;
+  }
+  function clearTakes() { stopTake(); takes.forEach(function (t) { URL.revokeObjectURL(t.url); }); takes = []; renderTakes(); }
+
+  // ---------- player's own PDF part (local only) ----------
+  var pdfDoc = null, pageNum = 1, renderTask = null, renderSeq = 0, lastAutoIdx = -2, PDF_LIB = null;
+  function ensurePdf() {
+    if (PDF_LIB) return PDF_LIB;
+    PDF_LIB = Promise.all([gs('getPdfLib'), gs('getPdfWorker')]).then(function (r) {
+      var el = document.createElement('script'); el.textContent = r[0]; document.head.appendChild(el);
+      var lib = window['pdfjs-dist/build/pdf'];
+      if (!lib) throw new Error('کتابخانه‌ی نمایش PDF بارگذاری نشد.');
+      lib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(new Blob([r[1]], { type: 'text/javascript' }));
+      return lib;
+    });
+    PDF_LIB.catch(function () { PDF_LIB = null; });
+    return PDF_LIB;
+  }
+  function pdfBusy(on, msg) { $('btnPdf').disabled = on; $('pdfMsg').textContent = msg || ''; if (on) clearAlert('pdfAlert'); }
+  function pdfFail(m) { pdfBusy(false); showAlert('pdfAlert', 'error', 'خطا:', m); }
+  $('btnPdf').onclick = function () { $('pdfInput').click(); };
+  $('pdfInput').onchange = function () {
+    var f = this.files && this.files[0]; this.value = '';
+    if (!f) return;
+    if (!/\.pdf$/i.test(f.name) && f.type !== 'application/pdf') { pdfFail('این فایل PDF نیست. فایل پارت را با پسوند PDF انتخاب کن.'); return; }
+    pdfBusy(true, 'در حال بازکردن PDF…');
+    Promise.all([ensurePdf(), f.arrayBuffer()]).then(function (r) {
+      return r[0].getDocument({ data: new Uint8Array(r[1]) }).promise;
+    }).then(function (doc) {
+      if (pdfDoc) pdfDoc.destroy();
+      pdfDoc = doc; pageNum = 1; lastAutoIdx = -2; pdfKey = f.name + '_' + f.size + '_' + doc.numPages; loadInk();
+      pdfBusy(false); $('scoreBox').hidden = false; $('btnPdfTxt').textContent = 'انتخاب PDF دیگر';
+      showPage(1); toast('PDF باز شد');
+    }).catch(function (e) {
+      if (e && e.name === 'PasswordException') pdfFail('این PDF رمز دارد. نسخه‌ی بدون رمز را باز کن.');
+      else if (e && e.name === 'InvalidPDFException') pdfFail('این فایل PDF سالم نیست.');
+      else pdfFail((e && e.message ? e.message : 'PDF باز نشد.') + ' دوباره امتحان کن.');
+    });
+  };
+  function closePdf() {
+    if (renderTask) { try { renderTask.cancel(); } catch (e) {} }
+    if (pdfDoc) { try { pdfDoc.destroy(); } catch (e) {} }
+    exitStage(); pdfDoc = null; pageNum = 1; renderSeq++; ink = {};
+    $('scoreBox').hidden = true; $('btnPdfTxt').textContent = 'انتخاب PDF پارت'; $('pdfMsg').textContent = ''; clearAlert('pdfAlert');
+  }
+  $('btnPdfClose').onclick = function () { closePdf(); toast('PDF بسته شد'); };
+  function showPage(n) {
+    if (!pdfDoc) return;
+    n = Math.max(1, Math.min(pdfDoc.numPages, n | 0));
+    pageNum = n; $('pgInfo').textContent = 'صفحه‌ی ' + fa(n) + ' از ' + fa(pdfDoc.numPages);
+    $('pgPrev').disabled = n <= 1; $('pgNext').disabled = n >= pdfDoc.numPages;
+    renderPage();
+  }
+  async function renderPage() {
+    var seq = ++renderSeq, doc = pdfDoc, cv = $('score');
+    try {
+      if (renderTask) { renderTask.cancel(); try { await renderTask.promise; } catch (e) {} renderTask = null; }
+      var page = await doc.getPage(pageNum);
+      if (seq !== renderSeq) return;
+      var base = page.getViewport({ scale: 1 }), z = $('scoreZoom').value, wrapW = Math.max(200, $('scoreWrap').clientWidth);
+      var maxH = stageOn ? Math.max(200, $('scoreWrap').clientHeight - 2) : Math.min(window.innerHeight * 0.75, 760);
+      var cssW = z === 'page' ? Math.min(wrapW, maxH * base.width / base.height) : wrapW * (+z / 100);
+      var dpr = Math.min(window.devicePixelRatio || 1, 2.5), vp = page.getViewport({ scale: cssW / base.width * dpr });
+      cv.width = Math.floor(vp.width); cv.height = Math.floor(vp.height); cv.style.width = cssW + 'px'; cv.style.height = (vp.height / dpr) + 'px';
+      var ic = $('ink'); ic.width = cv.width; ic.height = cv.height; ic.style.width = cv.style.width; ic.style.height = cv.style.height; drawInk();
+      renderTask = page.render({ canvasContext: cv.getContext('2d'), viewport: vp });
+      await renderTask.promise; renderTask = null;
+    } catch (e) {
+      if (e && e.name === 'RenderingCancelledException') return;
+      showAlert('pdfAlert', 'error', 'خطا:', 'این صفحه نمایش داده نشد. صفحه‌ی دیگری را امتحان کن.');
+    }
+  }
+  $('pgPrev').onclick = function () { showPage(pageNum - 1); };
+  $('pgNext').onclick = function () { showPage(pageNum + 1); };
+  $('scoreZoom').value = '100';
+  $('scoreZoom').onchange = function () { $('scoreWrap').scrollTo(0, 0); renderPage(); };
+  var rzT = null;
+  window.addEventListener('resize', function () { if (!pdfDoc) return; clearTimeout(rzT); rzT = setTimeout(renderPage, 200); });
+  $('pgAuto').onclick = function () { setSwitch(this, !isOn(this)); lastAutoIdx = -2; setPref('pgAuto', isOn(this) ? '1' : '0'); };
+  setSwitch($('pgAuto'), getPref('pgAuto', '1') !== '0');
+  function currentMarkIdx(linkedOnly) {
+    var t = cur() + 0.05, idx = -1;
+    for (var i = 0; i < marks.length; i++) { if (marks[i] <= t && (!linkedOnly || markPages[mk(marks[i])])) idx = i; }
+    return idx;
+  }
+  function autoTurn() {
+    if (!isOn($('pgAuto'))) return;
+    var idx = currentMarkIdx(true);
+    if (idx === lastAutoIdx) return;
+    lastAutoIdx = idx;
+    if (idx >= 0 && markPages[mk(marks[idx])] !== pageNum) showPage(markPages[mk(marks[idx])]);
+  }
+  $('btnLinkPage').onclick = function () {
+    if (!pdfDoc) return;
+    var i = currentMarkIdx(false);
+    if (i < 0) { toast('اول یک نشانه بساز'); return; }
+    markPages[mk(marks[i])] = pageNum; saveMarks(); renderMarks(); lastAutoIdx = -2;
+    toast('نشانه ' + markLabel(i) + ' به صفحه‌ی ' + fa(pageNum) + ' وصل شد');
+  };
+
+  // ---------- metronome + reference tone ----------
+  var mtCtx = null, mtTimer = null, mtNext = 0, mtBeat = 0, mtQ = [], mtRaf = 0, toneNodes = null, taps = [];
+  function toolCtx() {
+    if (!mtCtx || mtCtx.state === 'closed') mtCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (mtCtx.state === 'suspended') mtCtx.resume();
+    return mtCtx;
+  }
+  function toolGain() { var v = (+$('toolVol').value || 60) / 100; return v * v; }
+  function mtBpm() { return Math.max(30, Math.min(240, Math.round(+$('mtBpm').value) || 72)); }
+  function mtBeats() { return +$('mtBeats').value || 4; }
+  function mtClick(t, accent) {
+    var ac = mtCtx, o = ac.createOscillator(), g = ac.createGain(), v = Math.max(0.002, toolGain() * 0.7);
+    o.type = 'sine'; o.frequency.value = accent ? 1568 : 1046;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + 0.004); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.07);
+    o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t + 0.09);
+  }
+  function mtSched() {
+    var ac = mtCtx, spb = 60 / mtBpm();
+    while (mtNext < ac.currentTime + 0.12) { mtClick(mtNext, mtBeat === 0); mtQ.push({ t: mtNext, i: mtBeat }); mtNext += spb; mtBeat = (mtBeat + 1) % mtBeats(); }
+  }
+  function mtDots() {
+    var box = $('mtDots'); box.innerHTML = '';
+    for (var i = 0; i < mtBeats(); i++) { var d = document.createElement('i'); if (i === 0) d.className = 'first'; box.appendChild(d); }
+  }
+  function mtLight(i) { [].forEach.call($('mtDots').children, function (d, k) { d.classList.toggle('on', k === i); }); }
+  function mtDraw() {
+    var now = mtCtx.currentTime;
+    while (mtQ.length && mtQ[0].t <= now) mtLight(mtQ.shift().i);
+    mtRaf = requestAnimationFrame(mtDraw);
+  }
+  function mtInfo() { $('mtInfo').textContent = mtTimer ? fa(mtBpm()) + ' ضرب در دقیقه' : 'خاموش'; $('btnMt').textContent = mtTimer ? 'توقف مترونوم' : 'شروع مترونوم'; }
+  function mtStart() { var ac = toolCtx(); mtBeat = 0; mtQ = []; mtNext = ac.currentTime + 0.06; mtDots(); mtSched(); mtTimer = setInterval(mtSched, 25); mtRaf = requestAnimationFrame(mtDraw); mtInfo(); }
+  function mtStop() { clearInterval(mtTimer); mtTimer = null; cancelAnimationFrame(mtRaf); mtQ = []; mtLight(-1); mtInfo(); }
+  $('btnMt').onclick = function () { if (mtTimer) mtStop(); else mtStart(); };
+  $('mtBpm').onchange = function () { $('mtBpm').value = mtBpm(); mtInfo(); saveTools(); };
+  $('mtBeats').onchange = function () { mtBeat = 0; mtDots(); saveTools(); };
+  $('btnTap').onclick = function () {
+    var now = performance.now();
+    if (taps.length && now - taps[taps.length - 1] > 2500) taps = [];
+    taps.push(now); if (taps.length > 6) taps.shift();
+    if (taps.length < 2) { toast('چند بار دیگر بزن'); return; }
+    var avg = (taps[taps.length - 1] - taps[0]) / (taps.length - 1);
+    $('mtBpm').value = Math.max(30, Math.min(240, Math.round(60000 / avg))); mtInfo(); saveTools();
+  };
+  var NOTE_NAMES = ['دو C', 'دو♯ C♯', 'ر D', 'ر♯ D♯', 'می E', 'فا F', 'فا♯ F♯', 'سل G', 'سل♯ G♯', 'لا A', 'لا♯ A♯', 'سی B'];
+  NOTE_NAMES.forEach(function (n, i) { addOpt($('toneNote'), i, n); });
+  for (var oc = 1; oc <= 6; oc++) addOpt($('toneOct'), oc, fa(oc));
+  $('toneNote').value = 9; $('toneOct').value = 4;
+  function toneFreq() { var A = +$('tuneMine').value || 440, midi = 12 * ((+$('toneOct').value) + 1) + (+$('toneNote').value); return A * Math.pow(2, (midi - 69) / 12); }
+  function toneInfo() {
+    var f = toneFreq(); $('toneInfo').textContent = fa(f.toFixed(1)).replace('.', '٫') + ' هرتز'; $('btnTone').textContent = toneNodes ? 'توقف نت مرجع' : 'پخش نت مرجع';
+    if (toneNodes) toneNodes.o.frequency.setTargetAtTime(f, mtCtx.currentTime, 0.01);
+  }
+  function toneStart() {
+    var ac = toolCtx(), o = ac.createOscillator(), g = ac.createGain();
+    o.type = 'sine'; o.frequency.value = toneFreq();
+    g.gain.setValueAtTime(0.0001, ac.currentTime); g.gain.exponentialRampToValueAtTime(Math.max(0.002, toolGain() * 0.5), ac.currentTime + 0.05);
+    o.connect(g); g.connect(ac.destination); o.start(); toneNodes = { o: o, g: g }; toneInfo();
+  }
+  function toneStop() {
+    if (!toneNodes) return;
+    var t = mtCtx.currentTime, n = toneNodes; n.g.gain.cancelScheduledValues(t); n.g.gain.setTargetAtTime(0.0001, t, 0.03);
+    setTimeout(function () { try { n.o.stop(); } catch (e) {} }, 250); toneNodes = null; toneInfo();
+  }
+  $('btnTone').onclick = function () { if (toneNodes) toneStop(); else toneStart(); };
+  ['toneNote', 'toneOct', 'tuneMine'].forEach(function (id) { $(id).addEventListener('change', function () { toneInfo(); saveTools(); }); });
+  $('toolVol').oninput = function () {
+    $('toolVolVal').textContent = fa(this.value) + '٪';
+    if (toneNodes) toneNodes.g.gain.setTargetAtTime(Math.max(0.002, toolGain() * 0.5), mtCtx.currentTime, 0.02);
+  };
+  $('toolVol').onchange = saveTools;
+  function saveTools() { setPref('acc_tools', JSON.stringify({ bpm: mtBpm(), beats: mtBeats(), vol: +$('toolVol').value, note: +$('toneNote').value, oct: +$('toneOct').value })); }
+  (function () {
+    try {
+      var p = JSON.parse(getPref('acc_tools', '{}'));
+      if (p.bpm >= 30 && p.bpm <= 240) $('mtBpm').value = p.bpm;
+      if ([1, 2, 3, 4, 6].indexOf(p.beats) >= 0) $('mtBeats').value = p.beats;
+      if (p.vol >= 10 && p.vol <= 100) $('toolVol').value = p.vol;
+      if (p.note >= 0 && p.note < 12) $('toneNote').value = p.note;
+      if (p.oct >= 1 && p.oct <= 6) $('toneOct').value = p.oct;
+    } catch (e) {}
+    $('toolVolVal').textContent = fa($('toolVol').value) + '٪'; mtDots(); mtInfo(); toneInfo();
+  })();
+  function stopTools() { mtStop(); toneStop(); }
+
+  // ---------- stage mode (full-screen score) ----------
+  var stageOn = false, prevZoom = '100';
+  function enterStage() {
+    if (!pdfDoc || stageOn) return;
+    stageOn = true; prevZoom = $('scoreZoom').value; $('scoreZoom').value = 'page';
+    $('cardScore').classList.add('is-stage'); document.body.classList.add('is-stage');
+    $('btnStageTxt').textContent = 'خروج'; $('scoreWrap').scrollTo(0, 0); renderPage(); $('btnStage').focus({ preventScroll: true });
+  }
+  function exitStage() {
+    if (!stageOn) return;
+    stageOn = false; $('scoreZoom').value = prevZoom;
+    $('cardScore').classList.remove('is-stage'); document.body.classList.remove('is-stage');
+    $('btnStageTxt').textContent = 'تمام‌صفحه'; renderPage(); $('btnStage').focus({ preventScroll: true });
+  }
+  $('btnStage').onclick = function () { if (stageOn) exitStage(); else enterStage(); };
+  (function () {
+    var w = $('scoreWrap'), s = null;
+    w.addEventListener('pointerdown', function (e) { s = { x: e.clientX, y: e.clientY, t: Date.now() }; });
+    w.addEventListener('pointerup', function (e) {
+      if (!s || !stageOn || isOn($('inkOn'))) { s = null; return; }
+      var moved = Math.abs(e.clientX - s.x) + Math.abs(e.clientY - s.y), quick = Date.now() - s.t < 500; s = null;
+      if (moved > 10 || !quick) return;
+      var r = w.getBoundingClientRect(), rel = (e.clientX - r.left) / r.width;
+      if (rel > 0.6) showPage(pageNum + 1); else if (rel < 0.4) showPage(pageNum - 1);
+    });
+  })();
+
+  // ---------- annotations on the score (stored on this device) ----------
+  var ink = {}, pdfKey = '', inkTool = 'pen', curStroke = null, inkSaveT = null;
+  function inkCv() { return $('ink'); }
+  function loadInk() { ink = {}; try { var o = JSON.parse(getPref('acc_ink_' + pdfKey, '{}')); if (o && typeof o === 'object') ink = o; } catch (e) {} }
+  function saveInk() {
+    clearTimeout(inkSaveT);
+    inkSaveT = setTimeout(function () {
+      var s = JSON.stringify(ink);
+      if (s.length > 900000) { toast('جای ذخیره‌ی یادداشت پر شد'); return; }
+      if (s === '{}' || !Object.keys(ink).some(function (k) { return ink[k].length; })) delPref('acc_ink_' + pdfKey); else setPref('acc_ink_' + pdfKey, s);
+    }, 400);
+  }
+  function drawInk() {
+    var c = inkCv(), x = c.getContext('2d'), W = c.width, H = c.height;
+    x.clearRect(0, 0, W, H); x.lineCap = 'round'; x.lineJoin = 'round';
+    ((ink[pageNum] || []).concat(curStroke ? [curStroke] : [])).forEach(function (st) {
+      var p = st.p; if (!p.length) return;
+      x.strokeStyle = st.c; x.globalAlpha = st.k === 'h' ? 0.35 : 1; x.lineWidth = Math.max(1, st.w * W);
+      x.beginPath(); x.moveTo(p[0] * W, p[1] * H);
+      if (p.length === 2) x.lineTo(p[0] * W + 0.1, p[1] * H);
+      for (var i = 2; i < p.length; i += 2) x.lineTo(p[i] * W, p[i + 1] * H);
+      x.stroke();
+    });
+    x.globalAlpha = 1;
+  }
+  function inkPt(e) { var r = inkCv().getBoundingClientRect(); return [Math.round((e.clientX - r.left) / r.width * 10000) / 10000, Math.round((e.clientY - r.top) / r.height * 10000) / 10000]; }
+  function inkErase(pt) {
+    var list = ink[pageNum] || [], c = inkCv(), ry = 0.02 * c.width / c.height, rx = 0.02, hit = false;
+    ink[pageNum] = list.filter(function (st) {
+      for (var i = 0; i < st.p.length; i += 2) if (Math.abs(st.p[i] - pt[0]) < rx && Math.abs(st.p[i + 1] - pt[1]) < ry) { hit = true; return false; }
+      return true;
+    });
+    if (hit) { drawInk(); saveInk(); }
+  }
+  (function () {
+    var c = inkCv(), down = false;
+    c.addEventListener('pointerdown', function (e) {
+      if (!isOn($('inkOn'))) return;
+      e.preventDefault(); down = true; try { c.setPointerCapture(e.pointerId); } catch (x) {}
+      var pt = inkPt(e);
+      if (inkTool === 'er') { inkErase(pt); return; }
+      curStroke = { k: inkTool === 'hl' ? 'h' : 'p', c: $('inkColor').value, w: inkTool === 'hl' ? 0.018 : 0.0028, p: pt.slice() }; drawInk();
+    });
+    c.addEventListener('pointermove', function (e) {
+      if (!down) return;
+      var pt = inkPt(e);
+      if (inkTool === 'er') { inkErase(pt); return; }
+      if (!curStroke) return;
+      var p = curStroke.p, dx = pt[0] - p[p.length - 2], dy = pt[1] - p[p.length - 1];
+      if (dx * dx + dy * dy < 0.0000025) return;
+      p.push(pt[0], pt[1]); drawInk();
+    });
+    function end() {
+      if (!down) return; down = false;
+      if (curStroke) { (ink[pageNum] = ink[pageNum] || []).push(curStroke); curStroke = null; drawInk(); saveInk(); }
+    }
+    c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end);
+  })();
+  $('inkOn').onclick = function () {
+    var on = !isOn(this); setSwitch(this, on); $('inkTools').hidden = !on; inkCv().classList.toggle('is-on', on);
+  };
+  var setInkTool = initSeg($('inkTool'), 'pen', function (v) { inkTool = v; });
+  $('inkUndo').onclick = function () { var l = ink[pageNum] || []; if (!l.length) { toast('چیزی برای واپس‌گرد نیست'); return; } l.pop(); drawInk(); saveInk(); };
+  $('inkClear').onclick = function () {
+    if (!(ink[pageNum] || []).length) { toast('این صفحه یادداشتی ندارد'); return; }
+    confirmDialog({ title: 'یادداشت‌های این صفحه پاک شود؟', text: 'همه‌ی نوشته‌ها و علامت‌های همین صفحه پاک می‌شوند.', confirm: 'پاک کن', cancel: 'نگه دار', danger: true }).then(function (yes) { if (!yes) return; ink[pageNum] = []; drawInk(); saveInk(); toast('یادداشت‌های صفحه پاک شد'); });
+  };
+
+  // ---------- practice log (this device only) ----------
+  var LOGK = 'acc_log', playStart = 0;
+  function logLoad() { try { var o = JSON.parse(getPref(LOGK, '{}')); return o && typeof o === 'object' ? o : {}; } catch (e) { return {}; } }
+  function dayKey(d) { d = d || new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function logFlush() {
+    if (!playStart) return;
+    var now = Date.now(), sec = (now - playStart) / 1000; playStart = now;
+    if (sec <= 0 || sec > 10800) return;
+    var L = logLoad(), k = dayKey(), d = L[k] || (L[k] = { t: 0, p: {} }), name = result ? result.name : '—';
+    d.t = Math.round((d.t + sec) * 10) / 10; d.p[name] = Math.round(((d.p[name] || 0) + sec) * 10) / 10;
+    Object.keys(L).sort().slice(0, Math.max(0, Object.keys(L).length - 400)).forEach(function (x) { delete L[x]; });
+    setPref(LOGK, JSON.stringify(L));
+  }
+  audio.addEventListener('play', function () { playStart = Date.now(); });
+  audio.addEventListener('pause', function () { logFlush(); playStart = 0; });
+  audio.addEventListener('ended', function () { logFlush(); playStart = 0; });
+  setInterval(function () { if (playStart) { logFlush(); if (!$('view-settings').hidden) renderLog(); } }, 10000);
+  window.addEventListener('pagehide', function () { logFlush(); playStart = 0; });
+  function fmtDur(sec) {
+    sec = Math.round(sec); if (sec <= 0) return '۰'; if (sec < 60) return 'کمتر از ۱ دقیقه';
+    var m = Math.round(sec / 60), h = Math.floor(m / 60); m = m % 60;
+    return h ? fa(h) + ' ساعت' + (m ? ' و ' + fa(m) + ' دقیقه' : '') : fa(m) + ' دقیقه';
+  }
+  function renderLog() {
+    var L = logLoad(), today = new Date(), days = [], i, d, k;
+    for (i = 6; i >= 0; i--) { d = new Date(today.getFullYear(), today.getMonth(), today.getDate() - i); k = dayKey(d); days.push({ d: d, k: k, t: (L[k] && L[k].t) || 0 }); }
+    var week = days.reduce(function (a, x) { return a + x.t; }, 0), max = Math.max.apply(null, days.map(function (x) { return x.t; }).concat([60]));
+    var streak = 0, off = days[6].t >= 60 ? 0 : 1;
+    for (i = 0; i < 400; i++) { d = new Date(today.getFullYear(), today.getMonth(), today.getDate() - off - i); k = dayKey(d); if (L[k] && L[k].t >= 60) streak++; else break; }
+    function mins(s) { return fa(s > 0 ? Math.max(1, Math.round(s / 60)) : 0); }
+    $('logToday').textContent = mins(days[6].t); $('logWeek').textContent = mins(week); $('logStreak').textContent = fa(streak);
+    $('logBars').innerHTML = ''; $('logBars').setAttribute('aria-label', 'تمرین هفت روز اخیر: ' + fmtDur(week));
+    days.forEach(function (x) {
+      var c = document.createElement('div'), b = document.createElement('i'), l = document.createElement('span');
+      b.style.height = Math.max(3, Math.round(x.t / max * 64)) + 'px'; if (!x.t) b.style.opacity = '.25';
+      l.textContent = x.d.toLocaleDateString('fa-IR', { weekday: 'short' }); c.title = fmtDur(x.t); c.appendChild(b); c.appendChild(l); $('logBars').appendChild(c);
+    });
+    var agg = {}; Object.keys(L).sort().slice(-30).forEach(function (kk) { var p = L[kk].p || {}; Object.keys(p).forEach(function (n) { agg[n] = (agg[n] || 0) + p[n]; }); });
+    var top = Object.keys(agg).sort(function (a, b) { return agg[b] - agg[a]; }).slice(0, 5);
+    $('logList').innerHTML = '';
+    top.forEach(function (n) { var li = document.createElement('li'), a = document.createElement('span'), t = document.createElement('span'); a.textContent = n; t.textContent = fmtDur(agg[n]); li.appendChild(a); li.appendChild(t); $('logList').appendChild(li); });
+    $('logCsv').disabled = $('logClear').disabled = !Object.keys(L).length;
+  }
+  $('logCsv').onclick = function () {
+    var L = logLoad(), rows = ['date,piece,seconds'];
+    Object.keys(L).sort().forEach(function (k) { var p = L[k].p || {}; Object.keys(p).forEach(function (n) { rows.push(k + ',"' + n.replace(/"/g, '""') + '",' + Math.round(p[n])); }); });
+    save(new Blob(['﻿' + rows.join('\n') + '\n'], { type: 'text/csv;charset=utf-8' }), 'practice-log.csv');
+  };
+  $('logClear').onclick = function () {
+    confirmDialog({ title: 'دفتر تمرین پاک شود؟', text: 'زمان‌های ثبت‌شده‌ی این دستگاه پاک می‌شوند و برنمی‌گردند.', confirm: 'پاک کن', cancel: 'نگه دار', danger: true }).then(function (yes) { if (!yes) return; delPref(LOGK); renderLog(); toast('دفتر تمرین پاک شد'); });
+  };
+  renderLog();
+
+  (function tick() {
+    if (result && !audio.paused && loopA != null && loopB != null && cur() >= loopB) {
+      onLoopWrap();
+      if (isOn($('ciOn'))) { audio.pause(); setCur(loopA); togglePlay(); } else setCur(loopA);
+    }
+    if (result && !$('view-task').hidden) { $('tCur').textContent = fmt(cur()); draw(); if (pdfDoc) { $('tCur2').textContent = fmt(cur()); autoTurn(); } }
+    requestAnimationFrame(tick);
+  })();
+
+  document.addEventListener('keydown', function (e) {
+    if (!result || dialogOpen() || $('view-task').hidden || e.ctrlKey || e.metaKey || e.altKey) return;
+    var tag = e.target.tagName;
+    if ((tag === 'INPUT' && e.target.type !== 'range') || tag === 'SELECT' || tag === 'TEXTAREA') return;
+    if (e.key === 'Escape' && stageOn) { e.preventDefault(); exitStage(); return; }
+    if (pdfDoc) {
+      var nx = e.key === 'PageDown' || (stageOn && (e.key === 'ArrowRight' || e.key === 'ArrowDown')), pv = e.key === 'PageUp' || (stageOn && (e.key === 'ArrowLeft' || e.key === 'ArrowUp'));
+      if (nx) { e.preventDefault(); showPage(pageNum + 1); return; }
+      if (pv) { e.preventDefault(); showPage(pageNum - 1); return; }
+    }
+    if (e.code === 'Space' && tag !== 'BUTTON') { e.preventDefault(); togglePlay(); }
+    else if (e.key === 'ArrowLeft' && tag !== 'INPUT') { e.preventDefault(); seek(-5); }
+    else if (e.key === 'ArrowRight' && tag !== 'INPUT') { e.preventDefault(); seek(5); }
+    else if (e.key === '[') setA();
+    else if (e.key === ']') setB();
+    else if (e.key === 'm' || e.key === 'M') addMark();
+  });
+  $('btnAnother').onclick = function () { $('cardInput').scrollIntoView({ behavior: 'smooth', block: 'start' }); drop.focus({ preventScroll: true }); };
+
+  // ---------- downloads ----------
+  function save(blob, name) {
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+    toast('دانلود شروع شد');
+  }
+  function dlBusy(on, msg) { ['dlMp3', 'dlWav', 'dlSolo'].forEach(function (id) { $(id).disabled = on; }); $('dlMsg').textContent = msg || ''; if (on) clearAlert('dlAlert'); }
+  function dlFail(e) { dlBusy(false); showAlert('dlAlert', 'error', 'خطا:', e.message + ' دوباره امتحان کنید.'); }
+  function suffix() { var g = +$('guide').value; return g ? '_accompaniment+guide' + g : '_accompaniment'; }
+  $('dlWav').onclick = function () {
+    var mixed = AccCore.mixGuide(result.acc, result.solo, $('guide').value / 100);
+    save(new Blob([AccCore.encodeWav(mixed, SR)], { type: 'audio/wav' }), result.name + suffix() + '.wav');
+  };
+  $('dlMp3').onclick = function () {
+    var mixed = AccCore.mixGuide(result.acc, result.solo, $('guide').value / 100);
+    dlBusy(true, 'ساختن MP3…');
+    mp3(mixed[0], mixed[1], 256, function (p) { $('dlMsg').textContent = 'ساختن MP3… ' + fa(Math.round(p * 100)) + '٪'; })
+      .then(function (b) { dlBusy(false); save(b, result.name + suffix() + '.mp3'); }, dlFail);
+  };
+  $('dlSolo').onclick = function () {
+    dlBusy(true, 'ساختن MP3…');
+    mp3(result.solo[0], result.solo[0], 192, function (p) { $('dlMsg').textContent = 'ساختن MP3… ' + fa(Math.round(p * 100)) + '٪'; })
+      .then(function (b) { dlBusy(false); save(b, result.name + '_solo.mp3'); }, dlFail);
+  };
+  window.__app = { showView: showView, version: APP_VERSION, audio: audio };
+})();
+</script>
+</body>
+</html>

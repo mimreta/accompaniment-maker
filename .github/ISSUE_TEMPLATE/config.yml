@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Getting started guide
+    url: https://github.com/mimreta/solo-remover-web/blob/main/docs/GETTING-STARTED.md
+    about: Most first-time problems (API key, microphone) are explained here.

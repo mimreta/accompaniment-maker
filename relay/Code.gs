@@ -51,13 +51,19 @@ function algorithmDefaults_(sepType) {
   return d;
 }
 
+// Never forward the user's real file name to MVSEP: keep only a neutral name and the extension.
+function safeName_(name) {
+  var m = String(name || '').match(/\.([A-Za-z0-9]{2,5})$/);
+  return 'audio.' + (m ? m[1].toLowerCase() : 'mp3');
+}
+
 function create_(req) {
   var key = String(req.key || '').trim();
   if (!/^[A-Za-z0-9]{10,}$/.test(key)) throw new Error('کلید API تنظیم نشده یا معتبر نیست.');
   var inst = MODELS[req.inst];
   if (!inst) throw new Error('ساز ناشناخته.');
   if (!req.b64 || typeof req.b64 !== 'string') throw new Error('فایل صوتی دریافت نشد.');
-  var blob = Utilities.newBlob(Utilities.base64Decode(req.b64), String(req.mime || 'audio/mpeg'), String(req.name || 'audio.mp3'));
+  var blob = Utilities.newBlob(Utilities.base64Decode(req.b64), String(req.mime || 'audio/mpeg'), safeName_(req.name));
   var payload = { api_token: key, audiofile: blob, sep_type: String(inst.sep), output_format: '0', is_demo: '0' };
   var d = algorithmDefaults_(inst.sep), k;
   for (k in d) payload[k] = d[k];
