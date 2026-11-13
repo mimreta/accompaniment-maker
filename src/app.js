@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var APP_VERSION = '3.8';
+  var APP_VERSION = '3.9';
   var SR = 44100, MAX_CHUNK = 480, OVERLAP = 10, DIRECT_MAX_BYTES = 15e6, DIRECT_MAX_SEC = 590;
   var $ = function (id) { return document.getElementById(id); };
   var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
@@ -443,9 +443,9 @@
   // Turns any error (ours, MVSEP's English text, Google's, the browser's) into plain Persian that says what to do.
   // Order matters: the first matching rule wins. Anything unknown gets a calm generic sentence, never raw English.
   var ERR_RULES = [
-    [/unprocessed file in queue|already have .*(queue|job)|concurrent/i, 'یک کار قبلی هنوز در صف MVSEP است (شاید از امتحان قبلی). چند دقیقه صبر کن تا تمام شود، بعد دوباره امتحان کن.'],
+    [/unprocessed file in queue|already have .*(queue|job)|concurrent/i, 'یک کار قبلی هنوز در حال پردازش است (شاید از امتحان قبلی). چند دقیقه صبر کن تا تمام شود، بعد دوباره امتحان کن.'],
     [/api[_ ]?token|unknown or invalid|invalid (api )?key|unauthori[sz]ed|\b401\b|کلید API/i, 'کلید MVSEP پذیرفته نشد. از «تنظیمات» کلید را دوباره وارد کن.'],
-    [/credit|balance|premium|quota|subscription|daily limit|limit reached/i, 'سهمیۀ حساب MVSEP تمام شده است. کمی بعد یا فردا دوباره امتحان کن.'],
+    [/credit|balance|premium|quota|subscription|daily limit|limit reached/i, 'سهمیۀ حساب تو در سرویس جداسازی تمام شده است. کمی بعد یا فردا دوباره امتحان کن.'],
     [/too large|file size|size limit|exceed|maximum size|payload|\b413\b|post data size|argument too large/i, 'این فایل برای ارسال زیادی بزرگ است. فایل کوتاه‌تر یا کم‌حجم‌تری را امتحان کن.'],
     [/unsupported|invalid audio|not an? audio|codec|corrupt|cannot decode|قابل خواندن/i, 'این فایل خوانده نشد. فایل دیگری یا همان آهنگ را به‌صورت MP3 امتحان کن.'],
     [/service invoked too many times|bandwidth|urlfetch|limit exceeded/i, 'سهمیۀ روزانۀ گوگل برای این نسخۀ اپ تمام شده است. فردا دوباره امتحان کن یا از نسخۀ وب استفاده کن.'],
@@ -511,7 +511,7 @@
       setStatus(partLbl(i) + 'آماده‌سازی فایل…', share(i, 0));
       var p = await next; checkCancel();
       curStage = 'upload';
-      setStatus(partLbl(i) + 'ارسال به MVSEP…', share(i, 0.18));
+      setStatus(partLbl(i) + 'فایل در حال ارسال است…', share(i, 0.18));
       var hash = await gs('createJob', p.b64, p.name, p.mime, instId);
       p = null;
       if (i + 1 < n) next = payload(i + 1);
@@ -524,7 +524,7 @@
         if (st.status === 'done') break;
         if (!st.status || st.status === 'not_found') { if (++lost > 12) throw new Error('این کار پیدا نشد یا مدتش گذشته است. دوباره از اول شروع کن.'); continue; } lost = 0;
         if (st.status === 'failed' || st.status === 'error') throw new Error('MVSEP: ' + (st.message || 'پردازش نشد.'));
-        if (st.status === 'waiting') setStatus(partLbl(i) + 'در صف MVSEP' + (st.eta ? ' — حدود ' + fa(Math.ceil(st.eta / 60)) + ' دقیقه' : ''), share(i, 0.25));
+        if (st.status === 'waiting') setStatus(partLbl(i) + 'در نوبت پردازش' + (st.eta ? ' — حدود ' + fa(Math.ceil(st.eta / 60)) + ' دقیقه' : ''), share(i, 0.25));
         else setStatus(partLbl(i) + 'جداسازی ساز تو از بقیۀ اثر…', share(i, 0.45));
       }
       var solo = null, acc = null;

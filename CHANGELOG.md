@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.9
+- The progress line no longer names the service: «فایل در حال ارسال است…» and «در نوبت پردازش — حدود N دقیقه».
+
 ## 3.8
 - Every error is now shown in plain Persian with what to do next: busy queue, wrong key, used-up quota, file too big or unreadable, expired job, no connection, Google daily limit and more. Unknown errors get a calm generic sentence instead of English text.
 - A job that MVSEP no longer knows now stops with a clear message instead of waiting forever.
