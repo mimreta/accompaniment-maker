@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var APP_VERSION = '3.7';
+  var APP_VERSION = '3.8';
   var SR = 44100, MAX_CHUNK = 480, OVERLAP = 10, DIRECT_MAX_BYTES = 15e6, DIRECT_MAX_SEC = 590;
   var $ = function (id) { return document.getElementById(id); };
   var fa = function (n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
@@ -34,16 +34,16 @@
     for (var i = 0; i < list.length; i++) {
       try { var r = await fetch(list[i], { integrity: SRI[key] }); if (r.ok) { var t = await r.text(); if (t.length > 1000) return (cdnCache[key] = t); } } catch (e) { err = e; }
     }
-    throw new Error('دریافت کتابخانه ممکن نشد. اینترنت را بررسی کن و دوباره امتحان کن.');
+    throw new Error('یکی از بخش‌های اپ بارگذاری نشد. اینترنت را بررسی کن و دوباره امتحان کن.');
   }
   function relayUrl() { return (getPref('relay_url', '') || window.SOLO_RELAY || '').trim(); }
   function validRelay(u) { return /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]{20,}\/exec$/.test(u) || /^https:\/\/[a-z0-9-]+\.[a-z0-9-]+\.workers\.dev\/?$/.test(u); }
   async function relay(body) {
-    if (!relayUrl()) throw new Error('آدرس ریلی ثبت نشده است. از «تنظیمات» وارد کن.');
+    if (!relayUrl()) throw new Error('اتصال اپ به سرویس جداسازی برقرار نیست. صفحه را دوباره باز کن.');
     var r;
     try { r = await fetch(relayUrl(), { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) }); }
-    catch (e) { throw new Error('به سرور واسط وصل نشد. اینترنت را بررسی کن.'); }
-    var j; try { j = await r.json(); } catch (e) { throw new Error('پاسخ نامعتبر از سرور واسط.'); }
+    catch (e) { throw new Error('اتصال برقرار نشد. اینترنت را بررسی کن و دوباره امتحان کن.'); }
+    var j; try { j = await r.json(); } catch (e) { throw new Error('جواب درستی نرسید. چند دقیقه بعد دوباره امتحان کن.'); }
     if (j.error) throw new Error(j.error);
     return j.result;
   }
@@ -51,7 +51,7 @@
     getConfig: async function () { return { hasKey: !!getPref('mvsep_key', ''), canSetKey: true, instruments: window.SOLO_INSTRUMENTS || [] }; },
     setApiKey: async function (key) {
       key = String(key || '').trim();
-      if (!/^[A-Za-z0-9]{10,}$/.test(key)) throw new Error('کلید API معتبر نیست.');
+      if (!/^[A-Za-z0-9]{10,}$/.test(key)) throw new Error('این کلید درست نیست. آن را کامل از سایت MVSEP کپی کن و اینجا بچسبان.');
       setPref('mvsep_key', key); return true;
     },
     createJob: function (b64, name, mime, inst) { return relay({ op: 'create', key: getPref('mvsep_key', ''), b64: b64, name: name, mime: mime, inst: inst }); },
@@ -226,7 +226,7 @@
       if (WEB) { $('keyNote').hidden = false; $('relayField').hidden = !!(window.SOLO_RELAY || '').trim(); if (relayUrl()) $('relayHint').textContent = 'یک آدرس ریلی ذخیره شده است. برای تغییر، آدرس تازه را وارد کن.'; }
     }
     renderKeyCard(); keyNotice(); updateProcessBtn();
-  }).catch(function (e) { showAlert('inputAlert', 'error', 'خطا:', 'اپ بارگذاری نشد (' + e.message + '). صفحه را دوباره باز کنید.'); });
+  }).catch(function (e) { showAlert('inputAlert', 'error', 'خطا:', 'اپ بارگذاری نشد. اینترنت را بررسی کن و صفحه را دوباره باز کن.'); });
 
   var keyChanging = false;
   function renderKeyCard() {
@@ -256,14 +256,14 @@
     gs('setApiKey', $('keyInput').value).then(function () {
       CFG.hasKey = true; keyChanging = false; $('keyInput').value = ''; $('cardStart').hidden = true; renderKeyCard();
       clearAlert('inputAlert'); toast('کلید ذخیره شد'); updateProcessBtn();
-    }).catch(function (e) { showAlert('keyAlert', 'error', 'خطا:', e.message); });
+    }).catch(function (e) { showAlert('keyAlert', 'error', 'خطا:', friendlyErr(e.message)); });
   };
   $('btnStartKey').onclick = function () {
     clearAlert('startAlert');
     gs('setApiKey', $('startKey').value).then(function () {
       CFG.hasKey = true; keyChanging = false; $('startKey').value = ''; $('cardStart').hidden = true; renderKeyCard();
       clearAlert('inputAlert'); toast('کلید ذخیره شد'); updateProcessBtn();
-    }).catch(function (e) { showAlert('startAlert', 'error', 'خطا:', e.message); });
+    }).catch(function (e) { showAlert('startAlert', 'error', 'خطا:', friendlyErr(e.message)); });
   };
   $('instSelect').onchange = function () { setPref('acc_inst', this.value); syncInstPicker(); };
   // ---------- instrument picker (cards with icons; the hidden select stays the source of truth) ----------
@@ -339,11 +339,11 @@
   drop.ondrop = function (e) { e.preventDefault(); drop.classList.remove('is-over'); if (!busy && e.dataTransfer.files[0]) pickFile(e.dataTransfer.files[0]); };
   function pickFile(f) {
     var isAudio = /^audio\//.test(f.type) || /\.(mp3|wav|flac|m4a|ogg|opus|aac)$/i.test(f.name);
-    if (!isAudio) { showAlert('inputAlert', 'error', 'خطا:', 'این فایل صوتی نیست. یک فایل MP3، WAV، FLAC یا M4A انتخاب کنید.'); return; }
-    if (!f.size) { showAlert('inputAlert', 'error', 'خطا:', 'این فایل خالی است. فایل دیگری انتخاب کنید.'); return; }
+    if (!isAudio) { showAlert('inputAlert', 'error', 'خطا:', 'این فایل صوتی نیست. یک فایل MP3، WAV، FLAC یا M4A انتخاب کن.'); return; }
+    if (!f.size) { showAlert('inputAlert', 'error', 'خطا:', 'این فایل خالی است. فایل دیگری انتخاب کن.'); return; }
     clearAlert('inputAlert'); keyNotice();
     file = f; $('dropTitle').textContent = f.name;
-    $('dropInfo').textContent = fa((f.size / 1e6).toFixed(1)) + ' مگابایت · برای تغییر بزنید';
+    $('dropInfo').textContent = fa((f.size / 1e6).toFixed(1)) + ' مگابایت · برای تغییر بزن';
     $('dropInfo').removeAttribute('dir');
     updateProcessBtn();
   }
@@ -351,7 +351,7 @@
     var reason = '';
     if (!CFG) reason = 'در حال بارگذاری…';
     else if (!CFG.hasKey) reason = CFG.canSetKey ? 'اول کلید را در کارت «قدم اول» ثبت کن.' : 'اپ هنوز آماده نیست.';
-    else if (!file) reason = 'اول یک فایل انتخاب کنید.';
+    else if (!file) reason = 'اول یک فایل انتخاب کن.';
     $('btnProcess').disabled = !!reason || busy;
     $('processHint').textContent = busy ? '' : reason;
   }
@@ -399,7 +399,7 @@
         w = new Worker(workerUrl);
       } catch (e) { w = null; }
       var fallback = function () {
-        if (!window.lamejs) return reject(new Error('کتابخانۀ MP3 بارگذاری نشد.'));
+        if (!window.lamejs) return reject(new Error('بخش ساخت فایل MP3 بارگذاری نشد. اینترنت را بررسی کن و دوباره امتحان کن.'));
         AccCore.encodeMp3(window.lamejs, [L, R], SR, kbps, onP).then(function (parts) { resolve(new Blob(parts, { type: 'audio/mpeg' })); }, reject);
       };
       if (!w) return fallback();
@@ -414,7 +414,7 @@
   }
   function fetchWithProgress(url, onP) {
     return fetch(url).then(function (resp) {
-      if (!resp.ok) throw new Error('دانلود نتیجه ناموفق بود (' + resp.status + ')');
+      if (!resp.ok) throw new Error('نتیجه دانلود نشد؛ شاید لینکش منقضی شده است. کار را از اول شروع کن.');
       var total = +resp.headers.get('content-length') || 0;
       if (!resp.body || !total) return resp.arrayBuffer();
       var reader = resp.body.getReader(), got = 0, chunks = [];
@@ -436,20 +436,37 @@
   function log(t) { var li = document.createElement('li'); li.textContent = t; $('log').appendChild(li); $('log').scrollTop = 1e9; }
 
   $('btnCancel').onclick = function () {
-    confirmDialog({ title: 'پردازش لغو شود؟', text: 'کارهایی که تمام شده ذخیره نمی‌شود؛ از اول شروع می‌کنید.', confirm: 'لغو پردازش', cancel: 'ادامه بده', danger: true }).then(function (yes) {
+    confirmDialog({ title: 'پردازش لغو شود؟', text: 'کارهایی که تمام شده ذخیره نمی‌شود؛ از اول شروع می‌کنی.', confirm: 'لغو پردازش', cancel: 'ادامه بده', danger: true }).then(function (yes) {
       if (yes && busy) { cancelled = true; setStatus('در حال لغو…'); }
     });
   };
-  // MVSEP allows one waiting job per account: say so in plain words instead of showing its English message.
+  // Turns any error (ours, MVSEP's English text, Google's, the browser's) into plain Persian that says what to do.
+  // Order matters: the first matching rule wins. Anything unknown gets a calm generic sentence, never raw English.
+  var ERR_RULES = [
+    [/unprocessed file in queue|already have .*(queue|job)|concurrent/i, 'یک کار قبلی هنوز در صف MVSEP است (شاید از امتحان قبلی). چند دقیقه صبر کن تا تمام شود، بعد دوباره امتحان کن.'],
+    [/api[_ ]?token|unknown or invalid|invalid (api )?key|unauthori[sz]ed|\b401\b|کلید API/i, 'کلید MVSEP پذیرفته نشد. از «تنظیمات» کلید را دوباره وارد کن.'],
+    [/credit|balance|premium|quota|subscription|daily limit|limit reached/i, 'سهمیۀ حساب MVSEP تمام شده است. کمی بعد یا فردا دوباره امتحان کن.'],
+    [/too large|file size|size limit|exceed|maximum size|payload|\b413\b|post data size|argument too large/i, 'این فایل برای ارسال زیادی بزرگ است. فایل کوتاه‌تر یا کم‌حجم‌تری را امتحان کن.'],
+    [/unsupported|invalid audio|not an? audio|codec|corrupt|cannot decode|قابل خواندن/i, 'این فایل خوانده نشد. فایل دیگری یا همان آهنگ را به‌صورت MP3 امتحان کن.'],
+    [/service invoked too many times|bandwidth|urlfetch|limit exceeded/i, 'سهمیۀ روزانۀ گوگل برای این نسخۀ اپ تمام شده است. فردا دوباره امتحان کن یا از نسخۀ وب استفاده کن.'],
+    [/authorization is required|permission|not authori[sz]ed|re-?authori[sz]e/i, 'اپ اجازۀ کار ندارد. صفحه را دوباره باز کن و اجازه را تأیید کن.'],
+    [/not found|removed|expired|no longer/i, 'این کار پیدا نشد یا مدتش گذشته است. دوباره از اول شروع کن.'],
+    [/parameters are missing|bad request|\b400\b|درخواست نامعتبر|ساز ناشناخته/i, 'درخواست درست ارسال نشد. صفحه را دوباره باز کن و یک بار دیگر امتحان کن.'],
+    [/\b(500|502|503|504)\b|timeout|timed out|temporar|unavailable|overload|busy|bad gateway|dns|network|failed to fetch|پاسخ نامعتبر/i, 'سرویس جداسازی الان شلوغ است یا جواب نمی‌دهد. چند دقیقه بعد دوباره امتحان کن.'],
+    [/فقط برای خود اپ|only for the app/i, 'این نسخه از اپ اجازۀ اتصال ندارد. اپ را از آدرس اصلی خودش باز کن.']
+  ];
   function friendlyErr(m) {
-    if (/unprocessed file in queue/i.test(m)) return 'یک کار قبلی هنوز در صف MVSEP است (شاید از امتحان قبلی). چند دقیقه صبر کن تا تمام شود،';
-    return m;
+    m = String(m || '').replace(/^MVSEP:\s*/, '').trim();
+    for (var i = 0; i < ERR_RULES.length; i++) if (ERR_RULES[i][0].test(m)) return ERR_RULES[i][1];
+    // Already plain Persian (our own sentence): keep it. English or empty: calm generic message.
+    if (/[\u0600-\u06FF]/.test(m)) return m;
+    return 'مشکلی پیش آمد. چند دقیقه بعد دوباره امتحان کن؛ اگر تکرار شد، فایل دیگری را امتحان کن.';
   }
   $('btnProcess').onclick = function () {
     var go = function () {
       run().catch(function (e) {
-        if (e.message === 'لغو شد.') { setStatus('لغو شد'); showAlert('progAlert', 'note', 'توجه:', 'پردازش لغو شد. هر وقت خواستید دوباره شروع کنید.'); }
-        else { setStatus('متوقف شد'); showAlert('progAlert', 'error', 'خطا:', friendlyErr(e.message) + ' دوباره امتحان کنید.'); }
+        if (e.message === 'لغو شد.') { setStatus('لغو شد'); showAlert('progAlert', 'note', 'توجه:', 'پردازش لغو شد. هر وقت خواستی دوباره شروع کن.'); }
+        else { setStatus('متوقف شد'); showAlert('progAlert', 'error', 'خطا:', friendlyErr(e.message)); }
       }).then(function () { busy = false; unlockScreen(); updateProcessBtn(); $('btnCancel').hidden = true; });
     };
     if (result) {
@@ -500,12 +517,13 @@
       if (i + 1 < n) next = payload(i + 1);
       log(partLbl(i) + 'ارسال شد');
 
-      var st, fails = 0;
+      var st, fails = 0, lost = 0;
       while (true) {
         await sleep(window.__POLL_MS || 5000); checkCancel();
         try { st = await gs('getJob', hash); fails = 0; } catch (e) { if (++fails > 4) throw e; continue; }
         if (st.status === 'done') break;
-        if (st.status === 'failed' || st.status === 'error') throw new Error('MVSEP: ' + (st.message || 'پردازش ناموفق بود.'));
+        if (!st.status || st.status === 'not_found') { if (++lost > 12) throw new Error('این کار پیدا نشد یا مدتش گذشته است. دوباره از اول شروع کن.'); continue; } lost = 0;
+        if (st.status === 'failed' || st.status === 'error') throw new Error('MVSEP: ' + (st.message || 'پردازش نشد.'));
         if (st.status === 'waiting') setStatus(partLbl(i) + 'در صف MVSEP' + (st.eta ? ' — حدود ' + fa(Math.ceil(st.eta / 60)) + ' دقیقه' : ''), share(i, 0.25));
         else setStatus(partLbl(i) + 'جداسازی ساز تو از بقیۀ اثر…', share(i, 0.45));
       }
@@ -513,7 +531,7 @@
       st.files.forEach(function (f) { var t = norm(f.type); if (t === inst.solo || t.indexOf(inst.solo) >= 0) solo = f; });
       var rest = st.files.filter(function (f) { return f !== solo; });
       acc = rest.filter(function (f) { return /other|instrum|music/.test(norm(f.type)); })[0] || rest[0];
-      if (!acc) throw new Error('فایل همراهی در خروجی پیدا نشد.');
+      if (!acc) throw new Error('همراهی ساخته نشد. دوباره امتحان کن یا ساز دیگری را انتخاب کن.');
       var dl = function (f, a, b) {
         return fetchWithProgress(f.url, function (q) { setStatus(partLbl(i) + 'دریافت نتیجه… ' + fa(Math.round(q * 100)) + '٪', share(i, a + (b - a) * q)); })
           .then(decode).then(channels);
@@ -522,7 +540,7 @@
       var soloCh = solo ? await dl(solo, 0.78, 0.95) : null; checkCancel();
       setStatus(partLbl(i) + 'اتصال…', share(i, 0.97));
       var fl = AccCore.addChunk(out, chunks, i, { acc: accCh, solo: soloCh }, refs[i], SR, OVERLAP);
-      if (fl.score < 0.6) showAlert('progAlert', 'note', 'توجه:', partLbl(i) + 'هم‌ترازی زمانی مطمئن نیست؛ نتیجه را یک بار گوش کنید.');
+      if (fl.score < 0.6) showAlert('progAlert', 'note', 'توجه:', partLbl(i) + 'هم‌ترازی زمانی مطمئن نیست؛ نتیجه را یک بار گوش کن.');
       log(partLbl(i) + 'تمام شد');
     }
     mix = null; ab = null; buf = null;
@@ -872,7 +890,7 @@
     PDF_LIB = Promise.all([gs('getPdfLib'), gs('getPdfWorker')]).then(function (r) {
       var el = document.createElement('script'); el.textContent = r[0]; document.head.appendChild(el);
       var lib = window['pdfjs-dist/build/pdf'];
-      if (!lib) throw new Error('کتابخانۀ نمایش PDF بارگذاری نشد.');
+      if (!lib) throw new Error('بخش نمایش PDF بارگذاری نشد. اینترنت را بررسی کن و دوباره امتحان کن.');
       lib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(new Blob([r[1]], { type: 'text/javascript' }));
       return lib;
     });
@@ -1244,7 +1262,7 @@
     toast('دانلود شروع شد');
   }
   function dlBusy(on, msg) { ['dlMp3', 'dlWav', 'dlSolo'].forEach(function (id) { $(id).disabled = on; }); $('dlMsg').textContent = msg || ''; if (on) clearAlert('dlAlert'); }
-  function dlFail(e) { dlBusy(false); showAlert('dlAlert', 'error', 'خطا:', e.message + ' دوباره امتحان کنید.'); }
+  function dlFail(e) { dlBusy(false); showAlert('dlAlert', 'error', 'خطا:', friendlyErr(e.message)); }
   function suffix() { var g = +$('guide').value; return g ? '_accompaniment+guide' + g : '_accompaniment'; }
   $('dlWav').onclick = function () {
     var mixed = AccCore.mixGuide(result.acc, result.solo, $('guide').value / 100);
@@ -1278,7 +1296,7 @@
     return new Promise(function (res, rej) {
       var tx = LIB.db.transaction(stores, mode), out = fn(tx);
       tx.oncomplete = function () { res(out && out.result !== undefined ? out.result : out); };
-      tx.onerror = tx.onabort = function () { rej(tx.error || new Error('ذخیره‌سازی روی این دستگاه ناموفق بود.')); };
+      tx.onerror = tx.onabort = function () { rej(tx.error || new Error('ذخیره روی این دستگاه نشد؛ شاید جای خالی کم است.')); };
     });
   }
   function libAll() { return libTx(['meta'], 'readonly', function (tx) { return tx.objectStore('meta').getAll(); }).then(function (a) { return (a || []).sort(function (x, y) { return y.opened - x.opened; }); }); }
@@ -1343,7 +1361,7 @@
           rec.meta.opened = Date.now();
           libTx(['meta'], 'readwrite', function (tx) { tx.objectStore('meta').put(rec.meta); }).then(renderLib);
         });
-      }).catch(function (e) { showAlert('inputAlert', 'error', 'خطا:', e.message); });
+      }).catch(function (e) { showAlert('inputAlert', 'error', 'خطا:', friendlyErr(e.message)); });
     };
     if (result) confirmDialog({ title: 'همراهی فعلی بسته شود؟', text: 'اگر ذخیره‌اش نکرده باشی (یا در کتابخانه نباشد) با باز کردن این یکی از دست می‌رود.', confirm: 'باز کن', cancel: 'برگرد', danger: true }).then(function (yes) { if (yes) go(); });
     else go();

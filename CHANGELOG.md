@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.8
+- Every error is now shown in plain Persian with what to do next: busy queue, wrong key, used-up quota, file too big or unreadable, expired job, no connection, Google daily limit and more. Unknown errors get a calm generic sentence instead of English text.
+- A job that MVSEP no longer knows now stops with a clear message instead of waiting forever.
+- Technical words (server, relay, API, library) removed from messages; the verbs use one friendly form («کن») everywhere.
+
 ## 3.7
 - When a previous job is still waiting at MVSEP (one job per account), the app now explains it in plain Persian and asks you to wait a few minutes, instead of showing MVSEP's English message.
 
