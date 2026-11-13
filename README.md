@@ -25,7 +25,7 @@ The screenshots use a short synthetic demo tone and a sample PDF, not a real rec
 
 ## Install
 
-There is nothing to install: open the app in any modern browser. To keep it on your phone or computer, use **Add to Home screen** (or the install icon in the address bar); after the first visit it opens without internet (making an accompaniment still needs internet). Release notes for every version are on the [Releases](https://github.com/mimreta/accompaniment-maker/releases) page and in [CHANGELOG.md](CHANGELOG.md).
+There is nothing to install: open the app in any modern browser. To keep it on your phone or computer, use **Add to Home screen** (or the install icon in the address bar); after the first visit it opens without internet (making an accompaniment still needs internet). Release notes for every version are in [CHANGELOG.md](CHANGELOG.md).
 
 ## First time? Start here
 
