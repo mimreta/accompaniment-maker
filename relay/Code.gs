@@ -80,7 +80,7 @@ function create_(req) {
 
 function get_(req) {
   var hash = String(req.hash || '');
-  if (!/^[A-Za-z0-9]{6,80}$/.test(hash)) throw new Error('شناسۀ کار نامعتبر است.');
+  if (!/^[A-Za-z0-9._-]{6,120}$/.test(hash)) throw new Error('شناسۀ کار نامعتبر است.');
   var res = UrlFetchApp.fetch(MVSEP + '/separation/get?hash=' + encodeURIComponent(hash), { muteHttpExceptions: true });
   var j = JSON.parse(res.getContentText());
   var o = { status: j.status, message: j.data && j.data.message, queue: j.data && j.data.queue_count,

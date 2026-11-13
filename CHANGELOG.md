@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.6.1
+- Fixed: processing stopped right after upload with «شناسۀ کار نامعتبر است». The relay now accepts the full job code that MVSEP returns (it contains hyphens and dots).
+
 ## 3.6
 - The signature shows the Telegram badge again (GitHub, Instagram, LinkedIn, X, Telegram).
 
