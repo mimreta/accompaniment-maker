@@ -10,6 +10,7 @@
 - No shared relay: each web user deploys their own and pastes its address in Settings, so nobody's Apps Script quota is used by others.
 - Cloudflare Worker relay (`relay/cloudflare-worker.js`) as the no-Google-quota option.
 - Renamed to Accompaniment Maker (repo `accompaniment-maker`).
+- The hosted site works out of the box through a stateless Cloudflare Worker relay (`accompaniment-relay`) that only accepts requests from the site's own origin and holds no keys.
 - One source of truth: everything is edited in `src/` and built by `scripts/build.py`; `scripts/check.sh` verifies the build and scans for secrets.
 
 ## 2.3

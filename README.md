@@ -22,7 +22,7 @@ The screenshots use a short synthetic demo tone, not a real recording.
 
 ## First time? Start here
 
-You need a free MVSEP account once (it does the separation). The web version also needs your own tiny relay (about 3 minutes, in [docs/DEPLOY.md](docs/DEPLOY.md)); there is no shared relay, so nobody's quota is used without their consent. Step by step: **[Getting started](docs/GETTING-STARTED.md)** · **[شروع سریع (فارسی)](docs/GETTING-STARTED.fa.md)**.
+You need a free MVSEP account once (it does the separation). The hosted web version already includes a stateless relay (Cloudflare Worker, no Google quota used); to run your own copy you can deploy your own relay in about 3 minutes ([docs/DEPLOY.md](docs/DEPLOY.md)). Step by step: **[Getting started](docs/GETTING-STARTED.md)** · **[شروع سریع (فارسی)](docs/GETTING-STARTED.fa.md)**.
 
 ## What it does
 
@@ -46,7 +46,7 @@ No accounts, no analytics. Your recording goes to MVSEP through a stateless rela
 
 ## Run or build it yourself
 
-- **Web build:** serve the repo root over HTTPS (needed for the microphone), with your own relay (paste its address in Settings, or set it in `config.js`). See [relay/README.md](relay/README.md).
+- **Web build:** serve the repo root over HTTPS (needed for the microphone), with a relay (the default in `config.js` is the author's; to use your own, paste its address in Settings or set it in `config.js`). See [relay/README.md](relay/README.md).
 - **Apps Script build:** see [docs/DEPLOY.md](docs/DEPLOY.md).
 - **Change the code:** edit `src/`, run `python3 scripts/build.py`, then `./scripts/check.sh`, and commit the built files too.
 

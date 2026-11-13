@@ -16,7 +16,7 @@ Keep the key private, like a password. Anyone with it can use your MVSEP quota.
 
 1. Open the app (the web version: https://mimreta.github.io/accompaniment-maker/). On a phone you can use **Add to Home screen**.
 2. Go to the **Settings** tab, paste the key into the box and press **Save**. It stays in this browser only.
-3. Web version only: also paste **your own relay address** (the `/exec` link of the small Apps Script you deploy in your Google account; follow [DEPLOY.md](DEPLOY.md), about 3 minutes, once). There is no shared relay, so nobody's quota is used without consent. The Apps Script version of the app needs no relay.
+3. Web version: nothing else to enter on the hosted site, it already has a relay. Only if you run your own copy, paste **your own relay address** in Settings (a Cloudflare Worker or Apps Script you deploy; follow [DEPLOY.md](DEPLOY.md), about 3 minutes, once). The Apps Script version of the app needs no relay.
 
 ## 3. Make your first accompaniment
 

@@ -5,7 +5,7 @@ Short version: the app has no accounts, no analytics and no server of its own th
 ## Your recording
 - The file is processed in your browser (split into parts, encoded) and then sent to **MVSEP** (mvsep.com), the third-party service that does the separation. MVSEP's own terms and privacy policy apply to what it receives. It states that it normally deletes uploads and results after about three days.
 - The app never sends your real file name. MVSEP only receives a neutral name such as `audio.mp3`.
-- In the web version the upload passes through a small **relay** (an Apps Script web app you deploy in your own Google account, see `relay/`; no shared relay is provided) because MVSEP does not allow direct calls from a browser. The relay forwards the request and keeps nothing: no storage, no logging in the code. Google, which runs Apps Script, may keep ordinary infrastructure logs. MVSEP sees the relay's address, not yours. You can run your own relay.
+- In the web version the upload passes through a small **relay** because MVSEP does not allow direct calls from a browser. The hosted site uses a stateless Cloudflare Worker run by the author (source: `relay/cloudflare-worker.js`); it only accepts requests from this app's own site, forwards them to MVSEP and keeps nothing: no storage, no logging in the code. Your MVSEP key is sent through it with each request but is never stored by it. Cloudflare, which runs it, may keep ordinary infrastructure logs. MVSEP sees the relay's address, not yours. You can deploy your own relay (`relay/`, `docs/DEPLOY.md`) and paste its URL in Settings.
 - In the Apps Script version the same job is done by your own deployment.
 
 ## Your MVSEP key
