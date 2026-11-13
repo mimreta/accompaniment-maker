@@ -1,6 +1,6 @@
 # Deploy your own copy
 
-Solo Remover is a Google Apps Script web app. Nothing is hosted for you: you run your own copy under your own Google account, and your own MVSEP key does the separation.
+Accompaniment Maker is a Google Apps Script web app. Nothing is hosted for you: you run your own copy under your own Google account, and your own MVSEP key does the separation.
 
 ## What you need
 - A Google account.
@@ -33,5 +33,5 @@ Change the deployment access to "Anyone" (or "Anyone with a Google account"). Ot
 
 ## Web version (no Apps Script for the app itself)
 1. Deploy the relay once: create an Apps Script project, paste `relay/Code.gs`, Deploy → New deployment → Web app, Execute as: Me, Access: Anyone. Authorize when asked.
-2. Put the deployment's `/exec` URL in `config.js` (`window.SOLO_RELAY`).
+2. Copy the deployment's `/exec` URL and paste it in the app under Settings, "Your relay address" (stored only in your browser). Keep the URL private: anyone who has it can spend your Apps Script daily quota. If it leaks, make a new deployment and delete the old one.
 3. Publish the repo root (it contains `index.html`) on any static host (it needs HTTPS for the microphone).

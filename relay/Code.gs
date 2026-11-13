@@ -2,7 +2,7 @@
  * Copyright (c) 2026 MohammadReza Tayebi
  * MIT License.
  *
- * Solo Remover relay: a tiny stateless forwarder between the web version of the app and MVSEP.
+ * Accompaniment Maker relay: a tiny stateless forwarder between the web version of the app and MVSEP.
  * Browsers cannot call MVSEP directly (it sends no CORS headers), so this script does it for them.
  *
  * Privacy: nothing is stored or logged. The MVSEP key and the audio are used only for the single
@@ -23,7 +23,7 @@ function out_(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
 }
 
-function doGet() { return out_({ result: 'Solo Remover relay is running.' }); }
+function doGet() { return out_({ result: 'Accompaniment Maker relay is running.' }); }
 
 function doPost(e) {
   try {

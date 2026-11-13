@@ -30,10 +30,12 @@
     }
     throw new Error('دریافت کتابخانه ممکن نشد. اینترنت را بررسی کن و دوباره امتحان کن.');
   }
+  function relayUrl() { return (getPref('relay_url', '') || window.SOLO_RELAY || '').trim(); }
+  function validRelay(u) { return /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]{20,}\/exec$/.test(u); }
   async function relay(body) {
-    if (!window.SOLO_RELAY) throw new Error('سرور واسط تنظیم نشده است.');
+    if (!relayUrl()) throw new Error('آدرس ریلی ثبت نشده است. از «تنظیمات» وارد کن.');
     var r;
-    try { r = await fetch(window.SOLO_RELAY, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) }); }
+    try { r = await fetch(relayUrl(), { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) }); }
     catch (e) { throw new Error('به سرور واسط وصل نشد. اینترنت را بررسی کن.'); }
     var j; try { j = await r.json(); } catch (e) { throw new Error('پاسخ نامعتبر از سرور واسط.'); }
     if (j.error) throw new Error(j.error);
@@ -207,17 +209,25 @@
     if (cfg.canSetKey) {
       $('cardKey').hidden = false;
       $('keyHint').textContent = cfg.hasKey ? 'یک کلید ذخیره شده است. برای تغییر، کلید تازه را وارد کنید.' : 'هنوز کلیدی ذخیره نشده است.';
-      if (WEB) $('keyNote').hidden = false;
+      if (WEB) { $('keyNote').hidden = false; $('relayField').hidden = false; if (relayUrl()) $('relayHint').textContent = 'یک آدرس ریلی ذخیره شده است. برای تغییر، آدرس تازه را وارد کن.'; }
     }
     keyNotice(); updateProcessBtn();
   }).catch(function (e) { showAlert('inputAlert', 'error', 'خطا:', 'اپ بارگذاری نشد (' + e.message + '). صفحه را دوباره باز کنید.'); });
 
   function keyNotice() {
+    if (WEB && !relayUrl()) { showAlert('inputAlert', 'note', 'توجه:', 'آدرس ریلی ثبت نشده است. از «تنظیمات» ثبتش کن (راهنما در README).'); return; }
     if (!CFG || CFG.hasKey) { return; }
     showAlert('inputAlert', 'note', 'توجه:', CFG.canSetKey ? 'کلید API هنوز ثبت نشده است. از «تنظیمات» ثبتش کنید.' : 'صاحب اپ هنوز کلید API را ثبت نکرده است.');
   }
   $('btnSaveKey').onclick = function () {
     clearAlert('keyAlert');
+    if (WEB && $('relayInput').value.trim()) {
+      var ru = $('relayInput').value.trim();
+      if (!validRelay(ru)) { showAlert('keyAlert', 'error', 'خطا:', 'آدرس ریلی باید شبیه https://script.google.com/macros/s/…/exec باشد.'); return; }
+      setPref('relay_url', ru); $('relayInput').value = ''; $('relayHint').textContent = 'یک آدرس ریلی ذخیره شده است. برای تغییر، آدرس تازه را وارد کن.';
+      clearAlert('inputAlert'); toast('آدرس ریلی ذخیره شد');
+      if (!$('keyInput').value.trim()) { keyNotice(); updateProcessBtn(); return; }
+    }
     gs('setApiKey', $('keyInput').value).then(function () {
       CFG.hasKey = true; $('keyInput').value = '';
       $('keyHint').textContent = 'یک کلید ذخیره شده است. برای تغییر، کلید تازه را وارد کنید.';

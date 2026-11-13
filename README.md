@@ -1,12 +1,12 @@
-<p align="center"><img src="icon.svg" width="96" alt="Solo Remover icon"></p>
+<p align="center"><img src="icon.svg" width="96" alt="Accompaniment Maker icon"></p>
 
-# Solo Remover
+# Accompaniment Maker
 
 Remove your own instrument from any recording (an orchestra, a band, an ensemble) and play along. Works in the browser, no installation, with practice tools and microphone recording.
 
 همراهی‌ساز: اکامپانیمان هر ضبطی را می‌سازد؛ ساز خودت را از ضبط حذف می‌کند و جایش می‌نوازی.
 
-**Open the app:** https://mimreta.github.io/solo-remover-web/
+**Open the app:** https://mimreta.github.io/accompaniment-maker/
 
 <p align="center">
   <img src="docs/task-light.png" width="190" alt="Choose a file and the instrument">
@@ -22,7 +22,7 @@ The screenshots use a short synthetic demo tone, not a real recording.
 
 ## First time? Start here
 
-You need a free MVSEP account once (it does the separation). Step by step: **[Getting started](docs/GETTING-STARTED.md)** · **[شروع سریع (فارسی)](docs/GETTING-STARTED.fa.md)**.
+You need a free MVSEP account once (it does the separation). The web version also needs your own tiny relay (about 3 minutes, in [docs/DEPLOY.md](docs/DEPLOY.md)); there is no shared relay, so nobody's quota is used without their consent. Step by step: **[Getting started](docs/GETTING-STARTED.md)** · **[شروع سریع (فارسی)](docs/GETTING-STARTED.fa.md)**.
 
 ## What it does
 
@@ -46,7 +46,7 @@ No accounts, no analytics. Your recording goes to MVSEP through a stateless rela
 
 ## Run or build it yourself
 
-- **Web build:** serve the repo root over HTTPS (needed for the microphone), with your own relay address in `config.js`. See [relay/README.md](relay/README.md).
+- **Web build:** serve the repo root over HTTPS (needed for the microphone), with your own relay (paste its address in Settings, or set it in `config.js`). See [relay/README.md](relay/README.md).
 - **Apps Script build:** see [docs/DEPLOY.md](docs/DEPLOY.md).
 - **Change the code:** edit `src/`, run `python3 scripts/build.py`, then `./scripts/check.sh`, and commit the built files too.
 

@@ -1,4 +1,4 @@
-/* Solo Remover: only what the design system does not already provide */
+/* Accompaniment Maker: only what the design system does not already provide */
 [hidden] { display: none !important; }
 :root { color-scheme: light; }
 [data-theme="dark"] { color-scheme: dark; }

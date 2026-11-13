@@ -1,7 +1,7 @@
 {
   "name": "همراهی‌ساز",
   "short_name": "همراهی‌ساز",
-  "description": "Solo Remover: remove your own instrument from any recording and play along.",
+  "description": "Accompaniment Maker: remove your own instrument from any recording and play along.",
   "lang": "fa",
   "dir": "rtl",
   "start_url": "./",
